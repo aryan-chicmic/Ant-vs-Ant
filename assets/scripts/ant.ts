@@ -31,7 +31,7 @@ export class ant extends Component {
     } else {
       this.finalPosY = Math.floor(Math.random() + 965);
     }
-    console.log("final position x , y", this.finalPosX, this.finalPosY);
+    // console.log("final position x , y", this.finalPosX, this.finalPosY);
 
     var delta_x = this.finalPosX - this.node.position.x;
     var delta_y = this.finalPosY - this.node.position.y;
@@ -46,7 +46,7 @@ export class ant extends Component {
         })
 
         .start();
-    }, 50);
+    }, 30);
   }
 
   setInitialPos(parent: Node) {
@@ -68,7 +68,7 @@ export class ant extends Component {
         .contains(new Vec2(this.node.position.x, this.node.position.y))
     ) {
       this.tweenComp.stop();
-      console.log("tween stop called");
+      // console.log("tween stop called");
 
       this.startMovement();
     }

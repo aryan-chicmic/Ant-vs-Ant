@@ -8,6 +8,8 @@ export class addAnt extends Component {
   antPrefab: Prefab = null;
   @property({ type: Node })
   antNode: Node;
+  @property({ type: Node })
+  loader: Node = null;
   initialPosX = 0;
   initialPosY = 0;
   makeAnt() {
@@ -15,10 +17,11 @@ export class addAnt extends Component {
     return antObject;
   }
   start() {
-    for (var i = 0; i < Math.floor(Math.random() * 2) + 5; i++) {
+    this.loader.active = false;
+    for (var i = 0; i < Math.floor(Math.random() * 2) + 10; i++) {
       var newAnt = this.makeAnt();
 
-      newAnt.getComponent(ant).setInitialPos(this.node);
+      newAnt.getComponent(ant).setInitialPos(this.antNode);
       newAnt.getComponent(ant).startMovement();
     }
   }
