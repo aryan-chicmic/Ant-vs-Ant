@@ -1,4 +1,15 @@
-import { _decorator, Component, Node, Prefab, instantiate, Label } from "cc";
+import {
+  _decorator,
+  Component,
+  Node,
+  Prefab,
+  instantiate,
+  Label,
+  Input,
+  Button,
+  Director,
+  director,
+} from "cc";
 import { map } from "./map";
 const { ccclass, property } = _decorator;
 
@@ -16,10 +27,15 @@ export class mapButtonCreation extends Component {
   help_node: Node;
   @property({ type: Node })
   loader: Node;
-  makeButton() {
-    let button = instantiate(this.mapButtonPrefab);
-    return button;
-  }
+  button: Node = null;
+
+  onLoad() {}
+  // loadMap() {
+  //   var num = this.button.getComponent(map).getMapNumber();
+  //   // director.loadScene(`MAP${num}`);
+  //   console.log(num);
+  // }
+
   start() {}
   buttonCreator() {
     this.player1_node.active = false;
@@ -29,11 +45,12 @@ export class mapButtonCreation extends Component {
     setTimeout(() => {
       this.loader.active = false;
       for (var i = 3; i > 0; i--) {
-        var newButton = this.makeButton();
+        this.button = instantiate(this.mapButtonPrefab);
 
-        newButton
+        this.button
           .getComponent(map)
           .setButtonPosition(this.mapButtonCollector, i);
+        // this.button.on(Input.EventType.TOUCH_START, this.loadMap, this);
       }
     }, 3000);
   }

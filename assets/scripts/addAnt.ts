@@ -21,7 +21,7 @@ export class addAnt extends Component {
     for (var i = 0; i < Math.floor(Math.random() * 2) + 10; i++) {
       var newAnt = this.makeAnt();
 
-      newAnt.getComponent(ant).setInitialPos(this.antNode);
+      newAnt.getComponent(ant).setInitialPos(this.node);
       newAnt.getComponent(ant).startMovement();
     }
   }
