@@ -1,0 +1,13 @@
+{
+    "just_ant":
+[
+ {
+    "time_to_cover_change_inY":"300ms",
+"sprite":"",
+"health":"",
+"damage":"",
+"coin_alloted":"",
+"shield":""
+}   
+]
+}
