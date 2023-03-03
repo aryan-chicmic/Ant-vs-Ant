@@ -88,6 +88,7 @@
       "__type__": "cc.Vec3",
       "x": 540,
       "y": 960,
+      "y": 960,
       "z": 0
     },
     "_lrot": {
@@ -1980,7 +1981,9 @@
     "audiosource": {
       "__id__": 48
     },
-    "player1": null,
+    "player1": {
+      "__id__": 11
+    },
     "_id": "7a68yYxPFP5bxS26aeWO9c"
   },
   {
