@@ -6,3 +6,9 @@ export enum ANT_TYPES {
   DEFENCE_ANT = 4,
   OFFENCE_ANT = 5,
 }
+export enum MAP_TYPES {
+  NONE = "MAP 0",
+  MAP1 = "MAP 1",
+  MAP2 = "MAP 2",
+  MAP3 = "MAP 3",
+}

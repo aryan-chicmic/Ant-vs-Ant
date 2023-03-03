@@ -7,9 +7,11 @@ import {
   Input,
   director,
   AudioSource,
+  TiledMapAsset,
 } from "cc";
 import AudioControllerObject from "./AudioController";
 import { mapButtonCreation } from "./mapButtonCreation";
+import { singleton } from "./singleton";
 const { ccclass, property } = _decorator;
 
 @ccclass("map")
@@ -17,6 +19,11 @@ export class map extends Component {
   @property({ type: Label })
   label: Label = null;
   mapNumber: Number = 0;
+  labelString = "";
+  singletonObject: singleton;
+  onLoad() {
+    this.singletonObject = singleton.getInstance();
+  }
   start() {}
   soundEffect(playerButtonEffect: Node) {
     let audio = playerButtonEffect.getComponent(AudioSource);
@@ -25,7 +32,7 @@ export class map extends Component {
   }
   setButtonPosition(Parent: Node, i: number) {
     this.node.setPosition(-221, -50 - 200 * i);
-    this.label.string = `MAP ${i * 2 - 1}`;
+    this.label.string = `MAP ${i}`;
     // this.mapNumber = i;
     Parent.addChild(this.node);
   }
@@ -34,10 +41,12 @@ export class map extends Component {
     this.soundEffect(this.node);
     console.log(this.label.string);
     console.log("btn clicked");
+    this.labelString = this.label.string;
+    this.singletonObject.mapAssigner(this.labelString);
     setTimeout(() => {
-      director.loadScene(`${this.label.string}`);
+      director.loadScene("MAP");
     }, 500);
   }
- 
+
   update(deltaTime: number) {}
 }

@@ -51,7 +51,7 @@ export class mapButtonCreation extends Component {
     this.soundEffect(this.player2_node);
     setTimeout(() => {
       this.loader.active = false;
-      for (var i = this.countofMaps; i > 0; i--) {
+      for (var i = 1; i <= this.countofMaps; i++) {
         this.button = instantiate(this.mapButtonPrefab);
 
         this.button
