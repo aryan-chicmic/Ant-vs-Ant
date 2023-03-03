@@ -234,7 +234,7 @@
     "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_isItalic": false,
-    "_isBold": false,
+    "_isBold": true,
     "_isUnderline": false,
     "_underlineHeight": 2,
     "_cacheMode": 0,
@@ -623,6 +623,10 @@
     },
     "antSprite": {
       "__id__": 12
+    },
+    "mapchooser": {
+      "__uuid__": "ffb419be-3d32-49f7-a16f-37f33b9011b0",
+      "__expectedType__": "cc.JsonAsset"
     },
     "_id": ""
   },

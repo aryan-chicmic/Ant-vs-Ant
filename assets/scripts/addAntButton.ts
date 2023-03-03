@@ -40,7 +40,8 @@ export class addAntButton extends Component {
   }
 
   start() {
-    let dataLoader = this.mapchooser.json.data;
+    let dataLoader: any = this.mapchooser.json;
+    dataLoader = dataLoader.data;
     var mapButtonnameReceived = this.singletonObject.mapButton;
     for (let index = 0; index < dataLoader.length; index++) {
       let mapLoader_name = dataLoader[index].name;
@@ -60,13 +61,19 @@ export class addAntButton extends Component {
   buttonAdder() {
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
-      this.antButtonPrefab.getComponent(addAntButton).addSprites(newButton,i);
+
       this.antNodeBottom.addChild(newButton);
+      this.antNodeBottom.children[i]
+        .getComponent(antTypeButton)
+        .addSprites(newButton, i);
     }
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
       newButton.angle = 180;
       this.antNodeTop.addChild(newButton);
+      this.antNodeTop.children[i]
+        .getComponent(antTypeButton)
+        .addSprites(newButton, i);
     }
   }
 
