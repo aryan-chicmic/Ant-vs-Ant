@@ -14,6 +14,7 @@ import {
   Layout,
   LayoutComponent,
 } from "cc";
+import { antTypeButton } from "./antTypeButton";
 import { MAP_TYPES } from "./constants";
 import { singleton } from "./singleton";
 const { ccclass, property } = _decorator;
@@ -26,26 +27,18 @@ export class addAntButton extends Component {
   antNodeBottom: Node = null;
   @property({ type: Node })
   antNodeTop: Node = null;
-  @property({ type: SpriteFrame })
-  antSprite: SpriteFrame = null;
-  @property({ type: Label })
-  coinLabel: Label;
+
   @property({ type: Node })
   mapNode: Node = null;
-  @property({ type: TiledMapAsset })
-  map1: TiledMapAsset;
+
   @property({ type: JsonAsset })
   mapchooser: JsonAsset = null;
   singletonObject: singleton;
+
   onLoad() {
     this.singletonObject = singleton.getInstance();
   }
-  // mapLoader() {
-  //   switch (this.singletonObject.mapButton) {
-  //     case MAP_TYPES.MAP1:
-  //       this.mapNode.getComponent(TiledMap).tmxAsset = this.map1;
-  //   }
-  // }
+
   start() {
     let dataLoader = this.mapchooser.json.data;
     var mapButtonnameReceived = this.singletonObject.mapButton;
@@ -67,7 +60,7 @@ export class addAntButton extends Component {
   buttonAdder() {
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
-
+      this.antButtonPrefab.getComponent(addAntButton).addSprites(newButton,i);
       this.antNodeBottom.addChild(newButton);
     }
     for (var i = 0; i < 6; i++) {
