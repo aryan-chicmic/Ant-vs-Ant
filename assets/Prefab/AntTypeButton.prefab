@@ -425,6 +425,11 @@
       "__uuid__": "ffb419be-3d32-49f7-a16f-37f33b9011b0",
       "__expectedType__": "cc.JsonAsset"
     },
+    "AntGen": {
+      "__uuid__": "61620ee4-8f69-475f-a750-359eb53a6d71",
+      "__expectedType__": "cc.Prefab"
+    },
+    "AddedAnt": null,
     "_id": ""
   },
   {

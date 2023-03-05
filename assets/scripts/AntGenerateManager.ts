@@ -4,13 +4,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('AntGenerateManager')
 export class AntGenerateManager extends Component {
-
     private static _instance:AntGenerateManager=null;
-    @property({type:Prefab})
-    Ant=null;
-    @property({type:Node})
-    AddedAnt=null;
-
     AntPool:NodePool=new NodePool();
     private AntGenerateManager(){}
     static getInstance(): AntGenerateManager {
@@ -20,27 +14,15 @@ export class AntGenerateManager extends Component {
         }
         return AntGenerateManager._instance;
       }
-      generateAnt(AntName:string,
-        TimeToCoverChangeInY:number,
-        sprite:SpriteFrame,
-        Health:number,
-        Damage:number,
-        CoinAlloted:number,
-        Shield:number)
+     checkpool(AntGen:Prefab):Node
+     {
+      if(this.AntPool.size()==0)
       {
-        
-        console.log(AntName);
-      console.log(this.AntPool.size())
-      console.log(this.Ant)
-         if(this.AntPool.size()==0)
-         {
-                let fighetAnt=instantiate(this.Ant);
-                this.AntPool.put(fighetAnt);     
-         }
-         let newAnt=this.AntPool.get();
-         newAnt.getComponent(FighterAntScript).AddSpecs(AntName,TimeToCoverChangeInY,sprite,Health,Damage,CoinAlloted,Shield);
-         this.AddedAnt.addChild(newAnt);
+              let Ant=instantiate(AntGen)
+              this.AntPool.put(Ant);   
       }
+      return this.AntPool.get()
+     }
     start() {
 
     }

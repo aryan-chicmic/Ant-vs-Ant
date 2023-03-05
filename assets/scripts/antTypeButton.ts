@@ -10,10 +10,12 @@ import {
   TiledMap,
   TiledMapAsset,
   Input,
+  Prefab,
 } from "cc";
 const { ccclass, property } = _decorator;
 import { ANT_TYPES } from "./constants";
 import { AntGenerateManager } from "./AntGenerateManager";
+import { FighterAntScript } from "./FighterAntScript";
 @ccclass("antTypeButton")
 export class antTypeButton extends Component {
   @property({ type: Label })
@@ -22,6 +24,12 @@ export class antTypeButton extends Component {
   antSprite: Sprite = null;
   @property({ type: JsonAsset })
   mapchooser: JsonAsset = null;
+
+  //AntGenerateNode
+  @property({type:Prefab})
+  AntGen=null;
+  @property({type:Node})
+  AddedAnt=null
   addSprites(newNode: Node, i: Number) {
     let dataLoader: any = this.mapchooser.json;
     dataLoader = dataLoader.AntSpecs;
@@ -42,6 +50,7 @@ export class antTypeButton extends Component {
   }
   antGenerateButtonClicked(text)
   {
+   // console.log(text.target._name)
     let antName;
     let TimeToCoverChangeInY;
     let spriteName;
@@ -49,13 +58,12 @@ export class antTypeButton extends Component {
     let Damage;
    let CoinAlloted;
     let Shield;
-   let AntGenerate=AntGenerateManager.getInstance();
    let dataLoader: any = this.mapchooser.json;
     dataLoader = dataLoader.AntSpecs;
-    let AntName=text.target._name;
+    let Name=text.target._name;
     for (let index = 0; index < dataLoader.length; index++) {
-      if (dataLoader[index].AntName==AntName) {
-        console.log(dataLoader[index])
+      if (dataLoader[index].AntName==Name) {
+       // console.log("dataload",dataLoader[index])
         antName=dataLoader[index].AntName;
         TimeToCoverChangeInY=dataLoader[index].TimeToCoverChangeInY;
         Health=dataLoader[index].Health;
@@ -66,13 +74,23 @@ export class antTypeButton extends Component {
           dataLoader[index].Sprite,
           SpriteFrame,
           (err: any, tmx) => {
+           // console.log("tmx",tmx);
             spriteName = tmx;
           }
         );
       }
     }
-  AntGenerate.generateAnt(antName,TimeToCoverChangeInY,spriteName,Health,Damage,CoinAlloted,Shield);
-   // console.log(text.target._name);
+
+    // set timout k reason taki image load ho sake phir function call ho
+    setTimeout(()=>{
+    console.log("after",spriteName);
+       let AntCheck=AntGenerateManager.getInstance();
+    let GeneratedAnt=AntCheck.checkpool(this.AntGen)
+    GeneratedAnt.getComponent(FighterAntScript).AddSpecs(antName,TimeToCoverChangeInY,spriteName,Health,Damage,CoinAlloted,Shield)
+    console.log("gen",GeneratedAnt)
+   // GeneratedAnt.setPosition(600,900)
+    this.node.parent.parent.getChildByName("AddedAnt").addChild(GeneratedAnt)
+   console.log(this.node.parent.parent)},2000);
   }
   start() {
   }

@@ -18,6 +18,7 @@ export class FighterAntScript extends Component {
         Damage:number,
         CoinAlloted:number,
         Shield:number){
+            console.log("call",sprite)
             this.AntName=AntName;
             this.TimeToCoverChangeInY=TimeToCoverChangeInY;
             this.SpriteName=sprite;
