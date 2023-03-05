@@ -13,6 +13,7 @@ import {
   instantiate,
   Layout,
   LayoutComponent,
+  Input,
 } from "cc";
 import { antTypeButton } from "./antTypeButton";
 import { MAP_TYPES } from "./constants";
@@ -36,6 +37,11 @@ export class addAntButton extends Component {
   singletonObject: singleton;
 
   onLoad() {
+    
+      this.antNodeBottom.on(Input.EventType.TOUCH_START,()=>{
+        console.log("hellooooo")
+      },this)
+    
     this.singletonObject = singleton.getInstance();
   }
 
@@ -76,6 +82,7 @@ export class addAntButton extends Component {
         .addSprites(newButton, i);
     }
   }
+ 
 
   update(deltaTime: number) {}
 }
