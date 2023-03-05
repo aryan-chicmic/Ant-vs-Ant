@@ -10,6 +10,9 @@ import {
   Director,
   director,
   AudioSource,
+  UITransform,
+  SpriteFrame,
+  Sprite,
 } from "cc";
 import { map } from "./map";
 const { ccclass, property } = _decorator;
@@ -17,6 +20,8 @@ import AudioControllerObject from "./AudioController";
 import { AudioSourceManager } from "./AudioSourceManager";
 @ccclass("mapButtonCreation")
 export class mapButtonCreation extends Component {
+  @property({ type: Node })
+  mainscreen: Node = null;
   @property({ type: Prefab })
   mapButtonPrefab: Prefab = null;
   @property({ type: Node })
@@ -27,6 +32,8 @@ export class mapButtonCreation extends Component {
   player2_node: Node;
   @property({ type: Node })
   help_node: Node;
+  @property({ type: Node })
+  quit_node: Node;
   @property({ type: Node })
   loader: Node;
   button: Node = null;
@@ -52,8 +59,12 @@ export class mapButtonCreation extends Component {
     this.player1_node.active = false;
     this.player2_node.active = false;
     this.help_node.active = false;
+    this.quit_node.active = false;
     this.loader.active = true;
     this.soundEffect(this.player2_node);
+    this.soundEffect(this.help_node);
+    this.soundEffect(this.quit_node);
+
     setTimeout(() => {
       this.loader.active = false;
       for (var i = 1; i <= this.countofMaps; i++) {
@@ -76,6 +87,7 @@ export class mapButtonCreation extends Component {
     this.loader.active = true;
     setTimeout(() => {
       this.loader.active = false;
+      // this.mainscreen.getComponent(Sprite).spriteFrame;
       let HelpPage = instantiate(this.HomepageOne);
       this.node.addChild(HelpPage);
     }, 3000);

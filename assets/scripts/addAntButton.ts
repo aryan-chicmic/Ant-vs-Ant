@@ -17,6 +17,7 @@ import {
   UITransform,
   Vec2,
   Vec3,
+  game,
 } from "cc";
 import { antTypeButton } from "./antTypeButton";
 import { MAP_TYPES } from "./constants";
@@ -41,21 +42,20 @@ export class addAntButton extends Component {
   @property({ type: JsonAsset })
   mapchooser: JsonAsset = null;
   singletonObject: singleton;
-
+  @property({ type: Node })
+  menuButton: Node = null;
   onLoad() {
     this.singletonObject = singleton.getInstance();
-   
   }
 
   start() {
- 
+    this.menuButton.active = false;
     let dataLoader: any = this.mapchooser.json;
     dataLoader = dataLoader.data;
     var mapButtonnameReceived = this.singletonObject.mapButton;
     for (let index = 0; index < dataLoader.length; index++) {
       let mapLoader_name = dataLoader[index].name;
       if (mapLoader_name == mapButtonnameReceived) {
-     
         resources.load(
           dataLoader[index].path,
           TiledMapAsset,
@@ -64,14 +64,25 @@ export class addAntButton extends Component {
             asset.tmxAsset = tmx;
           }
         );
-    
 
         setTimeout(() => {
           this.buttonAdder();
           this.hiveAdder();
-        }, 500);
+        }, 1000);
       }
     }
+  }
+  menuButtonFunctionality() {
+    this.menuButton.active = true;
+    console.log("before pause");
+    // director.pause();
+    director.pause();
+    setTimeout(() => {
+      console.log("Resumed");
+
+      director.resume();
+    }, 5000);
+    console.log("after pause");
   }
   hiveAdder() {
     for (var i = 1; i <= 3; i++) {
@@ -173,32 +184,6 @@ export class addAntButton extends Component {
           break;
       }
     }
-    // var newHive = instantiate(this.hive);
-    // var pos = this.node
-    //   .getComponent(UITransform)
-    //   .convertToNodeSpaceAR(new Vec3(posX, posY));
-    // var posX = this.mapNode
-    //   .getComponent(TiledMap)
-    //   .getObjectGroup("PathObj1")
-    //   .getObject("OneA").x;
-    // var posY = this.mapNode
-    //   .getComponent(TiledMap)
-    //   .getObjectGroup("PathObj1")
-    //   .getObject("OneA").y;
-    // newHive.setPosition(pos.x + 120, pos.y + 320);
-    // this.hiveNode.addChild(newHive);
-    // console.log("button height", this.buttonHeight);
-    // console.log("hive position", newHive.getPosition());
-    // console.log("posx ,posY", posX, posY);
-    // console.log(pos.x, pos.y);
-
-    // console.log(
-    //   "consoling map",
-    //   this.mapNode
-    //     .getComponent(TiledMap)
-    //     .getObjectGroup("PathObj1")
-    //     .getObject("OneA")
-    // );
   }
   buttonAdder() {
     for (var i = 0; i < 6; i++) {
