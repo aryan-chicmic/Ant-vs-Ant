@@ -9,8 +9,7 @@ export class AudioSourceManager extends Component {
 
   @property(AudioSource)
   music: AudioSource = null!;
-  //   @property(Node)
-  //   music: Node = null!;
+
   start() {}
 
   initAudioSource() {

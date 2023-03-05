@@ -33,23 +33,20 @@ export class mapButtonCreation extends Component {
   countofMaps: number = 3;
 
   // getting font(AntvsAnt)
-  @property({ type: Node })
-  AntvsAntFont = null;
+
   //PrefabHomePageOne
   @property({ type: Prefab })
   HomepageOne = null;
 
   onLoad() {}
-  // loadMap() {
-  //   var num = this.button.getComponent(map).getMapNumber();
-  //   // director.loadScene(`MAP${num}`);
-  //   console.log(num);
-  // }
+
   soundEffect(playerButtonEffect: Node) {
     let audio = playerButtonEffect.getComponent(AudioSource);
     AudioControllerObject.playSoundEffetcs(audio.clip);
   }
-  start() {}
+  start() {
+    this.loader.active = false;
+  }
 
   buttonCreator() {
     this.player1_node.active = false;
@@ -67,12 +64,12 @@ export class mapButtonCreation extends Component {
           .setButtonPosition(this.mapButtonCollector, i);
         // this.button.on(Input.EventType.TOUCH_START, this.loadMap, this);
       }
-    }, 3000);
+    }, 1000);
   }
 
   onClickHelpButton() {
     console.log("Help Button Clicked");
-    this.AntvsAntFont.active = false;
+
     this.player1_node.active = false;
     this.player2_node.active = false;
     this.help_node.active = false;

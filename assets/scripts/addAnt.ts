@@ -21,15 +21,14 @@ export class addAnt extends Component {
   antNode: Node;
   @property({ type: Node })
   loader: Node = null;
-  initialPosX = 0;
-  initialPosY = 0;
+
   @property({ type: Node })
   audiosource = null;
-  @property({type:Node})
-  player1:Node=null
+  @property({ type: Node })
+  player1: Node = null;
   backgroundAudioClip() {
     let audio = this.node.getComponent(AudioSource);
-    // console.log("Audio", audio);
+
     AudioControllerObject.playMusic(audio.clip);
   }
 
@@ -42,8 +41,8 @@ export class addAnt extends Component {
     // audio clip play
     this.backgroundAudioClip();
     // this.beginBgSound();
-
     this.loader.active = false;
+
     for (var i = 0; i < Math.floor(Math.random() * 2) + 10; i++) {
       var newAnt = this.makeAnt();
 
