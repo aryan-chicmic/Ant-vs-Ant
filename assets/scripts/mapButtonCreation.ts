@@ -13,6 +13,7 @@ import {
   UITransform,
   SpriteFrame,
   Sprite,
+  Script,
 } from "cc";
 import { map } from "./map";
 const { ccclass, property } = _decorator;
@@ -80,17 +81,12 @@ export class mapButtonCreation extends Component {
 
   onClickHelpButton() {
     console.log("Help Button Clicked");
-
-    this.player1_node.active = false;
-    this.player2_node.active = false;
-    this.help_node.active = false;
     this.loader.active = true;
     setTimeout(() => {
       this.loader.active = false;
-      // this.mainscreen.getComponent(Sprite).spriteFrame;
       let HelpPage = instantiate(this.HomepageOne);
       this.node.addChild(HelpPage);
-    }, 3000);
+    }, 1000);
   }
 
   update(deltaTime: number) {}

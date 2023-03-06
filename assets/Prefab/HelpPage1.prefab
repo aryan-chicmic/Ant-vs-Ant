@@ -281,7 +281,7 @@
     },
     "component": "",
     "_componentId": "7a1efvNJmdLApsrE9seh6gC",
-    "handler": "mainMenu",
+    "handler": "onClickBackButton",
     "customEventData": ""
   },
   {
@@ -4236,7 +4236,7 @@
         "__id__": 186
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 200
@@ -4696,10 +4696,6 @@
     "_enabled": true,
     "__prefab": {
       "__id__": 208
-    },
-    "menuButton": null,
-    "Loader": {
-      "__id__": 185
     },
     "_id": ""
   },
