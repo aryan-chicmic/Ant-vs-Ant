@@ -20,9 +20,7 @@
     ],
     "_active": true,
     "_components": [],
-    "_prefab": {
-      "__id__": 81
-    },
+    "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
@@ -84,13 +82,13 @@
       },
       {
         "__id__": 66
+      },
+      {
+        "__id__": 75
       }
     ],
     "_active": true,
     "_components": [
-      {
-        "__id__": 75
-      },
       {
         "__id__": 76
       },
@@ -105,6 +103,9 @@
       },
       {
         "__id__": 80
+      },
+      {
+        "__id__": 81
       }
     ],
     "_prefab": null,
@@ -194,7 +195,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 959.9999999999999,
+    "_orthoHeight": 960,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -505,7 +506,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -479.699,
+      "x": -506.11650000000003,
       "y": -836.809,
       "z": 0
     },
@@ -543,7 +544,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 0,
       "height": 100
     },
     "_anchorPoint": {
@@ -2675,6 +2676,46 @@
     "_id": "f5N2odxEdNNa/eeWf06Gti"
   },
   {
+    "__type__": "cc.Node",
+    "_name": "AddedAnt",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [],
+    "_prefab": null,
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": -54.141,
+      "y": -363.718,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_mobility": 0,
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": "202jGtyFJGS7ce9va4QdK5"
+  },
+  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
@@ -2811,14 +2852,6 @@
     "_playOnAwake": true,
     "_volume": 0.3,
     "_id": "3aGMetJsZBIK+2m0FUzYQX"
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": null,
-    "asset": null,
-    "fileId": "7c584eca-949f-4940-a1f2-c3cd8985bf9b",
-    "instance": null,
-    "targetOverrides": null
   },
   {
     "__type__": "cc.SceneGlobals",

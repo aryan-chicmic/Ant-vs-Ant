@@ -18,6 +18,7 @@ import {
   Vec2,
   Vec3,
   game,
+  Input,
 } from "cc";
 import { antTypeButton } from "./antTypeButton";
 import { MAP_TYPES } from "./constants";
@@ -45,6 +46,14 @@ export class addAntButton extends Component {
   @property({ type: Node })
   menuButton: Node = null;
   onLoad() {
+    this.antNodeBottom.on(
+      Input.EventType.TOUCH_START,
+      () => {
+        console.log("hellooooo");
+      },
+      this
+    );
+
     this.singletonObject = singleton.getInstance();
   }
 
@@ -198,6 +207,7 @@ export class addAntButton extends Component {
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
       newButton.angle = 180;
+
       this.antNodeTop.addChild(newButton);
       this.antNodeTop.children[i]
         .getComponent(antTypeButton)

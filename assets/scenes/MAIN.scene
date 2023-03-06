@@ -2461,7 +2461,9 @@
     "_enabled": true,
     "__prefab": null,
     "menuButton": null,
-    "Loader": null,
+    "Loader": {
+      "__id__": 39
+    },
     "_id": "7cmDE3gWJOD5PQajqZ6QYy"
   },
   {
