@@ -25,13 +25,13 @@ export class coinUpdater extends Component {
     }
   }
   coinUpdateFunc1() {
-    if (this.coinLabel1 != null) {
+    if (this.coinLabel1 != null && singleton.coins1 < this.maximumCoins) {
       singleton.coins1++;
       this.coinLabel1.string = `${singleton.coins1}`;
     }
   }
   coinUpdateFunc2() {
-    if (this.coinLabel2 != null) {
+    if (this.coinLabel2 != null && singleton.coins2 < this.maximumCoins) {
       singleton.coins2++;
       this.coinLabel2.string = `${singleton.coins2}`;
     }
