@@ -12,3 +12,8 @@ export enum MAP_TYPES {
   MAP2 = "MAP 2",
   MAP3 = "MAP 3",
 }
+export enum PLAYER {
+  NONE = "NONE",
+  PLAYER1 = "PLAYER1",
+  PLAYER2 = "PLAYER2",
+}
