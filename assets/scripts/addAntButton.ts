@@ -40,12 +40,7 @@ export class addAntButton extends Component {
   onLoad() {
     this.singletonObject = singleton.getInstance();
   }
-  // mapLoader() {
-  //   switch (this.singletonObject.mapButton) {
-  //     case MAP_TYPES.MAP1:
-  //       this.mapNode.getComponent(TiledMap).tmxAsset = this.map1;
-  //   }
-  // }
+  
   start() {
     let dataLoader = this.mapchooser.json.data;
     var mapButtonnameReceived = this.singletonObject.mapButton;
@@ -73,6 +68,7 @@ export class addAntButton extends Component {
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
       newButton.angle = 180;
+
       this.antNodeTop.addChild(newButton);
     }
   }
