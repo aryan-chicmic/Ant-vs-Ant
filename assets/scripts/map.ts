@@ -43,9 +43,8 @@ export class map extends Component {
     console.log("btn clicked");
     this.labelString = this.label.string;
     this.singletonObject.mapAssigner(this.labelString);
-    setTimeout(() => {
-      director.loadScene("MAP");
-    }, 500);
+
+    director.loadScene("MAP");
   }
 
   update(deltaTime: number) {}

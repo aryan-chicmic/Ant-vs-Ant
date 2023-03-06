@@ -2,16 +2,16 @@
   "ver": "1.0.25",
   "importer": "image",
   "imported": true,
-  "uuid": "cbd147a2-c709-45f0-873d-2633119e7a57",
+  "uuid": "e08782b8-e8c7-46e4-be86-c3498a709b6e",
   "files": [
-    ".jpg",
-    ".json"
+    ".json",
+    ".png"
   ],
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "cbd147a2-c709-45f0-873d-2633119e7a57@6c48a",
-      "displayName": "bee-beehive-honey-bee-cartoon-drawing-honeycomb-yellow-honeybee-png-clipart",
+      "uuid": "e08782b8-e8c7-46e4-be86-c3498a709b6e@6c48a",
+      "displayName": "icons8-quit-60",
       "id": "6c48a",
       "name": "texture",
       "userData": {
@@ -22,7 +22,7 @@
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "cbd147a2-c709-45f0-873d-2633119e7a57",
+        "imageUuidOrDatabaseUri": "e08782b8-e8c7-46e4-be86-c3498a709b6e",
         "visible": false
       },
       "ver": "1.0.22",
@@ -34,8 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "cbd147a2-c709-45f0-873d-2633119e7a57@f9941",
-      "displayName": "bee-beehive-honey-bee-cartoon-drawing-honeycomb-yellow-honeybee-png-clipart",
+      "uuid": "e08782b8-e8c7-46e4-be86-c3498a709b6e@f9941",
+      "displayName": "icons8-quit-60",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -46,10 +46,10 @@
         "offsetY": 0,
         "trimX": 0,
         "trimY": 0,
-        "width": 800,
-        "height": 800,
-        "rawWidth": 800,
-        "rawHeight": 800,
+        "width": 60,
+        "height": 60,
+        "rawWidth": 60,
+        "rawHeight": 60,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
@@ -61,17 +61,17 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-            -400,
-            -400,
+            -30,
+            -30,
             0,
-            400,
-            -400,
+            30,
+            -30,
             0,
-            -400,
-            400,
+            -30,
+            30,
             0,
-            400,
-            400,
+            30,
+            30,
             0
           ],
           "indexes": [
@@ -84,12 +84,12 @@
           ],
           "uv": [
             0,
-            800,
-            800,
-            800,
+            60,
+            60,
+            60,
             0,
             0,
-            800,
+            60,
             0
           ],
           "nuv": [
@@ -103,18 +103,18 @@
             1
           ],
           "minPos": [
-            -400,
-            -400,
+            -30,
+            -30,
             0
           ],
           "maxPos": [
-            400,
-            400,
+            30,
+            30,
             0
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "cbd147a2-c709-45f0-873d-2633119e7a57@6c48a",
+        "imageUuidOrDatabaseUri": "e08782b8-e8c7-46e4-be86-c3498a709b6e@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.11",
@@ -127,8 +127,8 @@
   },
   "userData": {
     "fixAlphaTransparencyArtifacts": true,
-    "hasAlpha": false,
+    "hasAlpha": true,
     "type": "sprite-frame",
-    "redirect": "cbd147a2-c709-45f0-873d-2633119e7a57@f9941"
+    "redirect": "e08782b8-e8c7-46e4-be86-c3498a709b6e@f9941"
   }
 }
