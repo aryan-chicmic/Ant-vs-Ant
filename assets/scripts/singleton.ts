@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, resources, AudioClip } from "cc";
+import { _decorator, Component, Node, resources, AudioClip, Prefab } from "cc";
 const { ccclass, property } = _decorator;
 import { MAP_TYPES } from "./constants";
 @ccclass("singleton")

@@ -10,6 +10,9 @@ import {
   Director,
   director,
   AudioSource,
+  UITransform,
+  SpriteFrame,
+  Sprite,
 } from "cc";
 import { map } from "./map";
 const { ccclass, property } = _decorator;
@@ -17,6 +20,8 @@ import AudioControllerObject from "./AudioController";
 import { AudioSourceManager } from "./AudioSourceManager";
 @ccclass("mapButtonCreation")
 export class mapButtonCreation extends Component {
+  @property({ type: Node })
+  mainscreen: Node = null;
   @property({ type: Prefab })
   mapButtonPrefab: Prefab = null;
   @property({ type: Node })
@@ -28,35 +33,38 @@ export class mapButtonCreation extends Component {
   @property({ type: Node })
   help_node: Node;
   @property({ type: Node })
+  quit_node: Node;
+  @property({ type: Node })
   loader: Node;
   button: Node = null;
   countofMaps: number = 3;
 
   // getting font(AntvsAnt)
-  @property({ type: Node })
-  AntvsAntFont = null;
+
   //PrefabHomePageOne
   @property({ type: Prefab })
   HomepageOne = null;
 
   onLoad() {}
-  // loadMap() {
-  //   var num = this.button.getComponent(map).getMapNumber();
-  //   // director.loadScene(`MAP${num}`);
-  //   console.log(num);
-  // }
+
   soundEffect(playerButtonEffect: Node) {
     let audio = playerButtonEffect.getComponent(AudioSource);
     AudioControllerObject.playSoundEffetcs(audio.clip);
   }
-  start() {}
+  start() {
+    this.loader.active = false;
+  }
 
   buttonCreator() {
     this.player1_node.active = false;
     this.player2_node.active = false;
     this.help_node.active = false;
+    this.quit_node.active = false;
     this.loader.active = true;
     this.soundEffect(this.player2_node);
+    this.soundEffect(this.help_node);
+    this.soundEffect(this.quit_node);
+
     setTimeout(() => {
       this.loader.active = false;
       for (var i = 1; i <= this.countofMaps; i++) {
@@ -67,18 +75,19 @@ export class mapButtonCreation extends Component {
           .setButtonPosition(this.mapButtonCollector, i);
         // this.button.on(Input.EventType.TOUCH_START, this.loadMap, this);
       }
-    }, 3000);
+    }, 1000);
   }
 
   onClickHelpButton() {
     console.log("Help Button Clicked");
-    this.AntvsAntFont.active = false;
+
     this.player1_node.active = false;
     this.player2_node.active = false;
     this.help_node.active = false;
     this.loader.active = true;
     setTimeout(() => {
       this.loader.active = false;
+      // this.mainscreen.getComponent(Sprite).spriteFrame;
       let HelpPage = instantiate(this.HomepageOne);
       this.node.addChild(HelpPage);
     }, 3000);
