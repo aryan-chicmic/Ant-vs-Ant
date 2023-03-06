@@ -33,6 +33,8 @@ export class addAntButton extends Component {
   @property({ type: Node })
   antNodeBottom: Node = null;
   @property({ type: Node })
+  Loader: Node = null;
+  @property({ type: Node })
   antNodeTop: Node = null;
   @property(Node)
   hiveNode: Node = null;
@@ -45,19 +47,15 @@ export class addAntButton extends Component {
   singletonObject: singleton;
   @property({ type: Node })
   menuButton: Node = null;
+  @property({ type: Prefab })
+  coin: Prefab = null;
+  coinclicker: number = 0;
   onLoad() {
-    this.antNodeBottom.on(
-      Input.EventType.TOUCH_START,
-      () => {
-        console.log("hellooooo");
-      },
-      this
-    );
-
     this.singletonObject = singleton.getInstance();
   }
 
   start() {
+    this.Loader.active = false;
     this.menuButton.active = false;
     let dataLoader: any = this.mapchooser.json;
     dataLoader = dataLoader.data;
@@ -77,6 +75,12 @@ export class addAntButton extends Component {
         setTimeout(() => {
           this.buttonAdder();
           this.hiveAdder();
+          var coin = instantiate(this.coin);
+          // coin.setPosition(0, 0);
+          var coin1 = instantiate(this.coin);
+          coin1.setPosition(0, 180);
+          this.node.addChild(coin1);
+          this.node.addChild(coin);
         }, 1000);
       }
     }
@@ -197,6 +201,7 @@ export class addAntButton extends Component {
   buttonAdder() {
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
+   
       this.buttonHeight = newButton.getComponent(UITransform).height;
       this.antNodeBottom.addChild(newButton);
       this.antNodeBottom.children[i]
@@ -207,7 +212,8 @@ export class addAntButton extends Component {
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
       newButton.angle = 180;
-
+ 
+    
       this.antNodeTop.addChild(newButton);
       this.antNodeTop.children[i]
         .getComponent(antTypeButton)

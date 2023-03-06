@@ -195,7 +195,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 960,
+    "_orthoHeight": 959.9999999999999,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -2796,6 +2796,9 @@
     "antNodeBottom": {
       "__id__": 13
     },
+    "Loader": {
+      "__id__": 66
+    },
     "antNodeTop": {
       "__id__": 16
     },
@@ -2815,6 +2818,10 @@
     },
     "menuButton": {
       "__id__": 21
+    },
+    "coin": {
+      "__uuid__": "68c3a554-1157-46cc-a31a-a6b7a8134144",
+      "__expectedType__": "cc.Prefab"
     },
     "_id": "61keVA3JFMAJG0X39maMKI"
   },

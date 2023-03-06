@@ -2,12 +2,12 @@
   "ver": "1.1.43",
   "importer": "prefab",
   "imported": true,
-  "uuid": "3bc8c8f1-d094-4eb9-93b7-c4441c93da95",
+  "uuid": "68c3a554-1157-46cc-a31a-a6b7a8134144",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "coinUpdater"
+    "syncNodeName": "CoinUpdater"
   }
 }

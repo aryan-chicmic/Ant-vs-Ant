@@ -8,12 +8,9 @@ export class menuButton extends Component {
   menuButton: Node = null;
   @property({ type: Node })
   Loader: Node = null;
-  // soundEffect(playerButtonEffect: Node) {
-  //   let audio = playerButtonEffect.getComponent(AudioSource);
-  //   AudioControllerObject.playSoundEffetcs(audio.clip);
-  // }
+
   onLoad() {
-    this.Loader.active = false;
+    //this.Loader.active = false;
   }
   start() {}
   resumeGame() {

@@ -5,6 +5,8 @@ import { MAP_TYPES } from "./constants";
 export class singleton extends Component {
   private static instance: singleton = null;
   mapButton: string = "";
+  static coins = 0;
+  maximumCoins = 300;
   private singleton() {}
   static getInstance(): singleton {
     if (!this.instance) {
@@ -15,6 +17,7 @@ export class singleton extends Component {
   mapAssigner(mapName: string) {
     this.mapButton = mapName;
   }
+
   start() {}
 
   update(deltaTime: number) {}
