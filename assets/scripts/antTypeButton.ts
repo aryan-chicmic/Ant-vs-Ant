@@ -15,7 +15,7 @@ import {
   UITransform,
 } from "cc";
 const { ccclass, property } = _decorator;
-import { ANT_TYPES } from "./constants";
+import { ANT_TYPES, PLAYER } from "./constants";
 import { AntGenerateManager } from "./AntGenerateManager";
 import { FighterAntScript } from "./FighterAntScript";
 @ccclass("antTypeButton")
@@ -32,7 +32,12 @@ export class antTypeButton extends Component {
   AntGen = null;
   @property({ type: Node })
   AddedAnt = null;
-  addSprites(newNode: Node, i: Number) {
+
+  AntPlayer: PLAYER = PLAYER.NONE;
+
+  // add sprite
+  addSprites(newNode: Node, i: Number, Player: PLAYER) {
+    this.AntPlayer = Player;
     let dataLoader: any = this.mapchooser.json;
     dataLoader = dataLoader.AntSpecs;
     for (let index = 0; index < dataLoader.length; index++) {
@@ -52,6 +57,7 @@ export class antTypeButton extends Component {
   }
   antGenerateButtonClicked(text) {
     // console.log(text.target._name)
+    console.log("WHICH PLAYER", this.AntPlayer);
     let antName;
     let TimeToCoverChangeInY;
     let spriteName;
@@ -94,13 +100,14 @@ export class antTypeButton extends Component {
         Health,
         Damage,
         CoinAlloted,
-        Shield
+        Shield,
+        this.AntPlayer
       );
-      console.log("gen", GeneratedAnt);
+      // console.log("gen", GeneratedAnt);
       GeneratedAnt.getComponent(UITransform).setContentSize(125, 150);
       // GeneratedAnt.setPosition(600,900)
       this.node.parent.parent.getChildByName("AddedAnt").addChild(GeneratedAnt);
-      console.log(this.node.parent.parent);
+      // console.log(this.node.parent.parent);
     }, 2000);
   }
   start() {}

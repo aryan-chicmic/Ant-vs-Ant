@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, Sprite, SpriteFrame, Prefab } from "cc";
+import { PLAYER } from "./constants";
 import { singleton } from "./singleton";
 const { ccclass, property } = _decorator;
 
@@ -13,12 +14,19 @@ export class FighterAntScript extends Component {
   Damage: number = null;
   CoinAlloted: number = null;
   Shield: number = null;
+  WhichPlayer: PLAYER = PLAYER.NONE;
   singletonObj: singleton = null;
-  coins: number;
+  coins1: number;
+  coins2: number;
   onLoad() {
     this.singletonObj = singleton.getInstance();
-    this.coins = singleton.coins;
+    this.coins1 = singleton.coins1;
+    this.coins2 = singleton.coins2;
   }
+  /**
+   * @description
+   * @param
+   */
   AddSpecs(
     AntName: string,
     TimeToCoverChangeInY: number,
@@ -26,7 +34,8 @@ export class FighterAntScript extends Component {
     Health: number,
     Damage: number,
     CoinAlloted: number,
-    Shield: number
+    Shield: number,
+    whichplayer: PLAYER
   ) {
     console.log("call", sprite);
     this.AntName = AntName;
@@ -37,9 +46,16 @@ export class FighterAntScript extends Component {
     this.Damage = Damage;
     this.CoinAlloted = CoinAlloted;
     this.Shield = Shield;
-
-    singleton.coins = singleton.coins - this.CoinAlloted;
-    console.log(singleton.coins);
+    this.WhichPlayer = whichplayer;
+    console.log("FighterPlayer", this.WhichPlayer);
+    if (whichplayer == PLAYER.PLAYER1) {
+      singleton.coins1 = singleton.coins1 - this.CoinAlloted;
+      console.log("player1", singleton.coins1, singleton.coins2);
+    }
+    if (whichplayer == PLAYER.PLAYER2) {
+      singleton.coins2 = singleton.coins2 - this.CoinAlloted;
+    }
+    // console.log(singleton.coins1);
   }
 
   start() {}

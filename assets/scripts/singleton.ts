@@ -5,7 +5,8 @@ import { MAP_TYPES } from "./constants";
 export class singleton extends Component {
   private static instance: singleton = null;
   mapButton: string = "";
-  static coins = 0;
+  static coins1 = 0;
+  static coins2 = 0;
   maximumCoins = 300;
   private singleton() {}
   static getInstance(): singleton {

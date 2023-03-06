@@ -21,7 +21,7 @@ import {
   Input,
 } from "cc";
 import { antTypeButton } from "./antTypeButton";
-import { MAP_TYPES } from "./constants";
+import { MAP_TYPES, PLAYER } from "./constants";
 import { singleton } from "./singleton";
 const { ccclass, property } = _decorator;
 
@@ -48,7 +48,9 @@ export class addAntButton extends Component {
   @property({ type: Node })
   menuButton: Node = null;
   @property({ type: Prefab })
-  coin: Prefab = null;
+  coin1: Prefab = null;
+  @property({ type: Prefab })
+  coin2: Prefab = null;
   coinclicker: number = 0;
   onLoad() {
     this.singletonObject = singleton.getInstance();
@@ -75,12 +77,12 @@ export class addAntButton extends Component {
         setTimeout(() => {
           this.buttonAdder();
           this.hiveAdder();
-          var coin = instantiate(this.coin);
+          var coin1 = instantiate(this.coin1);
           // coin.setPosition(0, 0);
-          var coin1 = instantiate(this.coin);
-          coin1.setPosition(0, 180);
+          var coin2 = instantiate(this.coin2);
+          coin2.setPosition(0, 180);
           this.node.addChild(coin1);
-          this.node.addChild(coin);
+          this.node.addChild(coin2);
         }, 1000);
       }
     }
@@ -201,23 +203,22 @@ export class addAntButton extends Component {
   buttonAdder() {
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
-   
       this.buttonHeight = newButton.getComponent(UITransform).height;
       this.antNodeBottom.addChild(newButton);
       this.antNodeBottom.children[i]
         .getComponent(antTypeButton)
-        .addSprites(newButton, i);
+        .addSprites(newButton, i, PLAYER.PLAYER1);
     }
     // this.buttonHeight = newButton.getComponent(UITransform).getBoundingBox().y;
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
+      var buttonTypeUpper = PLAYER.PLAYER2;
       newButton.angle = 180;
- 
-    
+
       this.antNodeTop.addChild(newButton);
       this.antNodeTop.children[i]
         .getComponent(antTypeButton)
-        .addSprites(newButton, i);
+        .addSprites(newButton, i, PLAYER.PLAYER2);
     }
   }
 

@@ -2819,8 +2819,12 @@
     "menuButton": {
       "__id__": 21
     },
-    "coin": {
+    "coin1": {
       "__uuid__": "68c3a554-1157-46cc-a31a-a6b7a8134144",
+      "__expectedType__": "cc.Prefab"
+    },
+    "coin2": {
+      "__uuid__": "c454eab4-a644-465c-8bb7-8a9f89944095",
       "__expectedType__": "cc.Prefab"
     },
     "_id": "61keVA3JFMAJG0X39maMKI"

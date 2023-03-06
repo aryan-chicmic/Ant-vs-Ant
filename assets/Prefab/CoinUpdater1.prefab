@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "CoinUpdater",
+    "_name": "CoinUpdater1",
     "_objFlags": 0,
     "_native": "",
     "data": {
@@ -12,7 +12,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CoinUpdater",
+    "_name": "CoinUpdater1",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -372,9 +372,10 @@
     "__prefab": {
       "__id__": 17
     },
-    "coinLabel": {
+    "coinLabel1": {
       "__id__": 5
     },
+    "coinLabel2": null,
     "_id": ""
   },
   {
