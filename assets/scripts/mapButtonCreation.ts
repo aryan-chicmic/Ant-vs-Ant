@@ -62,11 +62,12 @@ export class mapButtonCreation extends Component {
     this.quit_node.active = false;
     this.loader.active = true;
     this.soundEffect(this.player2_node);
-    this.soundEffect(this.help_node);
-    this.soundEffect(this.quit_node);
+    // this.soundEffect(this.help_node);
+    // this.soundEffect(this.quit_node);
 
     setTimeout(() => {
       this.loader.active = false;
+
       for (var i = 1; i <= this.countofMaps; i++) {
         this.button = instantiate(this.mapButtonPrefab);
 
@@ -75,7 +76,7 @@ export class mapButtonCreation extends Component {
           .setButtonPosition(this.mapButtonCollector, i);
         // this.button.on(Input.EventType.TOUCH_START, this.loadMap, this);
       }
-    }, 1000);
+    }, 500);
   }
 
   onClickHelpButton() {
