@@ -18,6 +18,7 @@ import {
   Vec2,
   Vec3,
   game,
+  Input,
 } from "cc";
 import { antTypeButton } from "./antTypeButton";
 import { MAP_TYPES } from "./constants";

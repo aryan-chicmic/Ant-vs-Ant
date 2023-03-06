@@ -2421,6 +2421,9 @@
     "help_node": {
       "__id__": 28
     },
+    "quit_node": {
+      "__id__": 56
+    },
     "loader": {
       "__id__": 39
     },
@@ -2458,7 +2461,9 @@
     "_enabled": true,
     "__prefab": null,
     "menuButton": null,
-    "Loader": null,
+    "Loader": {
+      "__id__": 39
+    },
     "_id": "7cmDE3gWJOD5PQajqZ6QYy"
   },
   {
