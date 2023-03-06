@@ -45,6 +45,14 @@ export class addAntButton extends Component {
   @property({ type: Node })
   menuButton: Node = null;
   onLoad() {
+    this.antNodeBottom.on(
+      Input.EventType.TOUCH_START,
+      () => {
+        console.log("hellooooo");
+      },
+      this
+    );
+
     this.singletonObject = singleton.getInstance();
   }
 

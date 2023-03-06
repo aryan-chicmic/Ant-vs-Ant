@@ -192,6 +192,7 @@
     "_fov": 45,
     "_fovAxis": 0,
     "_orthoHeight": 960,
+    "_orthoHeight": 960,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -502,7 +503,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -479.699,
+      "x": -506.11650000000003,
       "y": -836.809,
       "z": 0
     },
@@ -540,7 +541,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 0,
       "height": 100
     },
     "_anchorPoint": {
