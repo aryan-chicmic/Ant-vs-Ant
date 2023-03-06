@@ -18,6 +18,7 @@ const { ccclass, property } = _decorator;
 import { ANT_TYPES, PLAYER } from "./constants";
 import { AntGenerateManager } from "./AntGenerateManager";
 import { FighterAntScript } from "./FighterAntScript";
+import { singleton } from "./singleton";
 @ccclass("antTypeButton")
 export class antTypeButton extends Component {
   @property({ type: Label })
@@ -34,7 +35,13 @@ export class antTypeButton extends Component {
   AddedAnt = null;
 
   AntPlayer: PLAYER = PLAYER.NONE;
-
+  //singletonObject
+  SingletonObj: singleton = null;
+  Map: TiledMap = null;
+  onLoad() {
+    this.SingletonObj = singleton.getInstance();
+    this.Map = this.SingletonObj.getMap();
+  }
   // add sprite
   addSprites(newNode: Node, i: Number, Player: PLAYER) {
     this.AntPlayer = Player;
@@ -105,10 +112,20 @@ export class antTypeButton extends Component {
       );
       // console.log("gen", GeneratedAnt);
       GeneratedAnt.getComponent(UITransform).setContentSize(125, 150);
-      // GeneratedAnt.setPosition(600,900)
+
+      this.checkPlayerSetPosition(this.AntPlayer, GeneratedAnt);
+
       this.node.parent.parent.getChildByName("AddedAnt").addChild(GeneratedAnt);
       // console.log(this.node.parent.parent);
-    }, 2000);
+    }, 1000);
+  }
+  checkPlayerSetPosition(Player: PLAYER, GeneratedAnt: Node) {
+    console.log("Map exist", this.Map);
+    if (this.AntPlayer == PLAYER.PLAYER2) {
+      console.log("Player2 angle set");
+      GeneratedAnt.angle = 180;
+      GeneratedAnt.setPosition(300, 900);
+    }
   }
   start() {}
 

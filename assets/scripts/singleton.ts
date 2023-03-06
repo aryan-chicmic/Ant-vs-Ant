@@ -1,4 +1,12 @@
-import { _decorator, Component, Node, resources, AudioClip, Prefab } from "cc";
+import {
+  _decorator,
+  Component,
+  Node,
+  resources,
+  AudioClip,
+  Prefab,
+  TiledMap,
+} from "cc";
 const { ccclass, property } = _decorator;
 import { MAP_TYPES } from "./constants";
 @ccclass("singleton")
@@ -7,6 +15,7 @@ export class singleton extends Component {
   mapButton: string = "";
   static coins1 = 0;
   static coins2 = 0;
+  static Map: TiledMap = null;
   maximumCoins = 300;
   private singleton() {}
   static getInstance(): singleton {
@@ -18,7 +27,12 @@ export class singleton extends Component {
   mapAssigner(mapName: string) {
     this.mapButton = mapName;
   }
-
+  setMap(map: TiledMap) {
+    singleton.Map = map;
+  }
+  getMap(): TiledMap {
+    return singleton.Map;
+  }
   start() {}
 
   update(deltaTime: number) {}

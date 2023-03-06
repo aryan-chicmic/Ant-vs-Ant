@@ -71,6 +71,8 @@ export class addAntButton extends Component {
           (err: any, tmx) => {
             const asset = this.mapNode.getComponent(TiledMap);
             asset.tmxAsset = tmx;
+            //setmaptosingleton
+            this.singletonObject.setMap(asset);
           }
         );
 
