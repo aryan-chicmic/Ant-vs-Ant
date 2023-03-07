@@ -15,24 +15,19 @@ export class singleton extends Component {
   mapButton: string = "";
   static coins1 = 0;
   static coins2 = 0;
-  static Map: TiledMap = null;
+  static Map: TiledMap;
   maximumCoins = 300;
   private singleton() {}
   static getInstance(): singleton {
-    if (!this.instance) {
-      this.instance = new singleton();
+    if (!singleton.instance) {
+      singleton.instance = new singleton();
     }
     return singleton.instance;
   }
   mapAssigner(mapName: string) {
     this.mapButton = mapName;
   }
-  setMap(map: TiledMap) {
-    singleton.Map = map;
-  }
-  getMap(): TiledMap {
-    return singleton.Map;
-  }
+
   start() {}
 
   update(deltaTime: number) {}

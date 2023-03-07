@@ -70,15 +70,18 @@ export class addAntButton extends Component {
           TiledMapAsset,
           (err: any, tmx) => {
             const asset = this.mapNode.getComponent(TiledMap);
+            console.log("true cond");
+            console.log(tmx);
             asset.tmxAsset = tmx;
+            console.log("type of", typeof asset);
             //setmaptosingleton
-            this.singletonObject.setMap(asset);
+            singleton.Map = asset;
           }
         );
 
         setTimeout(() => {
           this.buttonAdder();
-          this.hiveAdder();
+          // this.hiveAdder();
           var coin1 = instantiate(this.coin1);
           // coin.setPosition(0, 0);
           var coin2 = instantiate(this.coin2);
@@ -102,7 +105,8 @@ export class addAntButton extends Component {
     console.log("after pause");
   }
   hiveAdder() {
-    for (var i = 1; i <= 3; i++) {
+    var n = this.mapNode.getComponent(TiledMap).getObjectGroups().length;
+    for (var i = 1; i < n; i++) {
       var newHive1 = instantiate(this.hive);
       var newHive2 = instantiate(this.hive);
 
@@ -110,20 +114,20 @@ export class addAntButton extends Component {
         case 1:
           var oneA_x = this.mapNode
             .getComponent(TiledMap)
-            .getObjectGroup("PathObj1")
-            .getObject("OneA").x;
+            .getObjectGroup(`PathObj${i}`)
+            .getObject(`${i}A`).x;
           var oneA_y = this.mapNode
             .getComponent(TiledMap)
-            .getObjectGroup("PathObj1")
-            .getObject("OneA").y;
+            .getObjectGroup(`PathObj${i}`)
+            .getObject(`${i}A`).y;
           var oneB_x = this.mapNode
             .getComponent(TiledMap)
-            .getObjectGroup("PathObj1")
-            .getObject("OneB").x;
+            .getObjectGroup(`PathObj${i}`)
+            .getObject(`${i}B`).x;
           var oneB_y = this.mapNode
             .getComponent(TiledMap)
-            .getObjectGroup("PathObj1")
-            .getObject("OneB").y;
+            .getObjectGroup(`PathObj${i}`)
+            .getObject(`${i}A`).y;
           var pos_oneA = this.node
             .getComponent(UITransform)
             .convertToNodeSpaceAR(new Vec3(oneA_x, oneA_y));
