@@ -103,6 +103,10 @@
       "__uuid__": "68c3a554-1157-46cc-a31a-a6b7a8134144",
       "__expectedType__": "cc.Prefab"
     },
+    "PathSelectButton": {
+      "__uuid__": "aa3f9c51-9275-403a-a152-3b20bb302e04",
+      "__expectedType__": "cc.Prefab"
+    },
     "_id": ""
   },
   {
