@@ -27,9 +27,15 @@ const { ccclass, property } = _decorator;
 
 @ccclass("addAntButton")
 export class addAntButton extends Component {
-  buttonHeight: number = 0;
+  //properties
   @property({ type: Prefab })
   antButtonPrefab: Prefab = null;
+  @property({ type: Prefab })
+  coin1: Prefab = null;
+  @property({ type: Prefab })
+  hive: Prefab = null;
+  @property({ type: Prefab })
+  coin2: Prefab = null;
   @property({ type: Node })
   antNodeBottom: Node = null;
   @property({ type: Node })
@@ -40,18 +46,16 @@ export class addAntButton extends Component {
   hiveNode: Node = null;
   @property({ type: Node })
   mapNode: Node = null;
-  @property({ type: Prefab })
-  hive: Prefab = null;
+  @property({ type: Node })
+  menuButton: Node = null;
   @property({ type: JsonAsset })
   mapchooser: JsonAsset = null;
   singletonObject: singleton;
-  @property({ type: Node })
-  menuButton: Node = null;
-  @property({ type: Prefab })
-  coin1: Prefab = null;
-  @property({ type: Prefab })
-  coin2: Prefab = null;
+
+  //globals
   coinclicker: number = 0;
+  buttonHeight: number = 0;
+
   onLoad() {
     this.singletonObject = singleton.getInstance();
   }
@@ -65,14 +69,10 @@ export class addAntButton extends Component {
     for (let index = 0; index < dataLoader.length; index++) {
       let mapLoader_name = dataLoader[index].name;
       if (mapLoader_name == mapButtonnameReceived) {
-        resources.load(
-          dataLoader[index].path,
-          TiledMapAsset,
-          (err: any, tmx) => {
-            const asset = this.mapNode.getComponent(TiledMap);
-            asset.tmxAsset = tmx;
-          }
-        );
+        resources.load(dataLoader[index].path, TiledMapAsset, (err: any, tmx) => {
+          const asset = this.mapNode.getComponent(TiledMap);
+          asset.tmxAsset = tmx;
+        });
 
         setTimeout(() => {
           this.buttonAdder();
@@ -203,7 +203,7 @@ export class addAntButton extends Component {
   buttonAdder() {
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
-      this.buttonHeight = newButton.getComponent(UITransform).height;
+      // this.buttonHeight = newButton.getComponent(UITransform).height;
       this.antNodeBottom.addChild(newButton);
       this.antNodeBottom.children[i]
         .getComponent(antTypeButton)
@@ -212,7 +212,7 @@ export class addAntButton extends Component {
     // this.buttonHeight = newButton.getComponent(UITransform).getBoundingBox().y;
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
-      var buttonTypeUpper = PLAYER.PLAYER2;
+
       newButton.angle = 180;
 
       this.antNodeTop.addChild(newButton);
