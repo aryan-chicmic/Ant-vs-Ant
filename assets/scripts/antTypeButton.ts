@@ -71,17 +71,23 @@ export class antTypeButton extends Component {
 
     let Map: TiledMap = singleton.Map;
     let n = Map.getComponent(TiledMap).getObjectGroups().length;
-    if (this.AntPlayer == PLAYER.PLAYER1) {
-      for (var i = 1; i < n; i++) {
-        var button_pos_X = Map.getComponent(TiledMap)
-          .getObjectGroup(`PathObj${i}`)
-          .getObject(`Button${i}A`).x;
-        var button_pos_Y = Map.getComponent(TiledMap)
-          .getObjectGroup(`PathObj${i}`)
-          .getObject(`Button${i}A`).y;
+    for (var i = 1; i < n; i++) {
+      let pathObj = Map.getComponent(TiledMap).getObjectGroup(`PathObj${i}`);
+      if (this.AntPlayer == PLAYER.PLAYER1) {
+        var button_pos_down = pathObj.getObject(`Button${i}A`);
+        let worlPosOfBtn1 = pathObj.node
+          .getComponent(UITransform)
+          .convertToWorldSpaceAR(
+            new Vec3(
+              button_pos_down.x - pathObj.node.getContentSize().width * 0.5,
+              button_pos_down.y - pathObj.node.getContentSize().height * 0.5,
+              0
+            )
+          );
+
         var pos_oneA = this.node.parent.parent
           .getComponent(UITransform)
-          .convertToNodeSpaceAR(new Vec3(button_pos_X, button_pos_Y));
+          .convertToNodeSpaceAR(new Vec3(worlPosOfBtn1.x, worlPosOfBtn1.y));
         var buttonclick = instantiate(this.PathSelectButton);
         buttonclick
           .getChildByName("Name")
@@ -93,18 +99,21 @@ export class antTypeButton extends Component {
           .addChild(buttonclick);
       }
       console.log("this figthernode p1", this.node.parent.parent);
-    }
-    if (this.AntPlayer == PLAYER.PLAYER2) {
-      for (var i = 1; i < n; i++) {
-        var button_pos_X = Map.getComponent(TiledMap)
-          .getObjectGroup(`PathObj${i}`)
-          .getObject(`Button${i}B`).x;
-        var button_pos_Y = Map.getComponent(TiledMap)
-          .getObjectGroup(`PathObj${i}`)
-          .getObject(`Button${i}B`).y;
+
+      if (this.AntPlayer == PLAYER.PLAYER2) {
+        var button_pos_top = pathObj.getObject(`Button${i}B`);
+        let worlPosOfBtn2 = pathObj.node
+          .getComponent(UITransform)
+          .convertToWorldSpaceAR(
+            new Vec3(
+              button_pos_top.x - pathObj.node.getContentSize().width * 0.5,
+              button_pos_top.y - pathObj.node.getContentSize().height * 0.5,
+              0
+            )
+          );
         var pos_oneA = this.node.parent.parent
           .getComponent(UITransform)
-          .convertToNodeSpaceAR(new Vec3(button_pos_X, button_pos_Y));
+          .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
         var buttonclick = instantiate(this.PathSelectButton);
         buttonclick.setPosition(pos_oneA);
         buttonclick.angle = 180;

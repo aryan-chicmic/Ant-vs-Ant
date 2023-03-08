@@ -101,11 +101,11 @@ export class addAntButton extends Component {
     console.log("before pause");
     // director.pause();
     director.pause();
-    setTimeout(() => {
-      console.log("Resumed");
+    // setTimeout(() => {
+    //   console.log("Resumed");
 
-      director.resume();
-    }, 5000);
+    //   director.resume();
+    // }, 5000);
     console.log("after pause");
   }
   hiveAdder() {
