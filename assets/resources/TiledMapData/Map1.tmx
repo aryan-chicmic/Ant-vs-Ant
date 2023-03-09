@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="36" height="64" tilewidth="30" tileheight="30" infinite="0" nextlayerid="11" nextobjectid="35">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="36" height="64" tilewidth="30" tileheight="30" infinite="0" nextlayerid="11" nextobjectid="54">
  <tileset firstgid="1" name="GrassBackGround" tilewidth="1080" tileheight="1920" tilecount="1" columns="1">
   <image source="GrassBackGround.png" width="1080" height="1920"/>
  </tileset>
@@ -55,57 +55,54 @@
   </object>
  </objectgroup>
  <objectgroup id="9" name="PathObj2">
-  <object id="6" name="2A" x="538.113" y="1850.02">
-   <point/>
-  </object>
-  <object id="8" name="2F" x="538.113" y="33.3714">
-   <point/>
-  </object>
-  <object id="9" name="2B" x="540.199" y="1272.28">
-   <properties>
-    <property name="color" type="color" value="#ffae0204"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="11" name="2E" x="542.285" y="648.656">
-   <point/>
-  </object>
-  <object id="12" name="2C" x="294.085" y="1238.91">
-   <point/>
-  </object>
-  <object id="14" name="2D" x="291.999" y="667.427">
-   <point/>
-  </object>
   <object id="26" name="Button2A" x="377.586" y="1280.4">
    <point/>
   </object>
   <object id="32" name="Button2B" x="392.108" y="670.457">
    <point/>
   </object>
+  <object id="41" name="2A" x="532.624" y="1860.54">
+   <point/>
+  </object>
+  <object id="42" name="2B" x="539.92" y="34.049">
+   <point/>
+  </object>
+  <object id="43" name="2C" x="532.624" y="1281.7">
+   <point/>
+  </object>
+  <object id="45" name="2D" x="304.009" y="1264.68">
+   <point/>
+  </object>
+  <object id="46" name="2E" x="294.281" y="656.66">
+   <point/>
+  </object>
+  <object id="47" name="2F" x="527.76" y="649.363">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="10" name="PathObj3">
-  <object id="18" name="3A" x="539.754" y="1839.52">
-   <point/>
-  </object>
-  <object id="19" name="3B" x="542.175" y="1265.88">
-   <point/>
-  </object>
-  <object id="20" name="3C" x="796.319" y="1258.62">
-   <point/>
-  </object>
-  <object id="22" name="3D" x="774.535" y="709.184">
-   <point/>
-  </object>
-  <object id="23" name="3E" x="542.175" y="646.253">
-   <point/>
-  </object>
-  <object id="24" name="3F" x="537.334" y="33.8859">
-   <point/>
-  </object>
   <object id="27" name="Button3A" x="694.661" y="1280.4">
    <point/>
   </object>
   <object id="33" name="Button3B" x="658.355" y="660.775">
+   <point/>
+  </object>
+  <object id="48" name="3A" x="535.056" y="1853.24">
+   <point/>
+  </object>
+  <object id="49" name="3B" x="542.352" y="24.3207">
+   <point/>
+  </object>
+  <object id="50" name="3C" x="532.624" y="1286.57">
+   <point/>
+  </object>
+  <object id="51" name="3D" x="773.399" y="1247.65">
+   <point/>
+  </object>
+  <object id="52" name="3E" x="770.967" y="685.845">
+   <point/>
+  </object>
+  <object id="53" name="3F" x="522.896" y="649.363">
    <point/>
   </object>
  </objectgroup>

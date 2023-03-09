@@ -69,23 +69,19 @@ export class addAntButton extends Component {
     for (let index = 0; index < dataLoader.length; index++) {
       let mapLoader_name = dataLoader[index].name;
       if (mapLoader_name == mapButtonnameReceived) {
-        resources.load(
-          dataLoader[index].path,
-          TiledMapAsset,
-          (err: any, tmx) => {
-            const asset = this.mapNode.getComponent(TiledMap);
-            console.log("true cond");
-            console.log(tmx);
-            asset.tmxAsset = tmx;
-            console.log("type of", typeof asset);
-            //setmaptosingleton
-            singleton.Map = asset;
-          }
-        );
+        resources.load(dataLoader[index].path, TiledMapAsset, (err: any, tmx) => {
+          const asset = this.mapNode.getComponent(TiledMap);
+          console.log("true cond");
+          console.log(tmx);
+          asset.tmxAsset = tmx;
+          console.log("type of", typeof asset);
+          //setmaptosingleton
+          singleton.Map = asset;
+        });
 
         setTimeout(() => {
           this.buttonAdder();
-          this.hiveAdder();
+          // this.hiveAdder();
           var coin1 = instantiate(this.coin1);
           // coin.setPosition(0, 0);
           var coin2 = instantiate(this.coin2);
