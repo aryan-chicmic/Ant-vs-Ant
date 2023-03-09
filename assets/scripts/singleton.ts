@@ -1,17 +1,12 @@
-import {
-  _decorator,
-  Component,
-  Node,
-  resources,
-  AudioClip,
-  Prefab,
-  TiledMap,
-} from "cc";
+import { _decorator, Component, Node, resources, AudioClip, Prefab, TiledMap } from "cc";
 const { ccclass, property } = _decorator;
 import { MAP_TYPES } from "./constants";
 @ccclass("singleton")
 export class singleton extends Component {
   private static instance: singleton = null;
+
+  parent_Node: Node = null;
+
   AntPath: string;
   mapButton: string = "";
   static coins1 = 0;
@@ -24,6 +19,13 @@ export class singleton extends Component {
       singleton.instance = new singleton();
     }
     return singleton.instance;
+  }
+  get node_getter(): Node {
+    console.log(" get Frame");
+    return this.parent_Node;
+  }
+  set node_setter(value: Node) {
+    this.parent_Node = value;
   }
   mapAssigner(mapName: string) {
     this.mapButton = mapName;

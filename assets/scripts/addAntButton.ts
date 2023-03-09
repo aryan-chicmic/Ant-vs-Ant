@@ -78,9 +78,11 @@ export class addAntButton extends Component {
           //setmaptosingleton
           singleton.Map = asset;
         });
+        setTimeout(() => {
+          this.hiveAdder();
+          this.buttonAdder();
+        }, 100);
 
-        this.buttonAdder();
-        // this.hiveAdder();
         var coin1 = instantiate(this.coin1);
         // coin.setPosition(0, 0);
         var coin2 = instantiate(this.coin2);
@@ -90,115 +92,62 @@ export class addAntButton extends Component {
       }
     }
   }
+  hiveAdder() {
+    console.log("hivemaker");
+    // console.log();
 
+    var n = this.mapNode.getComponent(TiledMap).getObjectGroups().length;
+    console.log(n);
+    for (var i = 1; i < n; i++) {
+      let pathObj = this.mapNode.getComponent(TiledMap).getObjectGroup(`PathObj${i}`);
+      var button_Obj = pathObj.getObject(`${i}A`);
+      var button_Obj1 = pathObj.getObject(`${i}B`);
+
+      let worlPosOfBtn1 = pathObj.node
+        .getComponent(UITransform)
+        .convertToWorldSpaceAR(
+          new Vec3(
+            button_Obj.x - pathObj.node.getContentSize().width * 0.5,
+            button_Obj.y - pathObj.node.getContentSize().height * 0.5,
+            0
+          )
+        );
+      let worlPosOfBtn2 = pathObj.node
+        .getComponent(UITransform)
+        .convertToWorldSpaceAR(
+          new Vec3(
+            button_Obj1.x - pathObj.node.getContentSize().width * 0.5,
+            button_Obj1.y - pathObj.node.getContentSize().height * 0.5,
+            0
+          )
+        );
+      var pos_oneA = this.node
+        .getComponent(UITransform)
+        .convertToNodeSpaceAR(new Vec3(worlPosOfBtn1.x, worlPosOfBtn1.y));
+
+      var pos1_oneA = this.node
+        .getComponent(UITransform)
+        .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
+
+      var buttonclick1 = instantiate(this.hive);
+      var buttonclick2 = instantiate(this.hive);
+
+      buttonclick1.setPosition(pos_oneA.x, pos_oneA.y, 0);
+
+      buttonclick2.setPosition(pos1_oneA.x, pos1_oneA.y, 0);
+      console.log("Hive node-", this.hiveNode);
+      this.hiveNode.addChild(buttonclick1);
+      this.hiveNode.addChild(buttonclick2);
+    }
+    console.log("is hive added", this.node);
+  }
   menuButtonFunctionality() {
     this.menuButton.active = true;
     console.log("before pause");
     // director.pause();
     director.pause();
   }
-  // hiveAdder() {
-  //   var n = this.mapNode.getComponent(TiledMap).getObjectGroups().length;
-  //   for (var i = 1; i < n; i++) {
-  //     var newHive1 = instantiate(this.hive);
-  //     var newHive2 = instantiate(this.hive);
 
-  //     switch (i) {
-  //       case 1:
-  // var oneA_x = this.mapNode
-  //   .getComponent(TiledMap)
-  //   .getObjectGroup(`PathObj${i}`)
-  //   .getObject(`${i}A`).x;
-  // var oneA_y = this.mapNode
-  //   .getComponent(TiledMap)
-  //   .getObjectGroup(`PathObj${i}`)
-  //   .getObject(`${i}A`).y;
-  // var oneB_x = this.mapNode
-  //   .getComponent(TiledMap)
-  //   .getObjectGroup(`PathObj${i}`)
-  //   .getObject(`${i}B`).x;
-  // var oneB_y = this.mapNode
-  //   .getComponent(TiledMap)
-  //   .getObjectGroup(`PathObj${i}`)
-  //   .getObject(`${i}A`).y;
-  // var pos_oneA = this.node
-  //   .getComponent(UITransform)
-  //   .convertToNodeSpaceAR(new Vec3(oneA_x, oneA_y));
-  // var pos_oneB = this.node
-  //   .getComponent(UITransform)
-  //   .convertToNodeSpaceAR(new Vec3(oneB_x, oneB_y));
-  // newHive1.setPosition(pos_oneA.x + 5, pos_oneA.y + 225);
-  // newHive2.setPosition(pos_oneB.x + 10, pos_oneB.y - 225); //up
-  // newHive1.angle = 180;
-  // this.hiveNode.addChild(newHive1);
-
-  // this.hiveNode.addChild(newHive2);
-
-  //         break;
-  //       case 2:
-  //         var TwoA_x = this.mapNode
-  //           .getComponent(TiledMap)
-  //           .getObjectGroup("PathObj2")
-  //           .getObject("TwoA").x;
-  //         var TwoA_y = this.mapNode
-  //           .getComponent(TiledMap)
-  //           .getObjectGroup("PathObj2")
-  //           .getObject("TwoA").y;
-  //         var TwoB_x = this.mapNode
-  //           .getComponent(TiledMap)
-  //           .getObjectGroup("PathObj2")
-  //           .getObject("TwoB").x;
-  //         var TwoB_y = this.mapNode
-  //           .getComponent(TiledMap)
-  //           .getObjectGroup("PathObj2")
-  //           .getObject("TwoB").y;
-  //         var pos_TwoA = this.node
-  //           .getComponent(UITransform)
-  //           .convertToNodeSpaceAR(new Vec3(TwoA_x, TwoA_y));
-  //         var pos_TwoB = this.node
-  //           .getComponent(UITransform)
-  //           .convertToNodeSpaceAR(new Vec3(TwoB_x, TwoB_y));
-  //         newHive1.setPosition(pos_TwoA.x + 5, pos_TwoA.y + 225);
-  //         newHive2.setPosition(pos_TwoB.x + 10, pos_TwoB.y - 225); //up
-  //         newHive1.angle = 180;
-  //         this.hiveNode.addChild(newHive1);
-
-  //         this.hiveNode.addChild(newHive2);
-
-  //         break;
-  //       case 3:
-  //         var ThreeA_x = this.mapNode
-  //           .getComponent(TiledMap)
-  //           .getObjectGroup("PathObj3")
-  //           .getObject("ThreeA").x;
-  //         var ThreeA_y = this.mapNode
-  //           .getComponent(TiledMap)
-  //           .getObjectGroup("PathObj3")
-  //           .getObject("ThreeA").y;
-  //         var ThreeB_x = this.mapNode
-  //           .getComponent(TiledMap)
-  //           .getObjectGroup("PathObj3")
-  //           .getObject("ThreeB").x;
-  //         var ThreeB_y = this.mapNode
-  //           .getComponent(TiledMap)
-  //           .getObjectGroup("PathObj3")
-  //           .getObject("ThreeB").y;
-  //         var pos_ThreeA = this.node
-  //           .getComponent(UITransform)
-  //           .convertToNodeSpaceAR(new Vec3(ThreeA_x, ThreeA_y));
-  //         var pos_ThreeB = this.node
-  //           .getComponent(UITransform)
-  //           .convertToNodeSpaceAR(new Vec3(ThreeB_x, ThreeB_y));
-  //         newHive1.setPosition(pos_ThreeA.x + 5, pos_ThreeA.y + 225);
-  //         newHive2.setPosition(pos_ThreeB.x + 10, pos_ThreeB.y - 225); //up
-  //         newHive1.angle = 180;
-  //         this.hiveNode.addChild(newHive1);
-  //         this.hiveNode.addChild(newHive2);
-
-  //         break;
-  //     }
-  //   }
-  // }
   buttonAdder() {
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
