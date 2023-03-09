@@ -21,7 +21,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 104
+      "__id__": 105
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -52,7 +52,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 105
+      "__id__": 106
     },
     "_id": "7c584eca-949f-4940-a1f2-c3cd8985bf9b"
   },
@@ -98,9 +98,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 97
-      },
-      {
         "__id__": 98
       },
       {
@@ -117,6 +114,9 @@
       },
       {
         "__id__": 103
+      },
+      {
+        "__id__": 104
       }
     ],
     "_prefab": null,
@@ -3445,12 +3445,16 @@
     },
     "_children": [],
     "_active": true,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 97
+      }
+    ],
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -23.776,
-      "y": -449.512,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
@@ -3475,6 +3479,27 @@
       "z": 0
     },
     "_id": "a9rChYRC1F/qCYdCgDzVnQ"
+  },
+  {
+    "__type__": "cc.UITransform",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 96
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 1440,
+      "height": 2560
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_id": "2cFrsygSlAd54QwTLcH5CA"
   },
   {
     "__type__": "cc.UITransform",
@@ -3670,22 +3695,22 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 106
-    },
-    "shadows": {
       "__id__": 107
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 108
     },
-    "fog": {
+    "_skybox": {
       "__id__": 109
     },
-    "octree": {
+    "fog": {
       "__id__": 110
     },
-    "lightProbeInfo": {
+    "octree": {
       "__id__": 111
+    },
+    "lightProbeInfo": {
+      "__id__": 112
     },
     "bakedWithStationaryMainLight": false
   },

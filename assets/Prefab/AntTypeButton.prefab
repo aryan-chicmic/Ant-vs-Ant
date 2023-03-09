@@ -393,7 +393,6 @@
       "__uuid__": "61620ee4-8f69-475f-a750-359eb53a6d71",
       "__expectedType__": "cc.Prefab"
     },
-    "AddedAnt": null,
     "PathDeciderParent": {
       "__uuid__": "b847a7bb-ad02-4ecf-9448-93ad2c1330ce",
       "__expectedType__": "cc.Prefab"

@@ -38,8 +38,15 @@ export class FighterAntScript extends Component {
     this.coins2 = singleton.coins2;
   }
   /**
-   * @description
-   * @param
+   *
+   * @param AntName Name of Ant String
+   * @param TimeToCoverChangeInY in Number
+   * @param sprite in Sprite
+   * @param Health in Number
+   * @param Damage in Number
+   * @param CoinAlloted in number
+   * @param Shield in Number
+   * @param whichplayer in Enum Player
    */
   AddSpecs(
     AntName: string,
