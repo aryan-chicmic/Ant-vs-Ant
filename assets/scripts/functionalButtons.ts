@@ -15,12 +15,20 @@ export class menuButton extends Component {
   start() {}
   resumeGame() {
     director.resume();
-    //this.menuButton.active = false;
   }
+  /**
+   * @description
+   *
+   */
   onClickBackButton() {
     console.log("Back Button Clicked");
     this.node.destroy();
     console.log("Help Page Destroyed");
+  }
+  onClickmainMenu() {
+    director.loadScene("MAIN");
+    // director.resume;
+    game.restart();
   }
   quitGame() {
     game.end();

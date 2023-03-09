@@ -6,6 +6,7 @@ import {
   Prefab,
   AudioClip,
   AudioSource,
+  resources,
 } from "cc";
 import { ant } from "./ant";
 import AudioControllerObject from "./AudioController";
@@ -15,17 +16,21 @@ const { ccclass, property } = _decorator;
 
 @ccclass("addAnt")
 export class addAnt extends Component {
+  //properties
   @property({ type: Prefab })
   antPrefab: Prefab = null;
   @property({ type: Node })
   antNode: Node;
   @property({ type: Node })
   loader: Node = null;
-
   @property({ type: Node })
   audiosource = null;
   @property({ type: Node })
   player1: Node = null;
+  onLoad() {
+    resources.preloadDir("resources");
+    // console.log(resources.preloadDir("resources"));
+  }
   backgroundAudioClip() {
     let audio = this.node.getComponent(AudioSource);
 
@@ -38,9 +43,9 @@ export class addAnt extends Component {
   }
   start() {
     this.audiosource.getComponent(AudioSourceManager).initAudioSource();
-    // audio clip play
+
     this.backgroundAudioClip();
-    // this.beginBgSound();
+
     this.loader.active = false;
 
     for (var i = 0; i < Math.floor(Math.random() * 2) + 10; i++) {

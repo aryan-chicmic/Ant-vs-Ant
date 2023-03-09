@@ -33,11 +33,11 @@
         "__id__": 12
       },
       {
-        "__id__": 15
+        "__id__": 14
       }
     ],
     "_prefab": {
-      "__id__": 17
+      "__id__": 16
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -283,11 +283,7 @@
     "__prefab": {
       "__id__": 13
     },
-    "clickEvents": [
-      {
-        "__id__": 14
-      }
-    ],
+    "clickEvents": [],
     "_interactable": true,
     "_transition": 0,
     "_normalColor": {
@@ -335,16 +331,6 @@
     "fileId": "b1Ir5uIX9NJoVo3BQvDmnl"
   },
   {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 1
-    },
-    "component": "",
-    "_componentId": "afa99ujURlCZo1oW3gxq3M0",
-    "handler": "buttonPosition",
-    "customEventData": ""
-  },
-  {
     "__type__": "afa99ujURlCZo1oW3gxq3M0",
     "_name": "",
     "_objFlags": 0,
@@ -353,7 +339,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 16
+      "__id__": 15
     },
     "_id": ""
   },
