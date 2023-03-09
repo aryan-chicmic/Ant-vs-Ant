@@ -12,6 +12,7 @@ import { MAP_TYPES } from "./constants";
 @ccclass("singleton")
 export class singleton extends Component {
   private static instance: singleton = null;
+  AntPath: string;
   mapButton: string = "";
   static coins1 = 0;
   static coins2 = 0;
@@ -27,7 +28,12 @@ export class singleton extends Component {
   mapAssigner(mapName: string) {
     this.mapButton = mapName;
   }
-
+  setAntPath(path: string) {
+    this.AntPath = path;
+  }
+  getAntPath(): string {
+    return this.AntPath;
+  }
   start() {}
 
   update(deltaTime: number) {}

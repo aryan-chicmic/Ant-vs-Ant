@@ -14,12 +14,14 @@ import {
   instantiate,
   UITransform,
   Vec3,
+  Button,
 } from "cc";
 const { ccclass, property } = _decorator;
 import { ANT_TYPES, PLAYER } from "./constants";
 import { AntGenerateManager } from "./AntGenerateManager";
 import { FighterAntScript } from "./FighterAntScript";
 import { singleton } from "./singleton";
+import { PathSelectorButton } from "./PathSelectorButton";
 @ccclass("antTypeButton")
 export class antTypeButton extends Component {
   @property({ type: Label })
@@ -43,6 +45,8 @@ export class antTypeButton extends Component {
   SingletonObj: singleton = null;
   Map: TiledMap = null;
 
+  text = null;
+  PathSelected: string = null;
   onLoad() {
     this.SingletonObj = singleton.getInstance();
   }
@@ -91,14 +95,15 @@ export class antTypeButton extends Component {
         var buttonclick = instantiate(this.PathSelectButton);
         buttonclick
           .getChildByName("Name")
-          .getComponent(Label).string = `Button${i}A`;
+          .getComponent(Label).string = `PathObj${i}`;
         buttonclick.setPosition(pos_oneA);
         //this.node.parent.parent.addChild(buttonclick);
         this.node.parent.parent
           .getChildByName("PathDeciderParent")
           .addChild(buttonclick);
+        buttonclick.getComponent(PathSelectorButton).pathSelected(this.node);
       }
-      console.log("this figthernode p1", this.node.parent.parent);
+      // console.log("this figthernode p1", this.node.parent.parent);
 
       if (this.AntPlayer == PLAYER.PLAYER2) {
         var button_pos_top = pathObj.getObject(`Button${i}B`);
@@ -122,23 +127,18 @@ export class antTypeButton extends Component {
           .addChild(buttonclick);
         buttonclick
           .getChildByName("Name")
-          .getComponent(Label).string = `Button${i}B`;
+          .getComponent(Label).string = `PathObj${i}`;
+        buttonclick.getComponent(PathSelectorButton).pathSelected(this.node);
       }
-      console.log("this figthernode p2", this.node.parent.parent);
     }
   }
-  antGenerateButtonClicked(text) {
-    if (this.node.parent.parent.getChildByName("PathDeciderParent") != null) {
-      this.node.parent.parent.getChildByName("PathDeciderParent").destroy();
-    }
-    let PathDeciderButtonParent = instantiate(this.PathDeciderParent);
-    this.node.parent.parent.addChild(PathDeciderButtonParent);
-    //PathDecideButtonPopUp
-    setTimeout(() => {
-      this.antPathDeciderButton();
-    }, 100);
-
-    // console.log(text.target._name)
+  selectedPathByPlayer = (event: Event, customEventData: string) => {
+    console.log("Callback");
+    this.PathSelected = customEventData;
+    console.log("user selection", customEventData);
+    this.callbackClicked();
+  };
+  callbackClicked() {
     console.log("WHICH PLAYER", this.AntPlayer);
     let antName;
     let TimeToCoverChangeInY;
@@ -149,10 +149,9 @@ export class antTypeButton extends Component {
     let Shield;
     let dataLoader: any = this.mapchooser.json;
     dataLoader = dataLoader.AntSpecs;
-    let Name = text.target._name;
+    let Name = this.text.target._name;
     for (let index = 0; index < dataLoader.length; index++) {
       if (dataLoader[index].AntName == Name) {
-        // console.log("dataload",dataLoader[index])
         antName = dataLoader[index].AntName;
         TimeToCoverChangeInY = dataLoader[index].TimeToCoverChangeInY;
         Health = dataLoader[index].Health;
@@ -163,18 +162,15 @@ export class antTypeButton extends Component {
           dataLoader[index].Sprite,
           SpriteFrame,
           (err: any, tmx) => {
-            // console.log("tmx",tmx);
             spriteName = tmx;
           }
         );
       }
     }
-
-    // set timout k reason taki image load ho sake phir function call ho
     setTimeout(() => {
-      //     console.log("after", spriteName);
       let AntCheck = AntGenerateManager.getInstance();
       let GeneratedAnt = AntCheck.checkpool(this.AntGen);
+      let Position = this.generatedAntPosition("A");
       GeneratedAnt.getComponent(FighterAntScript).AddSpecs(
         antName,
         TimeToCoverChangeInY,
@@ -185,19 +181,114 @@ export class antTypeButton extends Component {
         Shield,
         this.AntPlayer
       );
-      // console.log("gen", GeneratedAnt);
-      GeneratedAnt.getComponent(UITransform).setContentSize(125, 150);
 
+      GeneratedAnt.getComponent(UITransform).setContentSize(125, 150);
+      GeneratedAnt.setPosition(Position);
       this.playerAntSide(this.AntPlayer, GeneratedAnt);
       this.node.parent.parent.getChildByName("AddedAnt").addChild(GeneratedAnt);
-      // console.log(this.node.parent.parent);
-    }, 1000);
+    }, 100);
   }
+  antGenerateButtonClicked(text) {
+    this.text = text;
+    // resource load
+    // console.log("WHICH PLAYER", this.AntPlayer);
+    // let antName;
+    // let TimeToCoverChangeInY;
+    // let spriteName;
+    // let Health;
+    // let Damage;
+    // let CoinAlloted;
+    // let Shield;
+    // let dataLoader: any = this.mapchooser.json;
+    // dataLoader = dataLoader.AntSpecs;
+    // let Name = text.target._name;
+    // for (let index = 0; index < dataLoader.length; index++) {
+    //   if (dataLoader[index].AntName == Name) {
+    //     antName = dataLoader[index].AntName;
+    //     TimeToCoverChangeInY = dataLoader[index].TimeToCoverChangeInY;
+    //     Health = dataLoader[index].Health;
+    //     Damage = dataLoader[index].Damage;
+    //     CoinAlloted = dataLoader[index].CoinAlloted;
+    //     Shield = dataLoader[index].Shield;
+    //     resources.load(
+    //       dataLoader[index].Sprite,
+    //       SpriteFrame,
+    //       (err: any, tmx) => {
+    //         spriteName = tmx;
+    //       }
+    //     );
+    //   }
+    // }
+    //after click ant button send ant name in singleton
+
+    if (this.node.parent.parent.getChildByName("PathDeciderParent") != null) {
+      this.node.parent.parent.getChildByName("PathDeciderParent").destroy();
+    }
+    let PathDeciderButtonParent = instantiate(this.PathDeciderParent);
+    this.node.parent.parent.addChild(PathDeciderButtonParent);
+    //PathDecideButtonPopUp
+    setTimeout(() => {
+      this.antPathDeciderButton();
+    }, 100);
+
+    //console.log("Ant selected path", this.SingletonObj.getAntPath());
+    //after clicking red button.....so we have which red button is selected path...now we will fwtch which ant was selected from singleton
+    //and add the sprite accordingly
+    // set timout k reason taki image load ho sake phir function call ho
+
+    // setTimeout(() => {
+    //   let AntCheck = AntGenerateManager.getInstance();
+    //   let GeneratedAnt = AntCheck.checkpool(this.AntGen);
+    //   let Position = this.generatedAntPosition("A");
+    //   GeneratedAnt.getComponent(FighterAntScript).AddSpecs(
+    //     antName,
+    //     TimeToCoverChangeInY,
+    //     spriteName,
+    //     Health,
+    //     Damage,
+    //     CoinAlloted,
+    //     Shield,
+    //     this.AntPlayer
+    //   );
+
+    //   GeneratedAnt.getComponent(UITransform).setContentSize(125, 150);
+    //   GeneratedAnt.setPosition(Position);
+    //   this.playerAntSide(this.AntPlayer, GeneratedAnt);
+    //   this.node.parent.parent.getChildByName("AddedAnt").addChild(GeneratedAnt);
+    // }, 1000);
+  }
+
+  generatedAntPosition(side: string) {
+    let Map: TiledMap = singleton.Map;
+    let pathObj = Map.getComponent(TiledMap).getObjectGroup(this.PathSelected);
+    console.log("path123", pathObj);
+    let object = this.PathSelected[7] + side;
+    console.log(object);
+    var button_pos_top = pathObj.getObject(object);
+    let worlPos = pathObj.node
+      .getComponent(UITransform)
+      .convertToWorldSpaceAR(
+        new Vec3(
+          button_pos_top.x - pathObj.node.getContentSize().width * 0.5,
+          button_pos_top.y - pathObj.node.getContentSize().width * 0.5,
+          0
+        )
+      );
+    var pos_one = this.node.parent.parent
+      .getComponent(UITransform)
+      .convertToNodeSpaceAR(new Vec3(worlPos.x, worlPos.y));
+    return pos_one;
+  }
+  /**
+   * @description if player 2 rotate ant face
+   * @param Player Which Player
+   * @param GeneratedAnt Ant Node
+   */
   playerAntSide(Player: PLAYER, GeneratedAnt: Node) {
     if (this.AntPlayer == PLAYER.PLAYER2) {
-      // console.log("Player2 angle set");
       GeneratedAnt.angle = 180;
-      GeneratedAnt.setPosition(300, 900);
+      let Position = this.generatedAntPosition("B");
+      GeneratedAnt.setPosition(Position);
     }
   }
   start() {}

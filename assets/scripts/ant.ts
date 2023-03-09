@@ -31,7 +31,7 @@ export class ant extends Component {
     } else {
       this.finalPosY = Math.floor(Math.random() + 1300);
     }
-    console.log(this.finalPosY);
+    //console.log(this.finalPosY);
 
     var delta_x = this.finalPosX - this.node.position.x;
     var delta_y = this.finalPosY - this.node.position.y;
@@ -69,7 +69,7 @@ export class ant extends Component {
         .contains(new Vec2(this.node.position.x, this.node.position.y))
     ) {
       this.tweenComp.stop();
-      console.log(this.finalPosX, this.finalPosY);
+      // console.log(this.finalPosX, this.finalPosY);
 
       this.startMovement();
     }

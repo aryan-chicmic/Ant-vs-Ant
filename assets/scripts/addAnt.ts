@@ -6,6 +6,7 @@ import {
   Prefab,
   AudioClip,
   AudioSource,
+  resources,
 } from "cc";
 import { ant } from "./ant";
 import AudioControllerObject from "./AudioController";
@@ -26,7 +27,10 @@ export class addAnt extends Component {
   audiosource = null;
   @property({ type: Node })
   player1: Node = null;
-
+  onLoad() {
+    resources.preloadDir("resources");
+    // console.log(resources.preloadDir("resources"));
+  }
   backgroundAudioClip() {
     let audio = this.node.getComponent(AudioSource);
 

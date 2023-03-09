@@ -1,12 +1,24 @@
-import { _decorator, Component, Node } from "cc";
+import { _decorator, Component, Node, Label, EventHandler, Button } from "cc";
+import { singleton } from "./singleton";
+singleton;
 const { ccclass, property } = _decorator;
 
 @ccclass("PathSelectorButton")
 export class PathSelectorButton extends Component {
-  buttonPosition(text) {
-    console.log("Button cliceked", text);
-    //return this.node.getPosition();
-    console.log("path decider button position", this.node.getPosition());
+  onLoad() {}
+  pathSelected(node: any) {
+    let path = this.node.getChildByName("Name").getComponent(Label).string;
+    console.log("Selected path", path);
+    const clickEventHandler = new EventHandler();
+    // This node is the node to which your event handler code component belongs
+    clickEventHandler.target = node;
+    // This is the script class name
+    clickEventHandler.component = "antTypeButton";
+    clickEventHandler.handler = "selectedPathByPlayer";
+    clickEventHandler.customEventData = path;
+
+    const button = this.node.getComponent(Button);
+    button.clickEvents.push(clickEventHandler);
   }
   start() {}
 

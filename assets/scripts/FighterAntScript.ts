@@ -51,7 +51,6 @@ export class FighterAntScript extends Component {
     Shield: number,
     whichplayer: PLAYER
   ) {
-    // console.log("call", sprite);
     this.AntName = AntName;
     this.TimeToCoverChangeInY = TimeToCoverChangeInY;
     this.SpriteName = sprite;
@@ -61,10 +60,9 @@ export class FighterAntScript extends Component {
     this.CoinAlloted = CoinAlloted;
     this.Shield = Shield;
     this.WhichPlayer = whichplayer;
-    console.log("FighterPlayer", this.WhichPlayer);
+
     if (whichplayer == PLAYER.PLAYER1) {
       singleton.coins1 = singleton.coins1 - this.CoinAlloted;
-      console.log("player1", singleton.coins1, singleton.coins2);
     }
     if (whichplayer == PLAYER.PLAYER2) {
       singleton.coins2 = singleton.coins2 - this.CoinAlloted;
