@@ -129,7 +129,6 @@ export class antTypeButton extends Component {
       this.antPathDeciderButton();
     }, 100);
 
-    // console.log(text.target._name)
     console.log("WHICH PLAYER", this.AntPlayer);
     let antName;
     let TimeToCoverChangeInY;
@@ -143,7 +142,6 @@ export class antTypeButton extends Component {
     let Name = text.target._name;
     for (let index = 0; index < dataLoader.length; index++) {
       if (dataLoader[index].AntName == Name) {
-        // console.log("dataload",dataLoader[index])
         antName = dataLoader[index].AntName;
         TimeToCoverChangeInY = dataLoader[index].TimeToCoverChangeInY;
         Health = dataLoader[index].Health;
@@ -154,7 +152,6 @@ export class antTypeButton extends Component {
           dataLoader[index].Sprite,
           SpriteFrame,
           (err: any, tmx) => {
-            // console.log("tmx",tmx);
             spriteName = tmx;
           }
         );
@@ -163,7 +160,6 @@ export class antTypeButton extends Component {
 
     // set timout k reason taki image load ho sake phir function call ho
     setTimeout(() => {
-      //     console.log("after", spriteName);
       let AntCheck = AntGenerateManager.getInstance();
       let GeneratedAnt = AntCheck.checkpool(this.AntGen);
       GeneratedAnt.getComponent(FighterAntScript).AddSpecs(
@@ -176,17 +172,14 @@ export class antTypeButton extends Component {
         Shield,
         this.AntPlayer
       );
-      // console.log("gen", GeneratedAnt);
-      GeneratedAnt.getComponent(UITransform).setContentSize(125, 150);
 
+      GeneratedAnt.getComponent(UITransform).setContentSize(125, 150);
       this.playerAntSide(this.AntPlayer, GeneratedAnt);
       this.node.parent.parent.getChildByName("AddedAnt").addChild(GeneratedAnt);
-      // console.log(this.node.parent.parent);
     }, 1000);
   }
   playerAntSide(Player: PLAYER, GeneratedAnt: Node) {
     if (this.AntPlayer == PLAYER.PLAYER2) {
-      // console.log("Player2 angle set");
       GeneratedAnt.angle = 180;
       GeneratedAnt.setPosition(300, 900);
     }
