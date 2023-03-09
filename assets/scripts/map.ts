@@ -8,6 +8,7 @@ import {
   director,
   AudioSource,
   TiledMapAsset,
+  UITransform,
 } from "cc";
 import AudioControllerObject from "./AudioController";
 import { mapButtonCreation } from "./mapButtonCreation";
@@ -31,7 +32,19 @@ export class map extends Component {
     AudioControllerObject.playSoundEffetcs(audio.clip);
   }
   setButtonPosition(Parent: Node, i: number) {
-    this.node.setPosition(-221, -50 - 200 * i);
+    this.node.getComponent(UITransform).setAnchorPoint(0.5, 0.5);
+    this.node
+      .getChildByName("Label")
+      .getComponent(UITransform)
+      .setAnchorPoint(0.5, 0.5);
+    this.node
+      .getChildByName("Label")
+      .getComponent(UITransform)
+      .setContentSize(550, 100);
+    this.node.getChildByName("Label").getComponent(Label).fontSize = 80;
+    this.node.setPosition(55, 70 - 300 * i);
+    this.node.getChildByName("Label").setPosition(40, 35);
+    this.node.getComponent(UITransform).setContentSize(600, 300);
     this.label.string = `MAP ${i}`;
     // this.mapNumber = i;
     Parent.addChild(this.node);

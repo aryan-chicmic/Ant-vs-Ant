@@ -24,13 +24,14 @@ export class ant extends Component {
 
   startMovement() {
     this.finalPosX =
-      Math.floor(Math.random() * 520) * Math.pow(-1, Math.round(Math.random()));
+      Math.floor(Math.random() * 720) * Math.pow(-1, Math.round(Math.random()));
 
     if (this.node.position.y > 0) {
-      this.finalPosY = Math.floor(Math.random() - 965);
+      this.finalPosY = Math.floor(Math.random() - 1300);
     } else {
-      this.finalPosY = Math.floor(Math.random() + 965);
+      this.finalPosY = Math.floor(Math.random() + 1300);
     }
+    console.log(this.finalPosY);
 
     var delta_x = this.finalPosX - this.node.position.x;
     var delta_y = this.finalPosY - this.node.position.y;
@@ -45,14 +46,15 @@ export class ant extends Component {
         })
 
         .start();
-    }, 30);
+    }, 10);
   }
 
   setInitialPos(parent: Node) {
     let initialPosX =
-      Math.floor(Math.random() * 500) * Math.pow(-1, Math.round(Math.random()));
+      Math.floor(Math.random() * 720) * Math.pow(-1, Math.round(Math.random()));
     let initialPosY =
-      Math.floor(Math.random() * 965) * Math.pow(-1, Math.round(Math.random()));
+      Math.floor(Math.random() * 1280) *
+      Math.pow(-1, Math.round(Math.random()));
 
     this.node.setPosition(initialPosX, initialPosY, 0);
     parent.addChild(this.node);
@@ -67,6 +69,7 @@ export class ant extends Component {
         .contains(new Vec2(this.node.position.x, this.node.position.y))
     ) {
       this.tweenComp.stop();
+      console.log(this.finalPosX, this.finalPosY);
 
       this.startMovement();
     }

@@ -85,7 +85,7 @@ export class addAntButton extends Component {
 
         setTimeout(() => {
           this.buttonAdder();
-          // this.hiveAdder();
+          this.hiveAdder();
           var coin1 = instantiate(this.coin1);
           // coin.setPosition(0, 0);
           var coin2 = instantiate(this.coin2);
@@ -96,17 +96,12 @@ export class addAntButton extends Component {
       }
     }
   }
+
   menuButtonFunctionality() {
     this.menuButton.active = true;
     console.log("before pause");
     // director.pause();
     director.pause();
-    setTimeout(() => {
-      console.log("Resumed");
-
-      director.resume();
-    }, 5000);
-    console.log("after pause");
   }
   hiveAdder() {
     var n = this.mapNode.getComponent(TiledMap).getObjectGroups().length;
@@ -116,34 +111,34 @@ export class addAntButton extends Component {
 
       switch (i) {
         case 1:
-          var oneA_x = this.mapNode
-            .getComponent(TiledMap)
-            .getObjectGroup(`PathObj${i}`)
-            .getObject(`${i}A`).x;
-          var oneA_y = this.mapNode
-            .getComponent(TiledMap)
-            .getObjectGroup(`PathObj${i}`)
-            .getObject(`${i}A`).y;
-          var oneB_x = this.mapNode
-            .getComponent(TiledMap)
-            .getObjectGroup(`PathObj${i}`)
-            .getObject(`${i}B`).x;
-          var oneB_y = this.mapNode
-            .getComponent(TiledMap)
-            .getObjectGroup(`PathObj${i}`)
-            .getObject(`${i}A`).y;
-          var pos_oneA = this.node
-            .getComponent(UITransform)
-            .convertToNodeSpaceAR(new Vec3(oneA_x, oneA_y));
-          var pos_oneB = this.node
-            .getComponent(UITransform)
-            .convertToNodeSpaceAR(new Vec3(oneB_x, oneB_y));
-          newHive1.setPosition(pos_oneA.x + 5, pos_oneA.y + 225);
-          newHive2.setPosition(pos_oneB.x + 10, pos_oneB.y - 225); //up
-          newHive1.angle = 180;
-          this.hiveNode.addChild(newHive1);
+          // var oneA_x = this.mapNode
+          //   .getComponent(TiledMap)
+          //   .getObjectGroup(`PathObj${i}`)
+          //   .getObject(`${i}A`).x;
+          // var oneA_y = this.mapNode
+          //   .getComponent(TiledMap)
+          //   .getObjectGroup(`PathObj${i}`)
+          //   .getObject(`${i}A`).y;
+          // var oneB_x = this.mapNode
+          //   .getComponent(TiledMap)
+          //   .getObjectGroup(`PathObj${i}`)
+          //   .getObject(`${i}B`).x;
+          // var oneB_y = this.mapNode
+          //   .getComponent(TiledMap)
+          //   .getObjectGroup(`PathObj${i}`)
+          //   .getObject(`${i}A`).y;
+          // var pos_oneA = this.node
+          //   .getComponent(UITransform)
+          //   .convertToNodeSpaceAR(new Vec3(oneA_x, oneA_y));
+          // var pos_oneB = this.node
+          //   .getComponent(UITransform)
+          //   .convertToNodeSpaceAR(new Vec3(oneB_x, oneB_y));
+          // newHive1.setPosition(pos_oneA.x + 5, pos_oneA.y + 225);
+          // newHive2.setPosition(pos_oneB.x + 10, pos_oneB.y - 225); //up
+          // newHive1.angle = 180;
+          // this.hiveNode.addChild(newHive1);
 
-          this.hiveNode.addChild(newHive2);
+          // this.hiveNode.addChild(newHive2);
 
           break;
         case 2:

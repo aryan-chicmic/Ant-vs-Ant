@@ -18,12 +18,17 @@ export class menuButton extends Component {
   }
   /**
    * @description
-   * 
+   *
    */
   onClickBackButton() {
     console.log("Back Button Clicked");
     this.node.destroy();
     console.log("Help Page Destroyed");
+  }
+  onClickmainMenu() {
+    director.loadScene("MAIN");
+    // director.resume;
+    game.restart();
   }
   quitGame() {
     game.end();

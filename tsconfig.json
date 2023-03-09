@@ -4,6 +4,8 @@
 
   /* Add your custom configuration here. */
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "experimentalDecorators": true,
     "strict": false
   }
 }
