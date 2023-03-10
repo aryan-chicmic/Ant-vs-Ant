@@ -101,9 +101,9 @@ export class antTypeButton extends Component {
           .getComponent(UITransform)
           .convertToNodeSpaceAR(new Vec3(worlPosOfBtn1.x, worlPosOfBtn1.y));
         var buttonclick = instantiate(this.PathSelectButton);
-        buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
-        console.log("location pos", this.node.parent.parent);
         buttonclick.setPosition(pos_oneA);
+        buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
+
         //this.node.parent.parent.addChild(buttonclick);
         singleton.PathDeciderNode.addChild(buttonclick);
         buttonclick.getComponent(PathSelectorButton).pathSelected(this.node);
@@ -192,7 +192,7 @@ export class antTypeButton extends Component {
       let Position = this.generatedAntPosition();
       this.GeneratedAnt.setPosition(Position);
       this.playerAntSide(this.AntPlayer, this.GeneratedAnt);
-      this.node.parent.parent.getChildByName("AddedAnt").addChild(this.GeneratedAnt);
+      singleton.antsHolder.addChild(this.GeneratedAnt);
     }, 100);
     setTimeout(() => {
       this.antMovement();
@@ -270,34 +270,25 @@ export class antTypeButton extends Component {
    * @returns Vec3 Ant Position According to Player Side
    */
   generatedAntPosition(): Vec3 {
-    let side: string;
+    var pathObjGroup = singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`);
     if (this.AntPlayer == PLAYER.PLAYER1) {
-      side = "A";
+      var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}A`);
     } else if (this.AntPlayer == PLAYER.PLAYER2) {
-      side = "B";
+      var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}B`);
     }
-    let Map: TiledMap = singleton.Map;
-    let pathObj = Map.getComponent(TiledMap).getObjectGroup(this.PathSelected);
-
-    let object = this.PathSelected[7] + side;
-    console.log(object);
-    var button_pos_top = pathObj.getObject(object);
-
-    let worlPos = pathObj.node
+    let worlPosOfBtn2 = pathObjGroup.node
       .getComponent(UITransform)
       .convertToWorldSpaceAR(
         new Vec3(
-          button_pos_top.x - pathObj.node.getComponent(UITransform).width * 0.5,
-          button_pos_top.y - pathObj.node.getComponent(UITransform).width * 0.5,
+          groupObj.x - pathObjGroup.node.getContentSize().width * 0.5,
+          groupObj.y - pathObjGroup.node.getContentSize().height * 0.5,
           0
         )
       );
-
-    var pos_one = singleton.canvasNode
+    var pos_oneA = singleton.canvasNode
       .getComponent(UITransform)
-      .convertToNodeSpaceAR(new Vec3(worlPos.x, worlPos.y));
-    console.log("position", pos_one);
-    return pos_one;
+      .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
+    return pos_oneA;
   }
   /**
    * @description if player 2 rotate ant face
