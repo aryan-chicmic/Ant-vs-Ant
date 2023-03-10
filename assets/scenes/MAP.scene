@@ -77,9 +77,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 110
-      },
-      {
         "__id__": 111
       },
       {
@@ -2063,6 +2060,9 @@
     "_components": [
       {
         "__id__": 109
+      },
+      {
+        "__id__": 110
       }
     ],
     "_prefab": null,
@@ -2113,7 +2113,7 @@
         "__id__": 88
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 102
@@ -2645,7 +2645,7 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 2
+      "__id__": 58
     },
     "component": "",
     "_componentId": "7a1efvNJmdLApsrE9seh6gC",
@@ -3149,7 +3149,7 @@
     },
     "component": "",
     "_componentId": "7a1efvNJmdLApsrE9seh6gC",
-    "handler": "onClickmainMenu",
+    "handler": "onClickMainMenu",
     "customEventData": ""
   },
   {
@@ -3645,7 +3645,7 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 2
+      "__id__": 58
     },
     "component": "",
     "_componentId": "7a1efvNJmdLApsrE9seh6gC",
@@ -3881,10 +3881,10 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 2
+      "__id__": 58
     },
     "component": "",
-    "_componentId": "9a6ddsXTrxHEahwG55oQZkW",
+    "_componentId": "7a1efvNJmdLApsrE9seh6gC",
     "handler": "menuButtonFunctionality",
     "customEventData": ""
   },
@@ -3908,6 +3908,20 @@
       "y": 0.5
     },
     "_id": "b0cB5bD3hAQ6DRjmicOd/S"
+  },
+  {
+    "__type__": "7a1efvNJmdLApsrE9seh6gC",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 58
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "SettingPopUp": {
+      "__id__": 59
+    },
+    "_id": "ecMGMFjwxAgKjTePietu0W"
   },
   {
     "__type__": "cc.UITransform",
@@ -4014,9 +4028,6 @@
     "mapNode": {
       "__id__": 36
     },
-    "menuButton": {
-      "__id__": 59
-    },
     "mapchooser": {
       "__uuid__": "860dd073-c344-4454-ae60-439d1714e3fd",
       "__expectedType__": "cc.JsonAsset"
@@ -4034,19 +4045,6 @@
       "__id__": 2
     },
     "_id": "61keVA3JFMAJG0X39maMKI"
-  },
-  {
-    "__type__": "7a1efvNJmdLApsrE9seh6gC",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "__prefab": null,
-    "menuButton": null,
-    "Loader": null,
-    "_id": "d46gwClOpE1r+xyUYyirlG"
   },
   {
     "__type__": "cc.AudioSource",
