@@ -1,3 +1,6 @@
+//Add Sprite to Ant button
+//Ant Path Location
+
 import {
   _decorator,
   Component,
@@ -25,6 +28,7 @@ import { singleton } from "./singleton";
 import { PathSelectorButton } from "./PathSelectorButton";
 @ccclass("antTypeButton")
 export class antTypeButton extends Component {
+  //property
   @property({ type: Label })
   coinLabel: Label = null;
   @property({ type: Sprite })
@@ -36,22 +40,25 @@ export class antTypeButton extends Component {
   //AntGenerateNode
   @property({ type: Prefab })
   AntGen = null;
-  @property({ type: Node })
-  AddedAnt = null;
-  // @property({ type: Prefab })
-  // PathDeciderParent: Prefab = null;
+
+  GeneratedAnt: Node = null;
+  //variable
   //which player
   AntPlayer: PLAYER = PLAYER.NONE;
   //singletonObject
   SingletonObj: singleton = null;
   Map: TiledMap = null;
-  GeneratedAnt: Node = null;
   text = null;
   PathSelected: string = null;
   onLoad() {
     this.SingletonObj = singleton.getInstance();
   }
-  // add sprite
+  /**
+   * @description Adding Script on Add Choose Button
+   * @param newNode
+   * @param i
+   * @param Player which player
+   */
   addSprites(newNode: Node, i: Number, Player: PLAYER) {
     this.AntPlayer = Player;
     let dataLoader: any = this.mapchooser.json;
@@ -67,6 +74,10 @@ export class antTypeButton extends Component {
       }
     }
   }
+  /**
+   * Instantiate Path Decider Location Button At Different Path,
+   * Path Selected from Map
+   */
   antPathDeciderButton() {
     console.log("path decide function call");
 
@@ -80,8 +91,8 @@ export class antTypeButton extends Component {
           .getComponent(UITransform)
           .convertToWorldSpaceAR(
             new Vec3(
-              button_pos_down.x - pathObj.node.getContentSize().width * 0.5,
-              button_pos_down.y - pathObj.node.getContentSize().height * 0.5,
+              button_pos_down.x - pathObj.node.getComponent(UITransform).width * 0.5,
+              button_pos_down.y - pathObj.node.getComponent(UITransform).height * 0.5,
               0
             )
           );
@@ -91,6 +102,7 @@ export class antTypeButton extends Component {
           .convertToNodeSpaceAR(new Vec3(worlPosOfBtn1.x, worlPosOfBtn1.y));
         var buttonclick = instantiate(this.PathSelectButton);
         buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
+        console.log("location pos", this.node.parent.parent);
         buttonclick.setPosition(pos_oneA);
         //this.node.parent.parent.addChild(buttonclick);
         singleton.PathDeciderNode.addChild(buttonclick);
@@ -104,8 +116,8 @@ export class antTypeButton extends Component {
           .getComponent(UITransform)
           .convertToWorldSpaceAR(
             new Vec3(
-              button_pos_top.x - pathObj.node.getContentSize().width * 0.5,
-              button_pos_top.y - pathObj.node.getContentSize().height * 0.5,
+              button_pos_top.x - pathObj.node.getComponent(UITransform).width * 0.5,
+              button_pos_top.y - pathObj.node.getComponent(UITransform).height * 0.5,
               0
             )
           );
@@ -121,13 +133,24 @@ export class antTypeButton extends Component {
       }
     }
   }
+
+  /**
+   * @description Callback come from Path Location Decider Button Selected
+   * @param event
+   * @param customEventData Carries Path Name of Path Location Button
+   */
   selectedPathByPlayer = (event: Event, customEventData: string) => {
-    console.log("Callback");
+    console.log("Callback From Location Button");
     this.PathSelected = customEventData;
-    console.log("user selection", customEventData);
-    this.callbackClicked();
+    console.log("user selected path", customEventData);
+    this.antGenerationAfterPathDecided();
   };
-  callbackClicked() {
+
+  /**
+   *
+   * @description Ant Generated After Path of Ant Decided According to Player Side
+   */
+  antGenerationAfterPathDecided() {
     console.log("WHICH PLAYER", this.AntPlayer);
     let antName;
     let TimeToCoverChangeInY;
@@ -155,7 +178,6 @@ export class antTypeButton extends Component {
     setTimeout(() => {
       let AntCheck = AntGenerateManager.getInstance();
       this.GeneratedAnt = AntCheck.checkpool(this.AntGen);
-      let Position = this.generatedAntPosition("A");
       this.GeneratedAnt.getComponent(FighterAntScript).AddSpecs(
         antName,
         TimeToCoverChangeInY,
@@ -166,11 +188,11 @@ export class antTypeButton extends Component {
         Shield,
         this.AntPlayer
       );
-
       this.GeneratedAnt.getComponent(UITransform).setContentSize(125, 150);
+      let Position = this.generatedAntPosition();
       this.GeneratedAnt.setPosition(Position);
       this.playerAntSide(this.AntPlayer, this.GeneratedAnt);
-      singleton.antsHolder.addChild(this.GeneratedAnt);
+      this.node.parent.parent.getChildByName("AddedAnt").addChild(this.GeneratedAnt);
     }, 100);
     setTimeout(() => {
       this.antMovement();
@@ -243,22 +265,30 @@ export class antTypeButton extends Component {
       this.antPathDeciderButton();
     }, 100);
   }
-
-  generatedAntPosition(side: string) {
+  /**
+   *@description Return the Position to Set According to Player Side
+   * @returns Vec3 Ant Position According to Player Side
+   */
+  generatedAntPosition(): Vec3 {
+    let side: string;
+    if (this.AntPlayer == PLAYER.PLAYER1) {
+      side = "A";
+    } else if (this.AntPlayer == PLAYER.PLAYER2) {
+      side = "B";
+    }
     let Map: TiledMap = singleton.Map;
     let pathObj = Map.getComponent(TiledMap).getObjectGroup(this.PathSelected);
-  
+
     let object = this.PathSelected[7] + side;
     console.log(object);
     var button_pos_top = pathObj.getObject(object);
-
 
     let worlPos = pathObj.node
       .getComponent(UITransform)
       .convertToWorldSpaceAR(
         new Vec3(
-          button_pos_top.x - pathObj.node.getContentSize().width * 0.5,
-          button_pos_top.y - pathObj.node.getContentSize().width * 0.5,
+          button_pos_top.x - pathObj.node.getComponent(UITransform).width * 0.5,
+          button_pos_top.y - pathObj.node.getComponent(UITransform).width * 0.5,
           0
         )
       );
@@ -277,8 +307,6 @@ export class antTypeButton extends Component {
   playerAntSide(Player: PLAYER, GeneratedAnt: Node) {
     if (this.AntPlayer == PLAYER.PLAYER2) {
       GeneratedAnt.angle = 180;
-      let Position = this.generatedAntPosition("B");
-      GeneratedAnt.setPosition(Position);
     }
   }
   start() {}

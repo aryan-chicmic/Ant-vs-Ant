@@ -1,3 +1,5 @@
+//Background music
+// Ant Instantiate At Start Scene
 import {
   _decorator,
   Component,

@@ -1,3 +1,4 @@
+//Ant Noodpool Singleton
 import {
   _decorator,
   Component,

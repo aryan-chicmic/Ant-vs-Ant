@@ -1,3 +1,6 @@
+//Map loading
+//Hive Adder
+// Ant choice button add
 import {
   _decorator,
   Component,
@@ -162,16 +165,68 @@ export class addAntButton extends Component {
     director.pause();
   }
 
+  /**
+   * @description Adding Hive at  Map path after loading Map
+   */
+  hiveAdder() {
+    var n = this.mapNode.getComponent(TiledMap).getObjectGroups().length;
+    for (var i = 1; i < n; i++) {
+      let pathObj = this.mapNode
+        .getComponent(TiledMap)
+        .getObjectGroup(`PathObj${i}`);
+      var button_Obj = pathObj.getObject(`${i}A`);
+      var button_Obj1 = pathObj.getObject(`${i}B`);
+
+      let worlPosOfBtn1 = pathObj.node
+        .getComponent(UITransform)
+        .convertToWorldSpaceAR(
+          new Vec3(
+            button_Obj.x - pathObj.node.getComponent(UITransform).width * 0.5,
+            button_Obj.y - pathObj.node.getComponent(UITransform).height * 0.5,
+            0
+          )
+        );
+      let worlPosOfBtn2 = pathObj.node
+        .getComponent(UITransform)
+        .convertToWorldSpaceAR(
+          new Vec3(
+            button_Obj1.x - pathObj.node.getComponent(UITransform).width * 0.5,
+            button_Obj1.y - pathObj.node.getComponent(UITransform).height * 0.5,
+            0
+          )
+        );
+      var pos_oneA = this.node
+        .getComponent(UITransform)
+        .convertToNodeSpaceAR(new Vec3(worlPosOfBtn1.x, worlPosOfBtn1.y));
+
+      var pos1_oneA = this.node
+        .getComponent(UITransform)
+        .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
+
+      var buttonclick1 = instantiate(this.hive);
+      var buttonclick2 = instantiate(this.hive);
+
+      buttonclick1.setPosition(pos_oneA.x, pos_oneA.y, 0);
+
+      buttonclick2.setPosition(pos1_oneA.x, pos1_oneA.y, 0);
+
+      this.hiveNode.addChild(buttonclick1);
+      this.hiveNode.addChild(buttonclick2);
+    }
+  }
+  /**
+   * @description Button Added for Choosing Ant Type
+   */
   buttonAdder() {
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
-      // this.buttonHeight = newButton.getComponent(UITransform).height;
+
       this.antNodeBottom.addChild(newButton);
       this.antNodeBottom.children[i]
         .getComponent(antTypeButton)
         .addSprites(newButton, i, PLAYER.PLAYER1);
     }
-    // this.buttonHeight = newButton.getComponent(UITransform).getBoundingBox().y;
+
     for (var i = 0; i < 6; i++) {
       var newButton = instantiate(this.antButtonPrefab);
 

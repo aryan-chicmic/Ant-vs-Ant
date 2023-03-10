@@ -6,6 +6,10 @@ const { ccclass, property } = _decorator;
 @ccclass("PathSelectorButton")
 export class PathSelectorButton extends Component {
   onLoad() {}
+  /**
+   * @description Callback tells the  Selected path by user
+   * @param node Reference of node from which it clicked
+   */
   pathSelected(node: any) {
     let path = this.node.getChildByName("Name").getComponent(Label).string;
     console.log("Selected path", path);
