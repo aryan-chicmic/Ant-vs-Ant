@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="36" height="64" tilewidth="30" tileheight="30" infinite="0" nextlayerid="11" nextobjectid="35">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="36" height="64" tilewidth="30" tileheight="30" infinite="0" nextlayerid="11" nextobjectid="54">
  <tileset firstgid="1" name="GrassBackGround" tilewidth="1080" tileheight="1920" tilecount="1" columns="1">
   <image source="GrassBackGround.png" width="1080" height="1920"/>
  </tileset>
@@ -82,6 +82,24 @@
   <object id="32" name="Button2B" x="392.108" y="670.457">
    <point/>
   </object>
+  <object id="41" name="2A" x="532.624" y="1860.54">
+   <point/>
+  </object>
+  <object id="42" name="2B" x="539.92" y="34.049">
+   <point/>
+  </object>
+  <object id="43" name="2C" x="532.624" y="1281.7">
+   <point/>
+  </object>
+  <object id="45" name="2D" x="304.009" y="1264.68">
+   <point/>
+  </object>
+  <object id="46" name="2E" x="294.281" y="656.66">
+   <point/>
+  </object>
+  <object id="47" name="2F" x="527.76" y="649.363">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="10" name="PathObj3">
   <object id="18" name="3A" x="539.754" y="1839.52">
@@ -106,6 +124,24 @@
    <point/>
   </object>
   <object id="33" name="Button3B" x="658.355" y="660.775">
+   <point/>
+  </object>
+  <object id="48" name="3A" x="535.056" y="1853.24">
+   <point/>
+  </object>
+  <object id="49" name="3B" x="542.352" y="24.3207">
+   <point/>
+  </object>
+  <object id="50" name="3C" x="532.624" y="1286.57">
+   <point/>
+  </object>
+  <object id="51" name="3D" x="773.399" y="1247.65">
+   <point/>
+  </object>
+  <object id="52" name="3E" x="770.967" y="685.845">
+   <point/>
+  </object>
+  <object id="53" name="3F" x="522.896" y="649.363">
    <point/>
   </object>
  </objectgroup>
