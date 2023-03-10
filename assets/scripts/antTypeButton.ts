@@ -58,16 +58,12 @@ export class antTypeButton extends Component {
     dataLoader = dataLoader.AntSpecs;
     for (let index = 0; index < dataLoader.length; index++) {
       if (index == i) {
-        resources.load(
-          dataLoader[index].Sprite,
-          SpriteFrame,
-          (err: any, tmx) => {
-            const asset = this.antSprite.getComponent(Sprite);
-            asset.spriteFrame = tmx;
-            this.coinLabel.string = dataLoader[index].CoinAlloted;
-            newNode.name = dataLoader[index].AntName;
-          }
-        );
+        resources.load(dataLoader[index].Sprite, SpriteFrame, (err: any, tmx) => {
+          const asset = this.antSprite.getComponent(Sprite);
+          asset.spriteFrame = tmx;
+          this.coinLabel.string = dataLoader[index].CoinAlloted;
+          newNode.name = dataLoader[index].AntName;
+        });
       }
     }
   }
@@ -94,9 +90,7 @@ export class antTypeButton extends Component {
           .getComponent(UITransform)
           .convertToNodeSpaceAR(new Vec3(worlPosOfBtn1.x, worlPosOfBtn1.y));
         var buttonclick = instantiate(this.PathSelectButton);
-        buttonclick
-          .getChildByName("Name")
-          .getComponent(Label).string = `PathObj${i}`;
+        buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
         buttonclick.setPosition(pos_oneA);
         //this.node.parent.parent.addChild(buttonclick);
         singleton.PathDeciderNode.addChild(buttonclick);
@@ -122,9 +116,7 @@ export class antTypeButton extends Component {
         buttonclick.setPosition(pos_oneA);
         buttonclick.angle = 180;
         singleton.PathDeciderNode.addChild(buttonclick);
-        buttonclick
-          .getChildByName("Name")
-          .getComponent(Label).string = `PathObj${i}`;
+        buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
         buttonclick.getComponent(PathSelectorButton).pathSelected(this.node);
       }
     }
@@ -155,13 +147,9 @@ export class antTypeButton extends Component {
         Damage = dataLoader[index].Damage;
         CoinAlloted = dataLoader[index].CoinAlloted;
         Shield = dataLoader[index].Shield;
-        resources.load(
-          dataLoader[index].Sprite,
-          SpriteFrame,
-          (err: any, tmx) => {
-            spriteName = tmx;
-          }
-        );
+        resources.load(dataLoader[index].Sprite, SpriteFrame, (err: any, tmx) => {
+          spriteName = tmx;
+        });
       }
     }
     setTimeout(() => {
@@ -193,9 +181,7 @@ export class antTypeButton extends Component {
 
   antMovement() {
     console.log(singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`));
-    var pathObjGroup = singleton.Map.getObjectGroup(
-      `PathObj${this.PathSelected[7]}`
-    );
+    var pathObjGroup = singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`);
     if (this.AntPlayer == PLAYER.PLAYER1) {
       var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}B`);
 
@@ -261,11 +247,11 @@ export class antTypeButton extends Component {
   generatedAntPosition(side: string) {
     let Map: TiledMap = singleton.Map;
     let pathObj = Map.getComponent(TiledMap).getObjectGroup(this.PathSelected);
-    console.log("path123", pathObj);
+  
     let object = this.PathSelected[7] + side;
     console.log(object);
     var button_pos_top = pathObj.getObject(object);
-    console.log("OBJECT GROUP OF S", button_pos_top);
+
 
     let worlPos = pathObj.node
       .getComponent(UITransform)
