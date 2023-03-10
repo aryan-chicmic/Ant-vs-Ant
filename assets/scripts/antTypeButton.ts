@@ -110,6 +110,7 @@ export class antTypeButton extends Component {
         buttonclick
           .getChildByName("Name")
           .getComponent(Label).string = `PathObj${i}`;
+        console.log("location pos", this.node.parent.parent);
         buttonclick.setPosition(pos_oneA);
         //this.node.parent.parent.addChild(buttonclick);
         this.node.parent.parent
@@ -261,6 +262,7 @@ export class antTypeButton extends Component {
     var pos_one = this.node.parent.parent
       .getComponent(UITransform)
       .convertToNodeSpaceAR(new Vec3(worlPos.x, worlPos.y));
+    console.log("path position", this.node.parent.parent);
     return pos_one;
   }
   /**
