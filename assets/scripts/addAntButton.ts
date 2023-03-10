@@ -50,6 +50,14 @@ export class addAntButton extends Component {
   menuButton: Node = null;
   @property({ type: JsonAsset })
   mapchooser: JsonAsset = null;
+  @property({ type: Node })
+  PathDeciderNode: Node = null;
+  @property({ type: Node })
+  antsHolder: Node = null;
+  @property({ type: Node })
+  mapComponents: Node = null;
+  @property({ type: Node })
+  canvas: Node = null;
   singletonObject: singleton;
 
   //globals
@@ -58,9 +66,15 @@ export class addAntButton extends Component {
 
   onLoad() {
     this.singletonObject = singleton.getInstance();
+    singleton.PathDeciderNode = this.PathDeciderNode;
+    singleton.antsHolder = this.antsHolder;
+    singleton.canvasNode = this.canvas;
+    singleton.mapComponents = this.mapComponents;
   }
 
   start() {
+    console.log("PARENT NODE", singleton.PathDeciderNode);
+
     this.Loader.active = false;
     this.menuButton.active = false;
     let dataLoader: any = this.mapchooser.json;
@@ -69,24 +83,28 @@ export class addAntButton extends Component {
     for (let index = 0; index < dataLoader.length; index++) {
       let mapLoader_name = dataLoader[index].name;
       if (mapLoader_name == mapButtonnameReceived) {
-        resources.load(dataLoader[index].path, TiledMapAsset, (err: any, tmx) => {
-          const asset = this.mapNode.getComponent(TiledMap);
-          console.log("true cond");
-          console.log(tmx);
-          asset.tmxAsset = tmx;
-          console.log("type of", typeof asset);
-          //setmaptosingleton
-          singleton.Map = asset;
-        });
+        resources.load(
+          dataLoader[index].path,
+          TiledMapAsset,
+          (err: any, tmx) => {
+            const asset = this.mapNode.getComponent(TiledMap);
+            console.log("true cond");
+            console.log(tmx);
+            asset.tmxAsset = tmx;
+            console.log("type of", typeof asset);
+            //setmaptosingleton
+            singleton.Map = asset;
+          }
+        );
         setTimeout(() => {
           this.hiveAdder();
           this.buttonAdder();
-        }, 100);
+        }, 500);
 
         var coin1 = instantiate(this.coin1);
         // coin.setPosition(0, 0);
         var coin2 = instantiate(this.coin2);
-        coin2.setPosition(0, 180);
+        // coin2.setPosition(0, 180);
         this.node.addChild(coin1);
         this.node.addChild(coin2);
       }
@@ -99,7 +117,9 @@ export class addAntButton extends Component {
     var n = this.mapNode.getComponent(TiledMap).getObjectGroups().length;
     console.log(n);
     for (var i = 1; i < n; i++) {
-      let pathObj = this.mapNode.getComponent(TiledMap).getObjectGroup(`PathObj${i}`);
+      let pathObj = this.mapNode
+        .getComponent(TiledMap)
+        .getObjectGroup(`PathObj${i}`);
       var button_Obj = pathObj.getObject(`${i}A`);
       var button_Obj1 = pathObj.getObject(`${i}B`);
 
@@ -116,8 +136,12 @@ export class addAntButton extends Component {
         .getComponent(UITransform)
         .convertToWorldSpaceAR(
           new Vec3(
-            button_Obj1.x - pathObj.node.getContentSize().width * 0.5,
-            button_Obj1.y - pathObj.node.getContentSize().height * 0.5,
+            button_Obj1.x -
+              pathObj.node.getComponent(UITransform).getContentSize().width *
+                0.5,
+            button_Obj1.y -
+              pathObj.node.getComponent(UITransform).getContentSize().height *
+                0.5,
             0
           )
         );

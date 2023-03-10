@@ -38,8 +38,8 @@ export class antTypeButton extends Component {
   AntGen = null;
   @property({ type: Node })
   AddedAnt = null;
-  @property({ type: Prefab })
-  PathDeciderParent: Prefab = null;
+  // @property({ type: Prefab })
+  // PathDeciderParent: Prefab = null;
   //which player
   AntPlayer: PLAYER = PLAYER.NONE;
   //singletonObject
@@ -58,12 +58,16 @@ export class antTypeButton extends Component {
     dataLoader = dataLoader.AntSpecs;
     for (let index = 0; index < dataLoader.length; index++) {
       if (index == i) {
-        resources.load(dataLoader[index].Sprite, SpriteFrame, (err: any, tmx) => {
-          const asset = this.antSprite.getComponent(Sprite);
-          asset.spriteFrame = tmx;
-          this.coinLabel.string = dataLoader[index].CoinAlloted;
-          newNode.name = dataLoader[index].AntName;
-        });
+        resources.load(
+          dataLoader[index].Sprite,
+          SpriteFrame,
+          (err: any, tmx) => {
+            const asset = this.antSprite.getComponent(Sprite);
+            asset.spriteFrame = tmx;
+            this.coinLabel.string = dataLoader[index].CoinAlloted;
+            newNode.name = dataLoader[index].AntName;
+          }
+        );
       }
     }
   }
@@ -86,14 +90,16 @@ export class antTypeButton extends Component {
             )
           );
 
-        var pos_oneA = this.node.parent.parent
+        var pos_oneA = singleton.canvasNode
           .getComponent(UITransform)
           .convertToNodeSpaceAR(new Vec3(worlPosOfBtn1.x, worlPosOfBtn1.y));
         var buttonclick = instantiate(this.PathSelectButton);
-        buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
+        buttonclick
+          .getChildByName("Name")
+          .getComponent(Label).string = `PathObj${i}`;
         buttonclick.setPosition(pos_oneA);
         //this.node.parent.parent.addChild(buttonclick);
-        this.node.parent.parent.getChildByName("PathDeciderParent").addChild(buttonclick);
+        singleton.PathDeciderNode.addChild(buttonclick);
         buttonclick.getComponent(PathSelectorButton).pathSelected(this.node);
       }
       // console.log("this figthernode p1", this.node.parent.parent);
@@ -109,14 +115,16 @@ export class antTypeButton extends Component {
               0
             )
           );
-        var pos_oneA = this.node.parent.parent
+        var pos_oneA = singleton.canvasNode
           .getComponent(UITransform)
           .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
         var buttonclick = instantiate(this.PathSelectButton);
         buttonclick.setPosition(pos_oneA);
         buttonclick.angle = 180;
-        this.node.parent.parent.getChildByName("PathDeciderParent").addChild(buttonclick);
-        buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
+        singleton.PathDeciderNode.addChild(buttonclick);
+        buttonclick
+          .getChildByName("Name")
+          .getComponent(Label).string = `PathObj${i}`;
         buttonclick.getComponent(PathSelectorButton).pathSelected(this.node);
       }
     }
@@ -147,9 +155,13 @@ export class antTypeButton extends Component {
         Damage = dataLoader[index].Damage;
         CoinAlloted = dataLoader[index].CoinAlloted;
         Shield = dataLoader[index].Shield;
-        resources.load(dataLoader[index].Sprite, SpriteFrame, (err: any, tmx) => {
-          spriteName = tmx;
-        });
+        resources.load(
+          dataLoader[index].Sprite,
+          SpriteFrame,
+          (err: any, tmx) => {
+            spriteName = tmx;
+          }
+        );
       }
     }
     setTimeout(() => {
@@ -170,7 +182,7 @@ export class antTypeButton extends Component {
       this.GeneratedAnt.getComponent(UITransform).setContentSize(125, 150);
       this.GeneratedAnt.setPosition(Position);
       this.playerAntSide(this.AntPlayer, this.GeneratedAnt);
-      this.node.parent.parent.getChildByName("AddedAnt").addChild(this.GeneratedAnt);
+      singleton.antsHolder.addChild(this.GeneratedAnt);
     }, 100);
     setTimeout(() => {
       this.antMovement();
@@ -181,7 +193,9 @@ export class antTypeButton extends Component {
 
   antMovement() {
     console.log(singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`));
-    var pathObjGroup = singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`);
+    var pathObjGroup = singleton.Map.getObjectGroup(
+      `PathObj${this.PathSelected[7]}`
+    );
     if (this.AntPlayer == PLAYER.PLAYER1) {
       var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}B`);
 
@@ -194,7 +208,7 @@ export class antTypeButton extends Component {
             0
           )
         );
-      var pos_oneA = this.node.parent.parent
+      var pos_oneA = singleton.canvasNode
         .getComponent(UITransform)
         .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
       console.log("TILL HERE", pos_oneA);
@@ -216,7 +230,7 @@ export class antTypeButton extends Component {
             0
           )
         );
-      var pos_oneA = this.node.parent.parent
+      var pos_oneA = singleton.canvasNode
         .getComponent(UITransform)
         .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
       console.log("TILL HERE", pos_oneA);
@@ -232,11 +246,12 @@ export class antTypeButton extends Component {
   antGenerateButtonClicked(text) {
     this.text = text;
 
-    if (this.node.parent.parent.getChildByName("PathDeciderParent") != null) {
-      this.node.parent.parent.getChildByName("PathDeciderParent").destroy();
+    if (singleton.PathDeciderNode != null) {
+      singleton.PathDeciderNode.destroy();
     }
-    let PathDeciderButtonParent = instantiate(this.PathDeciderParent);
-    this.node.parent.parent.addChild(PathDeciderButtonParent);
+    singleton.PathDeciderNode = new Node("PathDeciderNode");
+    singleton.mapComponents.addChild(singleton.PathDeciderNode);
+
     //PathDecideButtonPopUp
     setTimeout(() => {
       this.antPathDeciderButton();
@@ -262,8 +277,7 @@ export class antTypeButton extends Component {
         )
       );
 
-    var pos_one = this.node.parent.parent
-      .getChildByName("AddedAnt")
+    var pos_one = singleton.canvasNode
       .getComponent(UITransform)
       .convertToNodeSpaceAR(new Vec3(worlPos.x, worlPos.y));
     console.log("position", pos_one);
