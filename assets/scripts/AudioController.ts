@@ -17,20 +17,20 @@ class AudioController {
     musicAudioSource: AudioSource,
     soundEffetcsAudioSource: AudioSource
   ) {
-    console.log("initAudioSources");
+    // console.log("initAudioSources");
 
     this._musicAudioSource = musicAudioSource;
     this._soundEffetcAudioSource = soundEffetcsAudioSource;
   }
   playMusic(clip: AudioClip) {
-    console.log("playMusic");
+    // console.log("playMusic");
     this._musicAudioSource.stop();
     this._musicAudioSource.clip = clip;
     this._musicAudioSource.play();
   }
 
   playSoundEffetcs(clip: AudioClip) {
-    console.log("playSoundEffetcs");
+    // console.log("playSoundEffetcs");
     this._soundEffetcAudioSource.stop();
     this._soundEffetcAudioSource.clip = clip;
     this._soundEffetcAudioSource.play();

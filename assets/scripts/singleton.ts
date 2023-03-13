@@ -1,18 +1,12 @@
-import {
-  _decorator,
-  Component,
-  Node,
-  resources,
-  AudioClip,
-  Prefab,
-  TiledMap,
-} from "cc";
+import { _decorator, Component, Node, resources, AudioClip, Prefab, TiledMap } from "cc";
 const { ccclass, property } = _decorator;
 import { MAP_TYPES } from "./constants";
 @ccclass("singleton")
 export class singleton extends Component {
   private static instance: singleton = null;
   static canvasNode: Node = null;
+  static antsHolder_A: Node = null;
+  static antsHolder_B: Node = null;
   static PathDeciderNode: Node = null;
   static antsHolder: Node = null;
   static mapComponents: Node = null;
@@ -43,12 +37,19 @@ export class singleton extends Component {
   set canvasNode_setter(value: Node) {
     singleton.canvasNode = value;
   }
-  get antsHolder_getter(): Node {
+  get antsHolder_A_getter(): Node {
     console.log(" get Frame");
-    return singleton.antsHolder;
+    return singleton.antsHolder_A;
   }
-  set antsHolder_setter(value: Node) {
-    singleton.antsHolder = value;
+  set antsHolder_A_setter(value: Node) {
+    singleton.antsHolder_A = value;
+  }
+  get antsHolder_B_getter(): Node {
+    console.log(" get Frame");
+    return singleton.antsHolder_B;
+  }
+  set antsHolder_B_setter(value: Node) {
+    singleton.antsHolder_B = value;
   }
   get mapComponents_getter(): Node {
     console.log(" get Frame");

@@ -13,7 +13,7 @@ export class AudioSourceManager extends Component {
   start() {}
 
   initAudioSource() {
-    console.log(this.music);
+    // console.log(this.music);
 
     AudioControllerObject.initAudioSources(this.music, this.soundEffects);
   }

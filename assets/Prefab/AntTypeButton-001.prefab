@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "AntTypeButton",
+    "_name": "AntTypeButton-001",
     "_objFlags": 0,
     "_native": "",
     "data": {
@@ -12,7 +12,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "AntTypeButton",
+    "_name": "AntTypeButton-001",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -391,6 +391,10 @@
     },
     "AntGen": {
       "__uuid__": "61620ee4-8f69-475f-a750-359eb53a6d71",
+      "__expectedType__": "cc.Prefab"
+    },
+    "PathDeciderParent": {
+      "__uuid__": "b847a7bb-ad02-4ecf-9448-93ad2c1330ce",
       "__expectedType__": "cc.Prefab"
     },
     "_id": ""

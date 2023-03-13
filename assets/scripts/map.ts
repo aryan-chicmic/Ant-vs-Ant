@@ -52,8 +52,8 @@ export class map extends Component {
 
   click() {
     this.soundEffect(this.node);
-    console.log(this.label.string);
-    console.log("btn clicked");
+    // console.log(this.label.string);
+    // console.log("btn clicked");
     this.labelString = this.label.string;
     this.singletonObject.mapAssigner(this.labelString);
 
