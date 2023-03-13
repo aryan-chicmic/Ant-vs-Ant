@@ -75,6 +75,9 @@ export class FighterAntScript extends Component {
       singleton.coins2 = singleton.coins2 - this.CoinAlloted;
     }
   }
+  getHealth() {
+    return this.Health;
+  }
 
   start() {}
 

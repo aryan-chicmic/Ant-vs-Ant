@@ -53,12 +53,17 @@ export class addAntButton extends Component {
   mapchooser: JsonAsset = null;
   @property({ type: Node })
   PathDeciderNode: Node = null;
-  @property({ type: Node })
-  antsHolder: Node = null;
+ 
   @property({ type: Node })
   mapComponents: Node = null;
   @property({ type: Node })
   canvas: Node = null;
+  @property({ type: Node })
+  antsHolder_A: Node = null;
+  @property({ type: Node })
+  antsHolder_B: Node = null;
+
+  //singletonObject
   singletonObject: singleton;
 
   //globals
@@ -68,13 +73,14 @@ export class addAntButton extends Component {
   onLoad() {
     this.singletonObject = singleton.getInstance();
     singleton.PathDeciderNode = this.PathDeciderNode;
-    singleton.antsHolder = this.antsHolder;
+    singleton.antsHolder_A = this.antsHolder_A;
+    singleton.antsHolder_B = this.antsHolder_B;
     singleton.canvasNode = this.canvas;
     singleton.mapComponents = this.mapComponents;
   }
 
   start() {
-    console.log("PARENT NODE", singleton.PathDeciderNode);
+    // console.log("PARENT NODE", singleton.PathDeciderNode);
 
     this.Loader.active = false;
     let dataLoader: any = this.mapchooser.json;
@@ -88,10 +94,10 @@ export class addAntButton extends Component {
           TiledMapAsset,
           (err: any, tmx) => {
             const asset = this.mapNode.getComponent(TiledMap);
-            console.log("true cond");
-            console.log(tmx);
+            // console.log("true cond");
+            // console.log(tmx);
             asset.tmxAsset = tmx;
-            console.log("type of", typeof asset);
+            // console.log("type of", typeof asset);
             //setmaptosingleton
             singleton.Map = asset;
           }

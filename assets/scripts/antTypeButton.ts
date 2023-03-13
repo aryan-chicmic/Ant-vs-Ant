@@ -40,8 +40,11 @@ export class antTypeButton extends Component {
   PathSelectButton: Prefab = null;
   //AntGenerateNode
   @property({ type: Prefab })
-  AntGen = null;
+  AntGen: Prefab = null;
 
+  //Globalvariable
+  checker: number = 0;
+  flag: number = 1;
   GeneratedAnt: Node = null;
   //variable
   //which player
@@ -53,6 +56,7 @@ export class antTypeButton extends Component {
   Map: TiledMap = null;
   text = null;
   PathSelected: string = null;
+  returnedNodes: Node[] = null;
   onLoad() {
     this.SingletonObj = singleton.getInstance();
   }
@@ -82,7 +86,7 @@ export class antTypeButton extends Component {
    * Path Selected from Map
    */
   antPathDeciderButton() {
-    console.log("path decide function call");
+    // console.log("path decide function call");
 
     let Map: TiledMap = singleton.Map;
     let n = Map.getComponent(TiledMap).getObjectGroups().length;
@@ -139,9 +143,9 @@ export class antTypeButton extends Component {
    * @param customEventData Carries Path Name of Path Location Button
    */
   selectedPathByPlayer = (event: Event, customEventData: string) => {
-    console.log("Callback From Location Button");
+    // console.log("Callback From Location Button");
     this.PathSelected = customEventData;
-    console.log("user selected path", customEventData);
+    // console.log("user selected path", customEventData);
     this.antGenerationAfterPathDecided();
   };
 
@@ -150,7 +154,7 @@ export class antTypeButton extends Component {
    * @description Ant Generated After Path of Ant Decided According to Player Side
    */
   antGenerationAfterPathDecided() {
-    console.log("WHICH PLAYER", this.AntPlayer);
+    // console.log("WHICH PLAYER", this.AntPlayer);
     let antName;
     let TimeToCoverChangeInY;
     let spriteName;
@@ -191,15 +195,23 @@ export class antTypeButton extends Component {
       let Position = this.generatedAntPosition();
       this.GeneratedAnt.setPosition(Position);
       this.playerAntSide(this.AntPlayer, this.GeneratedAnt);
-      singleton.antsHolder.addChild(this.GeneratedAnt);
+      // singleton.antsHolder.addChild(this.GeneratedAnt);
+      if (this.AntPlayer == PLAYER.PLAYER1) {
+        singleton.antsHolder_A.addChild(this.GeneratedAnt);
+      } else if (this.AntPlayer == PLAYER.PLAYER2) {
+        singleton.antsHolder_B.addChild(this.GeneratedAnt);
+      }
     }, 100);
+
     setTimeout(() => {
       this.antMovement();
     }, 200);
-
-    console.log("THIS PATH WAS SELECTED", this.PathSelected);
+    this.checker = 1;
+    // console.log("THIS PATH WAS SELECTED", this.PathSelected);
   }
-
+  /**
+   * @description Adding Ant movement
+   */
   antMovement() {
     var pathObjGroup = singleton.Map.getObjectGroup(this.PathSelected);
     var pathObjects = pathObjGroup.getObjects();
@@ -207,14 +219,14 @@ export class antTypeButton extends Component {
       // object name With ButtonA(PathNumber) and ButtonB(PathNumber) not included
       let ButtonNameA = "Button" + this.PathSelected[7] + "A";
       let ButtonNameB = "Button" + this.PathSelected[7] + "B";
-      console.log("button name", ButtonNameA, ButtonNameB);
+      // console.log("button name", ButtonNameA, ButtonNameB);
       return objectname.name != ButtonNameA && objectname.name != ButtonNameB;
     });
     let positionArray = [];
-    console.log("PATHOBJECTS", Object);
+    // console.log("PATHOBJECTS", Object);
 
     for (let element = 0; element < Object.length; element++) {
-      console.log("start", Object[element].x);
+      // console.log("start", Object[element].x);
       let worldpost = pathObjGroup.node
         .getComponent(UITransform)
         .convertToWorldSpaceAR(
@@ -230,10 +242,9 @@ export class antTypeButton extends Component {
 
       positionArray.push(pos_one);
     }
-    console.log("before Tween Function call");
+
     this.AntTween = tween(this.GeneratedAnt);
-    console.log(this.AntTween);
-    console.log("Length of Array", positionArray.length);
+
     if (this.AntPlayer == PLAYER.PLAYER1) {
       positionArray.pop();
       this.antTweenMovement(positionArray);
@@ -306,7 +317,76 @@ export class antTypeButton extends Component {
       GeneratedAnt.angle = 180;
     }
   }
+  /**
+   * @description Checking for ant collision and its further coding
+   */
+  antCollision(): any {
+    let generatedAntRect,
+      otherAntsRect,
+      // otherAntHealth,
+      child1obj = null,
+      child2obj = null;
+    var IDs = new Array();
+
+    singleton.antsHolder_A.children.forEach((child1) => {
+      if (child1.name == "FighterAnt") {
+        singleton.antsHolder_B.children.forEach((child2) => {
+          generatedAntRect = child1.getComponent(UITransform).getBoundingBoxToWorld();
+          // let generatedAntHealth = child1.getComponent(FighterAntScript).getHealth();
+          if (child2.name == "FighterAnt") {
+            otherAntsRect = child2.getComponent(UITransform).getBoundingBoxToWorld();
+            // otherAntHealth = child2.getComponent(FighterAntScript).getHealth();
+          }
+          if (generatedAntRect.intersects(otherAntsRect)) {
+            console.log("COLLIDED");
+
+            this.AntTween.stop();
+
+            console.log("CHILD1,CHILD2", child1, child2);
+            this.checker = 0;
+
+            IDs[0] = child1;
+            IDs[1] = child2;
+          }
+        });
+      }
+    });
+    return IDs;
+  }
+  health(returnedNodes) {
+    console.log("IN HEALTH FUNCTION");
+
+    var returnNode_0 = returnedNodes[0].getComponent(FighterAntScript).getHealth();
+    var returnNode_1 = returnedNodes[1].getComponent(FighterAntScript).getHealth();
+    if (returnNode_0 == 0 || returnNode_1 == 0) return;
+    else {
+      returnNode_0 -=
+        returnedNodes[1].getComponent(FighterAntScript).Damage +
+        returnedNodes[0].getComponent(FighterAntScript).Shield;
+      returnNode_1 -=
+        returnedNodes[0].getComponent(FighterAntScript).Damage +
+        returnedNodes[1].getComponent(FighterAntScript).Shield;
+
+      console.log("HEALTH OF BOTH", returnNode_0, returnNode_1);
+    }
+  }
   start() {}
 
-  update(deltaTime: number) {}
+  update(deltaTime: number) {
+    if (this.checker == 1) {
+      if (singleton.antsHolder_A.children.length && singleton.antsHolder_B.children.length) {
+        this.returnedNodes = this.antCollision();
+        console.log(this.returnedNodes);
+
+        if (this.returnedNodes.length) {
+          console.log("IN UPDATE", this.returnedNodes);
+
+          this.health(this.returnedNodes);
+        }
+
+        console.log("Checker");
+        // this.checker = 0;
+      }
+    }
+  }
 }
