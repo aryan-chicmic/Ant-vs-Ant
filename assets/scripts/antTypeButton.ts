@@ -19,6 +19,7 @@ import {
   Vec3,
   Button,
   tween,
+  Tween,
 } from "cc";
 const { ccclass, property } = _decorator;
 import { ANT_TYPES, PLAYER } from "./constants";
@@ -45,6 +46,8 @@ export class antTypeButton extends Component {
   //variable
   //which player
   AntPlayer: PLAYER = PLAYER.NONE;
+
+  AntTween: Tween<Node>;
   //singletonObject
   SingletonObj: singleton = null;
   Map: TiledMap = null;
@@ -103,13 +106,9 @@ export class antTypeButton extends Component {
         var buttonclick = instantiate(this.PathSelectButton);
         buttonclick.setPosition(pos_oneA);
         buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
-
-        //this.node.parent.parent.addChild(buttonclick);
         singleton.PathDeciderNode.addChild(buttonclick);
         buttonclick.getComponent(PathSelectorButton).pathSelected(this.node);
       }
-      // console.log("this figthernode p1", this.node.parent.parent);
-
       if (this.AntPlayer == PLAYER.PLAYER2) {
         var button_pos_top = pathObj.getObject(`Button${i}B`);
         let worlPosOfBtn2 = pathObj.node
@@ -202,12 +201,10 @@ export class antTypeButton extends Component {
   }
 
   antMovement() {
-    let t1;
-
     var pathObjGroup = singleton.Map.getObjectGroup(this.PathSelected);
     var pathObjects = pathObjGroup.getObjects();
     let Object = pathObjects.filter((objectname) => {
-      // object name With ButtonA(PathName) and ButtonB(PathName) not included
+      // object name With ButtonA(PathNumber) and ButtonB(PathNumber) not included
       let ButtonNameA = "Button" + this.PathSelected[7] + "A";
       let ButtonNameB = "Button" + this.PathSelected[7] + "B";
       console.log("button name", ButtonNameA, ButtonNameB);
@@ -216,14 +213,14 @@ export class antTypeButton extends Component {
     let positionArray = [];
     console.log("PATHOBJECTS", Object);
 
-    for (let element = 0; element < Object.length - 1; element++) {
+    for (let element = 0; element < Object.length; element++) {
       console.log("start", Object[element].x);
       let worldpost = pathObjGroup.node
         .getComponent(UITransform)
         .convertToWorldSpaceAR(
           new Vec3(
-            Object[element].x - pathObjGroup.node.getContentSize().width * 0.5,
-            Object[element].y - pathObjGroup.node.getContentSize().height * 0.5,
+            Object[element].x - pathObjGroup.node.getComponent(UITransform).width * 0.5,
+            Object[element].y - pathObjGroup.node.getComponent(UITransform).height * 0.5,
             0
           )
         );
@@ -232,24 +229,34 @@ export class antTypeButton extends Component {
         .convertToNodeSpaceAR(new Vec3(worldpost));
 
       positionArray.push(pos_one);
-      t1 = tween(this.GeneratedAnt);
     }
-
-    console.log("before call");
-    this.antmove(positionArray, t1);
-    t1.start();
+    console.log("before Tween Function call");
+    this.AntTween = tween(this.GeneratedAnt);
+    console.log(this.AntTween);
+    console.log("Length of Array", positionArray.length);
+    if (this.AntPlayer == PLAYER.PLAYER1) {
+      positionArray.pop();
+      this.antTweenMovement(positionArray);
+    } else if (this.AntPlayer == PLAYER.PLAYER2) {
+      positionArray.reverse();
+      positionArray.pop();
+      this.antTweenMovement(positionArray);
+    }
+    this.AntTween.start();
   }
-
-  antmove(positionArray, t1) {
-    console.log("length", positionArray.length);
-    if (positionArray.length != 0) {
-      let newpos = positionArray.pop();
-      console.log(newpos);
-      t1.to(10, { position: new Vec3(newpos) });
-      this.antmove(positionArray, t1);
+  /**
+   * @description Apply tween to every position of  Ant for movement
+   * @param positionArray Array of Path Positions from which Ant Passes
+   */
+  antTweenMovement(positionArray) {
+    for (let i = positionArray.length - 1; i >= 0; i--) {
+      this.AntTween.to(10, { position: new Vec3(positionArray[i]) });
     }
   }
-
+  /**
+   *
+   * @description Functions Call when Ant Choosen Option Clicked
+   */
   antGenerateButtonClicked(text) {
     this.text = text;
 
@@ -265,7 +272,7 @@ export class antTypeButton extends Component {
     }, 100);
   }
   /**
-   *@description Return the Position to Set According to Player Side
+   *@description Return the Ant Position , to Set position According to Player Side
    * @returns Vec3 Ant Position According to Player Side
    */
   generatedAntPosition(): Vec3 {
@@ -279,8 +286,8 @@ export class antTypeButton extends Component {
       .getComponent(UITransform)
       .convertToWorldSpaceAR(
         new Vec3(
-          groupObj.x - pathObjGroup.node.getContentSize().width * 0.5,
-          groupObj.y - pathObjGroup.node.getContentSize().height * 0.5,
+          groupObj.x - pathObjGroup.node.getComponent(UITransform).width * 0.5,
+          groupObj.y - pathObjGroup.node.getComponent(UITransform).height * 0.5,
           0
         )
       );
