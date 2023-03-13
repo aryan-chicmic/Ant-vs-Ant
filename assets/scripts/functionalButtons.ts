@@ -5,19 +5,22 @@ const { ccclass, property } = _decorator;
 @ccclass("menuButton")
 export class menuButton extends Component {
   @property({ type: Node })
-  menuButton: Node = null;
-  @property({ type: Node })
-  Loader: Node = null;
+  SettingPopUp: Node = null;
+  AgainClickedSettingButton: boolean = false;
 
-  onLoad() {
-    //this.Loader.active = false;
-  }
+  onLoad() {}
   start() {}
+  /**
+   * Resume the Game After clicking Resume Button
+   */
   resumeGame() {
+    console.log("After Clicking Resume Button");
     director.resume();
+    this.SettingPopUp.active = false;
+    this.AgainClickedSettingButton = false;
   }
   /**
-   * @description
+   * @description back to previous page from help pase
    *
    */
   onClickBackButton() {
@@ -25,13 +28,36 @@ export class menuButton extends Component {
     this.node.destroy();
     console.log("Help Page Destroyed");
   }
-  onClickmainMenu() {
+  /**
+   * return to Landing Page
+   */
+  onClickMainMenu() {
     director.loadScene("MAIN");
     // director.resume;
-    game.restart();
+    // game.restart();
   }
+  /**
+   * Game Ends Quit Browser
+   */
   quitGame() {
-    game.end();
+    director.end();
+  }
+  /**
+   * Open Up Menu Option
+   * Close the Menu Option if Open
+   */
+  menuButtonFunctionality() {
+    if (this.AgainClickedSettingButton == false) {
+      this.AgainClickedSettingButton = true;
+      this.SettingPopUp.active = true;
+      console.log("Game paused Menu Showed");
+      director.pause();
+    } else {
+      this.SettingPopUp.active = false;
+      this.AgainClickedSettingButton = false;
+      console.log("Game Resumed");
+      director.resume();
+    }
   }
   update(deltaTime: number) {}
 }

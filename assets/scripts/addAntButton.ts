@@ -49,8 +49,6 @@ export class addAntButton extends Component {
   hiveNode: Node = null;
   @property({ type: Node })
   mapNode: Node = null;
-  @property({ type: Node })
-  menuButton: Node = null;
   @property({ type: JsonAsset })
   mapchooser: JsonAsset = null;
   @property({ type: Node })
@@ -79,22 +77,25 @@ export class addAntButton extends Component {
     console.log("PARENT NODE", singleton.PathDeciderNode);
 
     this.Loader.active = false;
-    this.menuButton.active = false;
     let dataLoader: any = this.mapchooser.json;
     dataLoader = dataLoader.data;
     var mapButtonnameReceived = this.singletonObject.mapButton;
     for (let index = 0; index < dataLoader.length; index++) {
       let mapLoader_name = dataLoader[index].name;
       if (mapLoader_name == mapButtonnameReceived) {
-        resources.load(dataLoader[index].path, TiledMapAsset, (err: any, tmx) => {
-          const asset = this.mapNode.getComponent(TiledMap);
-          console.log("true cond");
-          console.log(tmx);
-          asset.tmxAsset = tmx;
-          console.log("type of", typeof asset);
-          //setmaptosingleton
-          singleton.Map = asset;
-        });
+        resources.load(
+          dataLoader[index].path,
+          TiledMapAsset,
+          (err: any, tmx) => {
+            const asset = this.mapNode.getComponent(TiledMap);
+            console.log("true cond");
+            console.log(tmx);
+            asset.tmxAsset = tmx;
+            console.log("type of", typeof asset);
+            //setmaptosingleton
+            singleton.Map = asset;
+          }
+        );
         setTimeout(() => {
           this.hiveAdder();
           this.buttonAdder();
@@ -109,61 +110,6 @@ export class addAntButton extends Component {
       }
     }
   }
-  // hiveAdder() {
-  //   console.log("hivemaker");
-  //   // console.log();
-
-  //   var n = this.mapNode.getComponent(TiledMap).getObjectGroups().length;
-  //   console.log(n);
-  //   for (var i = 1; i < n; i++) {
-  //     let pathObj = this.mapNode.getComponent(TiledMap).getObjectGroup(`PathObj${i}`);
-  //     var button_Obj = pathObj.getObject(`${i}A`);
-  //     var button_Obj1 = pathObj.getObject(`${i}B`);
-
-  //     let worlPosOfBtn1 = pathObj.node
-  //       .getComponent(UITransform)
-  //       .convertToWorldSpaceAR(
-  //         new Vec3(
-  //           button_Obj.x - pathObj.node.getContentSize().width * 0.5,
-  //           button_Obj.y - pathObj.node.getContentSize().height * 0.5,
-  //           0
-  //         )
-  //       );
-  //     let worlPosOfBtn2 = pathObj.node
-  //       .getComponent(UITransform)
-  //       .convertToWorldSpaceAR(
-  //         new Vec3(
-  //           button_Obj1.x - pathObj.node.getComponent(UITransform).width * 0.5,
-  //           button_Obj1.y - pathObj.node.getComponent(UITransform).height * 0.5,
-  //           0
-  //         )
-  //       );
-  //     var pos_oneA = this.node
-  //       .getComponent(UITransform)
-  //       .convertToNodeSpaceAR(new Vec3(worlPosOfBtn1.x, worlPosOfBtn1.y));
-
-  //     var pos1_oneA = this.node
-  //       .getComponent(UITransform)
-  //       .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
-
-  //     var buttonclick1 = instantiate(this.hive);
-  //     var buttonclick2 = instantiate(this.hive);
-
-  //     buttonclick1.setPosition(pos_oneA.x, pos_oneA.y, 0);
-
-  //     buttonclick2.setPosition(pos1_oneA.x, pos1_oneA.y, 0);
-  //     console.log("Hive node-", this.hiveNode);
-  //     this.hiveNode.addChild(buttonclick1);
-  //     this.hiveNode.addChild(buttonclick2);
-  //   }
-  //   console.log("is hive added", this.node);
-  // }
-  menuButtonFunctionality() {
-    this.menuButton.active = true;
-    console.log("before pause");
-    // director.pause();
-    director.pause();
-  }
 
   /**
    * @description Adding Hive at  Map path after loading Map
@@ -171,7 +117,9 @@ export class addAntButton extends Component {
   hiveAdder() {
     var n = this.mapNode.getComponent(TiledMap).getObjectGroups().length;
     for (var i = 1; i < n; i++) {
-      let pathObj = this.mapNode.getComponent(TiledMap).getObjectGroup(`PathObj${i}`);
+      let pathObj = this.mapNode
+        .getComponent(TiledMap)
+        .getObjectGroup(`PathObj${i}`);
       var button_Obj = pathObj.getObject(`${i}A`);
       var button_Obj1 = pathObj.getObject(`${i}B`);
 

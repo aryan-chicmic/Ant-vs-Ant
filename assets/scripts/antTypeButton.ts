@@ -65,12 +65,16 @@ export class antTypeButton extends Component {
     dataLoader = dataLoader.AntSpecs;
     for (let index = 0; index < dataLoader.length; index++) {
       if (index == i) {
-        resources.load(dataLoader[index].Sprite, SpriteFrame, (err: any, tmx) => {
-          const asset = this.antSprite.getComponent(Sprite);
-          asset.spriteFrame = tmx;
-          this.coinLabel.string = dataLoader[index].CoinAlloted;
-          newNode.name = dataLoader[index].AntName;
-        });
+        resources.load(
+          dataLoader[index].Sprite,
+          SpriteFrame,
+          (err: any, tmx) => {
+            const asset = this.antSprite.getComponent(Sprite);
+            asset.spriteFrame = tmx;
+            this.coinLabel.string = dataLoader[index].CoinAlloted;
+            newNode.name = dataLoader[index].AntName;
+          }
+        );
       }
     }
   }
@@ -91,8 +95,10 @@ export class antTypeButton extends Component {
           .getComponent(UITransform)
           .convertToWorldSpaceAR(
             new Vec3(
-              button_pos_down.x - pathObj.node.getComponent(UITransform).width * 0.5,
-              button_pos_down.y - pathObj.node.getComponent(UITransform).height * 0.5,
+              button_pos_down.x -
+                pathObj.node.getComponent(UITransform).width * 0.5,
+              button_pos_down.y -
+                pathObj.node.getComponent(UITransform).height * 0.5,
               0
             )
           );
@@ -102,7 +108,9 @@ export class antTypeButton extends Component {
           .convertToNodeSpaceAR(new Vec3(worlPosOfBtn1.x, worlPosOfBtn1.y));
         var buttonclick = instantiate(this.PathSelectButton);
         buttonclick.setPosition(pos_oneA);
-        buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
+        buttonclick
+          .getChildByName("Name")
+          .getComponent(Label).string = `PathObj${i}`;
 
         //this.node.parent.parent.addChild(buttonclick);
         singleton.PathDeciderNode.addChild(buttonclick);
@@ -116,8 +124,10 @@ export class antTypeButton extends Component {
           .getComponent(UITransform)
           .convertToWorldSpaceAR(
             new Vec3(
-              button_pos_top.x - pathObj.node.getComponent(UITransform).width * 0.5,
-              button_pos_top.y - pathObj.node.getComponent(UITransform).height * 0.5,
+              button_pos_top.x -
+                pathObj.node.getComponent(UITransform).width * 0.5,
+              button_pos_top.y -
+                pathObj.node.getComponent(UITransform).height * 0.5,
               0
             )
           );
@@ -128,7 +138,9 @@ export class antTypeButton extends Component {
         buttonclick.setPosition(pos_oneA);
         buttonclick.angle = 180;
         singleton.PathDeciderNode.addChild(buttonclick);
-        buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
+        buttonclick
+          .getChildByName("Name")
+          .getComponent(Label).string = `PathObj${i}`;
         buttonclick.getComponent(PathSelectorButton).pathSelected(this.node);
       }
     }
@@ -170,9 +182,13 @@ export class antTypeButton extends Component {
         Damage = dataLoader[index].Damage;
         CoinAlloted = dataLoader[index].CoinAlloted;
         Shield = dataLoader[index].Shield;
-        resources.load(dataLoader[index].Sprite, SpriteFrame, (err: any, tmx) => {
-          spriteName = tmx;
-        });
+        resources.load(
+          dataLoader[index].Sprite,
+          SpriteFrame,
+          (err: any, tmx) => {
+            spriteName = tmx;
+          }
+        );
       }
     }
     setTimeout(() => {
@@ -202,93 +218,112 @@ export class antTypeButton extends Component {
   }
 
   antMovement() {
-    console.log(singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`));
-    var pathObjGroup = singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`);
-    var flag: Boolean = false;
+    let t1;
+    // console.log(
+    //   "Movement Path",
+    //   singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`)
+    // );
+    var pathObjGroup = singleton.Map.getObjectGroup(this.PathSelected);
     var pathObjects = pathObjGroup.getObjects();
-    console.log("PATHOBJECTS", pathObjects);
+    let Object = pathObjects.filter((objectname) => {
+      // object name With ButtonA(PathName) and ButtonB(PathName) not included
+      let ButtonNameA = "Button" + this.PathSelected[7] + "A";
+      let ButtonNameB = "Button" + this.PathSelected[7] + "B";
+      console.log("button name", ButtonNameA, ButtonNameB);
+      return objectname.name != ButtonNameA && objectname.name != ButtonNameB;
+    });
+    let positionArray = [];
+    console.log("PATHOBJECTS", Object);
 
-    for (var i = 1; i < pathObjects.length; i++) {
-      if (pathObjects[i].name == "Turn1") {
-        flag = true;
-      }
-    }
-    if (this.AntPlayer == PLAYER.PLAYER1) {
-      // var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}B`);
-      for (var i = 1; pathObjects.length; i++) {
-        console.log("GroupName", pathObjects[i].name);
-        var objName = pathObjects[i].name;
-
-        var groupObj = pathObjGroup.getObject(`${pathObjects[i].name}`);
-        console.log("GROUPOBJECT IN LOOP", groupObj);
-
-        let worlPosOfBtn2 = pathObjGroup.node
-          .getComponent(UITransform)
-          .convertToWorldSpaceAR(
-            new Vec3(
-              groupObj.x - pathObjGroup.node.getContentSize().width * 0.5,
-              groupObj.y - pathObjGroup.node.getContentSize().height * 0.5,
-              0
-            )
-          );
-        var pos_oneA = singleton.canvasNode
-          .getComponent(UITransform)
-          .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
-        tween(this.GeneratedAnt)
-          .to(10, {
-            position: new Vec3(pos_oneA.x, pos_oneA.y),
-          })
-          .call(() =>
-            setTimeout(() => {
-              console.log("waiting"), 10000;
-            })
-          )
-          .start();
-      }
-
-      // let worlPosOfBtn2 = pathObjGroup.node
-      //   .getComponent(UITransform)
-      //   .convertToWorldSpaceAR(
-      //     new Vec3(
-      //       groupObj.x - pathObjGroup.node.getContentSize().width * 0.5,
-      //       groupObj.y - pathObjGroup.node.getContentSize().height * 0.5,
-      //       0
-      //     )
-      //   );
-      // var pos_oneA = singleton.canvasNode
-      //   .getComponent(UITransform)
-      //   .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
-      // console.log("TILL HERE", pos_oneA);
-      // tween(this.GeneratedAnt)
-      //   .to(10, {
-      //     position: new Vec3(pos_oneA.x, pos_oneA.y),
-      //   })
-
-      //   .start();
-    } else if (this.AntPlayer == PLAYER.PLAYER2) {
-      var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}A`);
-
-      let worlPosOfBtn2 = pathObjGroup.node
+    for (let element = 0; element < Object.length - 1; element++) {
+      console.log("start", Object[element].x);
+      let worldpost = pathObjGroup.node
         .getComponent(UITransform)
         .convertToWorldSpaceAR(
           new Vec3(
-            groupObj.x - pathObjGroup.node.getContentSize().width * 0.5,
-            groupObj.y - pathObjGroup.node.getContentSize().height * 0.5,
+            Object[element].x - pathObjGroup.node.getContentSize().width * 0.5,
+            Object[element].y - pathObjGroup.node.getContentSize().height * 0.5,
             0
           )
         );
-      var pos_oneA = singleton.canvasNode
+      var pos_one = singleton.canvasNode
         .getComponent(UITransform)
-        .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
-      console.log("TILL HERE", pos_oneA);
-      tween(this.GeneratedAnt)
-        .to(10, {
-          position: new Vec3(pos_oneA.x, pos_oneA.y),
-        })
+        .convertToNodeSpaceAR(new Vec3(worldpost));
 
-        .start();
+      positionArray.push(pos_one);
+      t1 = tween(this.GeneratedAnt);
+      //   .to(10, {
+      //     position: new Vec3(pos_one),
+      //   })
+      //   .start();
+    }
+    //  positionArray.reverse();
+    console.log("before call");
+    this.antmove(positionArray, t1);
+    t1.start();
+  }
+
+  antmove(positionArray, t1) {
+    console.log("length", positionArray.length);
+    if (positionArray.length != 0) {
+      let newpos = positionArray.pop();
+      console.log(newpos);
+      t1.to(10, { position: new Vec3(newpos) });
+      this.antmove(positionArray, t1);
     }
   }
+
+  // antMovement() {
+  //   console.log(singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`));
+  //   var pathObjGroup = singleton.Map.getObjectGroup(
+  //     `PathObj${this.PathSelected[7]}`
+  //   );
+  //   if (this.AntPlayer == PLAYER.PLAYER1) {
+  //     var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}B`);
+
+  //     let worlPosOfBtn2 = pathObjGroup.node
+  //       .getComponent(UITransform)
+  //       .convertToWorldSpaceAR(
+  //         new Vec3(
+  //           groupObj.x - pathObjGroup.node.getContentSize().width * 0.5,
+  //           groupObj.y - pathObjGroup.node.getContentSize().height * 0.5,
+  //           0
+  //         )
+  //       );
+  //     var pos_oneA = singleton.canvasNode
+  //       .getComponent(UITransform)
+  //       .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
+  //     console.log("TILL HERE", pos_oneA);
+  //     tween(this.GeneratedAnt)
+  //       .to(10, {
+  //         position: new Vec3(pos_oneA.x, pos_oneA.y),
+  //       })
+
+  //       .start();
+  //   } else if (this.AntPlayer == PLAYER.PLAYER2) {
+  //     var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}A`);
+
+  //     let worlPosOfBtn2 = pathObjGroup.node
+  //       .getComponent(UITransform)
+  //       .convertToWorldSpaceAR(
+  //         new Vec3(
+  //           groupObj.x - pathObjGroup.node.getContentSize().width * 0.5,
+  //           groupObj.y - pathObjGroup.node.getContentSize().height * 0.5,
+  //           0
+  //         )
+  //       );
+  //     var pos_oneA = singleton.canvasNode
+  //       .getComponent(UITransform)
+  //       .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
+  //     console.log("TILL HERE", pos_oneA);
+  //     tween(this.GeneratedAnt)
+  //       .to(10, {
+  //         position: new Vec3(pos_oneA.x, pos_oneA.y),
+  //       })
+
+  //       .start();
+  //   }
+  // }
 
   antGenerateButtonClicked(text) {
     this.text = text;
@@ -309,7 +344,9 @@ export class antTypeButton extends Component {
    * @returns Vec3 Ant Position According to Player Side
    */
   generatedAntPosition(): Vec3 {
-    var pathObjGroup = singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`);
+    var pathObjGroup = singleton.Map.getObjectGroup(
+      `PathObj${this.PathSelected[7]}`
+    );
     if (this.AntPlayer == PLAYER.PLAYER1) {
       var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}A`);
     } else if (this.AntPlayer == PLAYER.PLAYER2) {
