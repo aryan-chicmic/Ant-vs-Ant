@@ -72,12 +72,16 @@ export class antTypeButton extends Component {
     dataLoader = dataLoader.AntSpecs;
     for (let index = 0; index < dataLoader.length; index++) {
       if (index == i) {
-        resources.load(dataLoader[index].Sprite, SpriteFrame, (err: any, tmx) => {
-          const asset = this.antSprite.getComponent(Sprite);
-          asset.spriteFrame = tmx;
-          this.coinLabel.string = dataLoader[index].CoinAlloted;
-          newNode.name = dataLoader[index].AntName;
-        });
+        resources.load(
+          dataLoader[index].Sprite,
+          SpriteFrame,
+          (err: any, tmx) => {
+            const asset = this.antSprite.getComponent(Sprite);
+            asset.spriteFrame = tmx;
+            this.coinLabel.string = dataLoader[index].CoinAlloted;
+            newNode.name = dataLoader[index].AntName;
+          }
+        );
       }
     }
   }
@@ -98,8 +102,10 @@ export class antTypeButton extends Component {
           .getComponent(UITransform)
           .convertToWorldSpaceAR(
             new Vec3(
-              button_pos_down.x - pathObj.node.getComponent(UITransform).width * 0.5,
-              button_pos_down.y - pathObj.node.getComponent(UITransform).height * 0.5,
+              button_pos_down.x -
+                pathObj.node.getComponent(UITransform).width * 0.5,
+              button_pos_down.y -
+                pathObj.node.getComponent(UITransform).height * 0.5,
               0
             )
           );
@@ -109,7 +115,9 @@ export class antTypeButton extends Component {
           .convertToNodeSpaceAR(new Vec3(worlPosOfBtn1.x, worlPosOfBtn1.y));
         var buttonclick = instantiate(this.PathSelectButton);
         buttonclick.setPosition(pos_oneA);
-        buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
+        buttonclick
+          .getChildByName("Name")
+          .getComponent(Label).string = `PathObj${i}`;
         singleton.PathDeciderNode.addChild(buttonclick);
         buttonclick.getComponent(PathSelectorButton).pathSelected(this.node);
       }
@@ -119,8 +127,10 @@ export class antTypeButton extends Component {
           .getComponent(UITransform)
           .convertToWorldSpaceAR(
             new Vec3(
-              button_pos_top.x - pathObj.node.getComponent(UITransform).width * 0.5,
-              button_pos_top.y - pathObj.node.getComponent(UITransform).height * 0.5,
+              button_pos_top.x -
+                pathObj.node.getComponent(UITransform).width * 0.5,
+              button_pos_top.y -
+                pathObj.node.getComponent(UITransform).height * 0.5,
               0
             )
           );
@@ -131,7 +141,9 @@ export class antTypeButton extends Component {
         buttonclick.setPosition(pos_oneA);
         buttonclick.angle = 180;
         singleton.PathDeciderNode.addChild(buttonclick);
-        buttonclick.getChildByName("Name").getComponent(Label).string = `PathObj${i}`;
+        buttonclick
+          .getChildByName("Name")
+          .getComponent(Label).string = `PathObj${i}`;
         buttonclick.getComponent(PathSelectorButton).pathSelected(this.node);
       }
     }
@@ -154,7 +166,8 @@ export class antTypeButton extends Component {
    * @description Ant Generated After Path of Ant Decided According to Player Side
    */
   antGenerationAfterPathDecided() {
-    // console.log("WHICH PLAYER", this.AntPlayer);
+    singleton.PathDeciderNode.destroy();
+    console.log("WHICH PLAYER", this.AntPlayer);
     let antName;
     let TimeToCoverChangeInY;
     let spriteName;
@@ -173,9 +186,13 @@ export class antTypeButton extends Component {
         Damage = dataLoader[index].Damage;
         CoinAlloted = dataLoader[index].CoinAlloted;
         Shield = dataLoader[index].Shield;
-        resources.load(dataLoader[index].Sprite, SpriteFrame, (err: any, tmx) => {
-          spriteName = tmx;
-        });
+        resources.load(
+          dataLoader[index].Sprite,
+          SpriteFrame,
+          (err: any, tmx) => {
+            spriteName = tmx;
+          }
+        );
       }
     }
     setTimeout(() => {
@@ -231,26 +248,29 @@ export class antTypeButton extends Component {
         .getComponent(UITransform)
         .convertToWorldSpaceAR(
           new Vec3(
-            Object[element].x - pathObjGroup.node.getComponent(UITransform).width * 0.5,
-            Object[element].y - pathObjGroup.node.getComponent(UITransform).height * 0.5,
+            Object[element].x -
+              pathObjGroup.node.getComponent(UITransform).width * 0.5,
+            Object[element].y -
+              pathObjGroup.node.getComponent(UITransform).height * 0.5,
             0
           )
         );
       var pos_one = singleton.canvasNode
         .getComponent(UITransform)
         .convertToNodeSpaceAR(new Vec3(worldpost));
-
-      positionArray.push(pos_one);
+      let TurnPositionAndAngle = {
+        POSITION: pos_one,
+        TurnAngle: Object[element].Rotation,
+      };
+      positionArray.push(TurnPositionAndAngle);
     }
 
     this.AntTween = tween(this.GeneratedAnt);
-
+    console.log("Length of Array", positionArray);
     if (this.AntPlayer == PLAYER.PLAYER1) {
-      positionArray.pop();
       this.antTweenMovement(positionArray);
     } else if (this.AntPlayer == PLAYER.PLAYER2) {
       positionArray.reverse();
-      positionArray.pop();
       this.antTweenMovement(positionArray);
     }
     this.AntTween.start();
@@ -260,9 +280,44 @@ export class antTypeButton extends Component {
    * @param positionArray Array of Path Positions from which Ant Passes
    */
   antTweenMovement(positionArray) {
+    let Old_Position = positionArray.pop().POSITION;
     for (let i = positionArray.length - 1; i >= 0; i--) {
-      this.AntTween.to(10, { position: new Vec3(positionArray[i]) });
+      let NewPosition = positionArray[i].POSITION;
+      let TotalDistance = this.distanceBetweenPosition(
+        Old_Position,
+        NewPosition
+      );
+
+      let Time =
+        TotalDistance /
+        this.GeneratedAnt.getComponent(FighterAntScript).TimeToCoverChangeInY;
+      console.log("Distance-----", TotalDistance, "Time-----", Time);
+      this.AntTween.to(Time, {
+        position: new Vec3(NewPosition),
+      }).call(() => {
+        if (this.AntPlayer == PLAYER.PLAYER2) {
+          this.GeneratedAnt.angle =
+            this.GeneratedAnt.angle + positionArray[i].TurnAngle;
+        } else if (this.AntPlayer == PLAYER.PLAYER1) {
+          this.GeneratedAnt.angle =
+            this.GeneratedAnt.angle - positionArray[i].TurnAngle;
+        }
+      });
+
+      Old_Position = NewPosition;
     }
+  }
+  /**
+   * @description distance between old and new position
+   * @param Old_Position Vec3 old position of Ant
+   * @param newPosition  Vec3 new Position of Ant
+   * @returns Number distance between old and new position
+   */
+  distanceBetweenPosition(Old_Position: Vec3, newPosition: Vec3): number {
+    let Xaxis = Math.pow(Old_Position.x - newPosition.x, 2);
+    let Yaxis = Math.pow(Old_Position.y - newPosition.y, 2);
+    let distance = Math.sqrt(Xaxis + Yaxis);
+    return distance;
   }
   /**
    *
@@ -287,7 +342,9 @@ export class antTypeButton extends Component {
    * @returns Vec3 Ant Position According to Player Side
    */
   generatedAntPosition(): Vec3 {
-    var pathObjGroup = singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`);
+    var pathObjGroup = singleton.Map.getObjectGroup(
+      `PathObj${this.PathSelected[7]}`
+    );
     if (this.AntPlayer == PLAYER.PLAYER1) {
       var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}A`);
     } else if (this.AntPlayer == PLAYER.PLAYER2) {
@@ -331,10 +388,14 @@ export class antTypeButton extends Component {
     singleton.antsHolder_A.children.forEach((child1) => {
       if (child1.name == "FighterAnt") {
         singleton.antsHolder_B.children.forEach((child2) => {
-          generatedAntRect = child1.getComponent(UITransform).getBoundingBoxToWorld();
+          generatedAntRect = child1
+            .getComponent(UITransform)
+            .getBoundingBoxToWorld();
           // let generatedAntHealth = child1.getComponent(FighterAntScript).getHealth();
           if (child2.name == "FighterAnt") {
-            otherAntsRect = child2.getComponent(UITransform).getBoundingBoxToWorld();
+            otherAntsRect = child2
+              .getComponent(UITransform)
+              .getBoundingBoxToWorld();
             // otherAntHealth = child2.getComponent(FighterAntScript).getHealth();
           }
           if (generatedAntRect.intersects(otherAntsRect)) {
@@ -356,8 +417,12 @@ export class antTypeButton extends Component {
   health(returnedNodes) {
     console.log("IN HEALTH FUNCTION");
 
-    var returnNode_0 = returnedNodes[0].getComponent(FighterAntScript).getHealth();
-    var returnNode_1 = returnedNodes[1].getComponent(FighterAntScript).getHealth();
+    var returnNode_0 = returnedNodes[0]
+      .getComponent(FighterAntScript)
+      .getHealth();
+    var returnNode_1 = returnedNodes[1]
+      .getComponent(FighterAntScript)
+      .getHealth();
     if (returnNode_0 == 0 || returnNode_1 == 0) return;
     else {
       returnNode_0 -=
@@ -374,7 +439,10 @@ export class antTypeButton extends Component {
 
   update(deltaTime: number) {
     if (this.checker == 1) {
-      if (singleton.antsHolder_A.children.length && singleton.antsHolder_B.children.length) {
+      if (
+        singleton.antsHolder_A.children.length &&
+        singleton.antsHolder_B.children.length
+      ) {
         this.returnedNodes = this.antCollision();
         console.log(this.returnedNodes);
 
