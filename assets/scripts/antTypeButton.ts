@@ -204,28 +204,67 @@ export class antTypeButton extends Component {
   antMovement() {
     console.log(singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`));
     var pathObjGroup = singleton.Map.getObjectGroup(`PathObj${this.PathSelected[7]}`);
+    var flag: Boolean = false;
+    var pathObjects = pathObjGroup.getObjects();
+    console.log("PATHOBJECTS", pathObjects);
+
+    for (var i = 1; i < pathObjects.length; i++) {
+      if (pathObjects[i].name == "Turn1") {
+        flag = true;
+      }
+    }
     if (this.AntPlayer == PLAYER.PLAYER1) {
-      var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}B`);
+      // var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}B`);
+      for (var i = 1; pathObjects.length; i++) {
+        console.log("GroupName", pathObjects[i].name);
+        var objName = pathObjects[i].name;
 
-      let worlPosOfBtn2 = pathObjGroup.node
-        .getComponent(UITransform)
-        .convertToWorldSpaceAR(
-          new Vec3(
-            groupObj.x - pathObjGroup.node.getContentSize().width * 0.5,
-            groupObj.y - pathObjGroup.node.getContentSize().height * 0.5,
-            0
+        var groupObj = pathObjGroup.getObject(`${pathObjects[i].name}`);
+        console.log("GROUPOBJECT IN LOOP", groupObj);
+
+        let worlPosOfBtn2 = pathObjGroup.node
+          .getComponent(UITransform)
+          .convertToWorldSpaceAR(
+            new Vec3(
+              groupObj.x - pathObjGroup.node.getContentSize().width * 0.5,
+              groupObj.y - pathObjGroup.node.getContentSize().height * 0.5,
+              0
+            )
+          );
+        var pos_oneA = singleton.canvasNode
+          .getComponent(UITransform)
+          .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
+        tween(this.GeneratedAnt)
+          .to(10, {
+            position: new Vec3(pos_oneA.x, pos_oneA.y),
+          })
+          .call(() =>
+            setTimeout(() => {
+              console.log("waiting"), 10000;
+            })
           )
-        );
-      var pos_oneA = singleton.canvasNode
-        .getComponent(UITransform)
-        .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
-      console.log("TILL HERE", pos_oneA);
-      tween(this.GeneratedAnt)
-        .to(10, {
-          position: new Vec3(pos_oneA.x, pos_oneA.y),
-        })
+          .start();
+      }
 
-        .start();
+      // let worlPosOfBtn2 = pathObjGroup.node
+      //   .getComponent(UITransform)
+      //   .convertToWorldSpaceAR(
+      //     new Vec3(
+      //       groupObj.x - pathObjGroup.node.getContentSize().width * 0.5,
+      //       groupObj.y - pathObjGroup.node.getContentSize().height * 0.5,
+      //       0
+      //     )
+      //   );
+      // var pos_oneA = singleton.canvasNode
+      //   .getComponent(UITransform)
+      //   .convertToNodeSpaceAR(new Vec3(worlPosOfBtn2.x, worlPosOfBtn2.y));
+      // console.log("TILL HERE", pos_oneA);
+      // tween(this.GeneratedAnt)
+      //   .to(10, {
+      //     position: new Vec3(pos_oneA.x, pos_oneA.y),
+      //   })
+
+      //   .start();
     } else if (this.AntPlayer == PLAYER.PLAYER2) {
       var groupObj = pathObjGroup.getObject(`${this.PathSelected[7]}A`);
 
