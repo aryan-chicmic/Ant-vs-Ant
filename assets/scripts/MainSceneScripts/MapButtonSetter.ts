@@ -12,7 +12,7 @@ export class MapButtonSetter extends Component {
   @property({ type: Label })
   label: Label = null;
   mapNumber: Number = 0;
-  labelString = "";
+  MapButtonName = "";
   singletonObject: singleton;
   onLoad() {
     this.singletonObject = singleton.getInstance();
@@ -25,24 +25,17 @@ export class MapButtonSetter extends Component {
   /**
    * @description Initial Map Buttons position setter
    * @param Parent
-   * @param i
+   * @param mapbuttoncount
    */
-  setButtonPosition(Parent: Node, i: number) {
+  setButtonPosition(Parent: Node, mapbuttoncount: number) {
     this.node.getComponent(UITransform).setAnchorPoint(0.5, 0.5);
-    this.node
-      .getChildByName("Label")
-      .getComponent(UITransform)
-      .setAnchorPoint(0.5, 0.5);
-    this.node
-      .getChildByName("Label")
-      .getComponent(UITransform)
-      .setContentSize(550, 100);
-    this.node.getChildByName("Label").getComponent(Label).fontSize = 80;
-    this.node.setPosition(55, 70 - 300 * i);
+    this.label.getComponent(UITransform).setAnchorPoint(0.5, 0.5);
+    this.label.getComponent(UITransform).setContentSize(550, 100);
+    this.label.getComponent(Label).fontSize = 80;
+    this.node.setPosition(55, 70 - 300 * mapbuttoncount);
     this.node.getChildByName("Label").setPosition(40, 35);
     this.node.getComponent(UITransform).setContentSize(600, 300);
-    this.label.string = `Map${i}`;
-    // this.mapNumber = i;
+    this.label.string = `Map${mapbuttoncount}`;
     Parent.addChild(this.node);
   }
   /**
@@ -51,8 +44,8 @@ export class MapButtonSetter extends Component {
   onClickofMapButton() {
     this.buttonClickedSoundEffect("buttonClickSound");
 
-    this.labelString = this.label.string;
-    this.singletonObject.MapAssigner = this.labelString;
+    this.MapButtonName = this.label.string;
+    this.singletonObject.MapAssigner = this.MapButtonName;
 
     director.loadScene("MAP");
   }

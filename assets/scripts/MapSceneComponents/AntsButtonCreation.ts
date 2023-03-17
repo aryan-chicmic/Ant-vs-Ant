@@ -22,8 +22,10 @@ export class AntsButtonCreation extends Component {
   //properties
   @property({ type: Prefab })
   antButtonPrefab: Prefab = null;
+
   @property({ type: Prefab })
   coin1: Prefab = null;
+
   @property({ type: Node })
   coinHolder: Node = null;
   @property({ type: Prefab })
@@ -55,10 +57,13 @@ export class AntsButtonCreation extends Component {
   antsHolder_B: Node = null;
   @property({ type: Node })
   audiosource = null;
+
   @property({ type: Node })
   hiveHolder_A: Node = null;
+
   @property({ type: Node })
   hiveHolder_B: Node = null;
+
   //singletonObject
   singletonObject: singleton;
 
@@ -84,9 +89,13 @@ export class AntsButtonCreation extends Component {
   }
 
   start() {
-    //LOADING MAP
-
     this.Loader.active = false;
+    this.mapLoader();
+  }
+  /**
+   * @description Loading of map
+   */
+  mapLoader() {
     let dataLoader: any = this.mapchooser.json;
     dataLoader = dataLoader.data;
     var mapButtonnameReceived = this.singletonObject.mapButton;
@@ -96,20 +105,22 @@ export class AntsButtonCreation extends Component {
       if (mapLoader_name == mapButtonnameReceived) {
         this.mapNode.getComponent(TiledMap).tmxAsset =
           this.singletonObject.getMapAsset(dataLoader[index].name);
-        // console.log("map loader name", mapLoader_name);
-        // console.log("map loader name", mapButtonnameReceived);
         singleton.Map = this.mapNode.getComponent(TiledMap);
         this.totalHives();
         this.buttonAdder();
-        var coin1 = instantiate(this.coin1);
-        this.coinHolder.addChild(coin1);
-        var coin2 = instantiate(this.coin2);
-        this.coinHolder.addChild(coin2);
-        // console.log("Coin updater added");
+        this.coinLabelInstantiater();
       }
     }
   }
-
+  /**
+   * @description Coin Label Instantiate
+   */
+  coinLabelInstantiater() {
+    var coin1 = instantiate(this.coin1);
+    this.coinHolder.addChild(coin1);
+    var coin2 = instantiate(this.coin2);
+    this.coinHolder.addChild(coin2);
+  }
   /**
    * @description Checking total number of hives to be added
    */
@@ -119,12 +130,12 @@ export class AntsButtonCreation extends Component {
       .getObjectGroup("HivesLayer")
       .getObjects().length;
     console.log(n);
-    for (var i = 1; i <= n / 2; i++) {
+    for (var hivecount = 1; hivecount <= n / 2; hivecount++) {
       let pathObj = this.mapNode
         .getComponent(TiledMap)
         .getObjectGroup("HivesLayer");
-      var pathforhive_Obj = pathObj.getObject(`hive${i}A`);
-      var pathforhive_Obj1 = pathObj.getObject(`hive${i}B`);
+      var pathforhive_Obj = pathObj.getObject(`hive${hivecount}A`);
+      var pathforhive_Obj1 = pathObj.getObject(`hive${hivecount}B`);
       this.hivePositionSetter(pathObj, pathforhive_Obj, "A");
       this.hivePositionSetter(pathObj, pathforhive_Obj1, "B");
     }
@@ -140,8 +151,10 @@ export class AntsButtonCreation extends Component {
       .getComponent(UITransform)
       .convertToWorldSpaceAR(
         new Vec3(
-          pathforhive_Obj.x - pathObj.node.getContentSize().width * 0.5,
-          pathforhive_Obj.y - pathObj.node.getContentSize().height * 0.5,
+          pathforhive_Obj.x -
+            pathObj.node.getComponent(UITransform).width * 0.5,
+          pathforhive_Obj.y -
+            pathObj.node.getComponent(UITransform).height * 0.5,
           0
         )
       );
@@ -165,24 +178,27 @@ export class AntsButtonCreation extends Component {
    * @description Button Added for Choosing Ant Type
    */
   buttonAdder() {
-    for (var i = 0; i < this.TotalAntButtons; i++) {
+    this.antButtonInstantiater(0, this.antNodeBottom, PLAYER.PLAYER1);
+    this.antButtonInstantiater(180, this.antNodeTop, PLAYER.PLAYER2);
+  }
+  /**
+   *@description Ant Button Instantiater
+   * @param angle
+   * @param Parent
+   * @param whichPlayer
+   */
+  antButtonInstantiater(angle: number, Parent: Node, whichPlayer: PLAYER) {
+    for (
+      var antbuttoncount = 0;
+      antbuttoncount < this.TotalAntButtons;
+      antbuttoncount++
+    ) {
       var newButton = instantiate(this.antButtonPrefab);
-
-      this.antNodeBottom.addChild(newButton);
-      this.antNodeBottom.children[i]
+      newButton.angle = angle;
+      Parent.addChild(newButton);
+      Parent.children[antbuttoncount]
         .getComponent(antTypeButton)
-        .addSprites(newButton, i, PLAYER.PLAYER1);
-    }
-
-    for (var i = 0; i < this.TotalAntButtons; i++) {
-      var newButton = instantiate(this.antButtonPrefab);
-
-      newButton.angle = 180;
-
-      this.antNodeTop.addChild(newButton);
-      this.antNodeTop.children[i]
-        .getComponent(antTypeButton)
-        .addSprites(newButton, i, PLAYER.PLAYER2);
+        .addSprites(newButton, antbuttoncount, whichPlayer);
     }
   }
 

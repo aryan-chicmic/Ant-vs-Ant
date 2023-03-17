@@ -25,7 +25,9 @@ export class FighterAntScript extends Component {
   //property
   @property({ type: Prefab })
   coinUpdater: Prefab;
+
   AntTween: Tween<Node> = null;
+
   //VARIABLE
   AntName: string = null;
   TimeToCoverChangeInY: number = null;
@@ -48,9 +50,6 @@ export class FighterAntScript extends Component {
 
   onLoad() {
     this.singletonObj = singleton.getInstance();
-
-    // this.coins1 = this.singletonObj.AntsHolder_A;
-    // this.coins2 = singleton.coins2;
   }
   /**
    *
@@ -87,24 +86,22 @@ export class FighterAntScript extends Component {
     return this.Health;
   }
 
-  antMovement(generatedAnt, pathSelected, antPlayer) {
+  antMovement(pathSelected, antPlayer) {
     this.AntPlayer = antPlayer;
-    this.GeneratedAnt = generatedAnt;
+    this.GeneratedAnt = this.node;
+
     this.PathSelected = pathSelected;
     var pathObjGroup = singleton.Map.getObjectGroup(this.PathSelected);
     var pathObjects = pathObjGroup.getObjects();
     let Object = pathObjects.filter((objectname) => {
-      // object name With ButtonA(PathNumber) and ButtonB(PathNumber) not included
       let ButtonNameA = "Button" + this.PathSelected[7] + "A";
       let ButtonNameB = "Button" + this.PathSelected[7] + "B";
-      // console.log("button name", ButtonNameA, ButtonNameB);
+
       return objectname.name != ButtonNameA && objectname.name != ButtonNameB;
     });
     let positionArray = [];
-    // console.log("PATHOBJECTS", Object);
 
     for (let element = 0; element < Object.length; element++) {
-      // console.log("start", Object[element].x);
       let worldpost = pathObjGroup.node
         .getComponent(UITransform)
         .convertToWorldSpaceAR(
@@ -116,7 +113,6 @@ export class FighterAntScript extends Component {
             0
           )
         );
-      // console.log("CANVAS NODE", this.singletonObj.CanvasNode);
 
       var pos_one = this.singletonObj.CanvasNode.getComponent(
         UITransform
@@ -128,10 +124,8 @@ export class FighterAntScript extends Component {
       positionArray.push(TurnPositionAndAngle);
     }
 
-    this.AntTween = tween(this.GeneratedAnt);
-    // console.log(this.AntTween, "ANTTWEEn");
+    this.AntTween = tween(this.node);
 
-    // console.log("Length of Array", positionArray);
     if (this.AntPlayer == PLAYER.PLAYER1) {
       this.antTweenMovement(positionArray);
     } else if (this.AntPlayer == PLAYER.PLAYER2) {
@@ -157,7 +151,7 @@ export class FighterAntScript extends Component {
       let Time =
         TotalDistance /
         this.GeneratedAnt.getComponent(FighterAntScript).TimeToCoverChangeInY;
-      // console.log("Distance-----", TotalDistance, "Time-----", Time);
+
       this.AntTween.to(Time, {
         position: new Vec3(NewPosition),
       }).call(() => {

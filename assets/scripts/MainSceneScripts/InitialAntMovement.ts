@@ -12,6 +12,8 @@ import {
   instantiate,
   UITransform,
   Vec2,
+  Tween,
+  TweenSystem,
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -19,9 +21,7 @@ const { ccclass, property } = _decorator;
 export class InitialAntMovement extends Component {
   finalPosX = 0;
   finalPosY = 0;
-  x = 0;
-  y = 0;
-  tweenComp: any = null;
+  tweenComp: Tween<Node> = null;
 
   start() {}
   /**
@@ -29,18 +29,24 @@ export class InitialAntMovement extends Component {
    */
   startMovement() {
     this.finalPosX =
-      Math.floor(Math.random() * 720) * Math.pow(-1, Math.round(Math.random()));
-
+      Math.floor(
+        Math.random() * this.node.parent.getComponent(UITransform).width * 0.5
+      ) * Math.pow(-1, Math.round(Math.random()));
     if (this.node.position.y > 0) {
-      this.finalPosY = Math.floor(Math.random() - 1300);
+      this.finalPosY = Math.floor(
+        Math.random() -
+          (this.node.parent.getComponent(UITransform).height * 0.5 + 17)
+      );
     } else {
-      this.finalPosY = Math.floor(Math.random() + 1300);
+      this.finalPosY = Math.floor(
+        Math.random() +
+          (this.node.parent.getComponent(UITransform).height * 0.5 + 17)
+      );
     }
-    //console.log(this.finalPosY);
 
-    var delta_x = this.finalPosX - this.node.position.x;
-    var delta_y = this.finalPosY - this.node.position.y;
-    var Angle = Math.atan2(delta_y, delta_x);
+    let delta_x = this.finalPosX - this.node.position.x;
+    let delta_y = this.finalPosY - this.node.position.y;
+    let Angle = Math.atan2(delta_y, delta_x);
     Angle = (Angle * 180) / Math.PI;
 
     this.node.angle = Angle - 90;
@@ -52,6 +58,7 @@ export class InitialAntMovement extends Component {
 
         .start();
     }, 10);
+    console.log("tween", this.tweenComp);
   }
   /**
    * @description setting intial position of ants on initial screen for movement
@@ -76,9 +83,7 @@ export class InitialAntMovement extends Component {
         .getBoundingBox()
         .contains(new Vec2(this.node.position.x, this.node.position.y))
     ) {
-      this.tweenComp.stop();
-      // console.log(this.finalPosX, this.finalPosY);
-
+      TweenSystem.instance.ActionManager.pauseTarget(this.tweenComp);
       this.startMovement();
     }
   }

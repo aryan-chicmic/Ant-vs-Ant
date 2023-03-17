@@ -1,4 +1,11 @@
-import { _decorator, Component, Node, Rect, UITransform, TweenSystem } from "cc";
+import {
+  _decorator,
+  Component,
+  Node,
+  Rect,
+  UITransform,
+  TweenSystem,
+} from "cc";
 import { singleton } from "../ClassScripts/singleton";
 import { HiveScript } from "../MapSceneComponents/HiveScript";
 import { FighterAntScript } from "./FighterAntScript";
@@ -27,25 +34,35 @@ export class Collision extends Component {
   antCollision(): any {
     let Collision: Boolean = false;
 
-    for (var i = 0; i < this.SingletonObj.AntsHolder_A.children.length; i++) {
-      this.AntInPlayer1 = this.SingletonObj.AntsHolder_A.children[i]
+    for (
+      var holder_A_Ant = 0;
+      holder_A_Ant < this.SingletonObj.AntsHolder_A.children.length;
+      holder_A_Ant++
+    ) {
+      this.AntInPlayer1 = this.SingletonObj.AntsHolder_A.children[holder_A_Ant]
         .getComponent(UITransform)
         .getBoundingBoxToWorld();
-      for (var j = 0; j < this.SingletonObj.AntsHolder_B.children.length; j++) {
-        this.AntInPlayer2 = this.SingletonObj.AntsHolder_B.children[j]
+      for (
+        var holder_B_Ant = 0;
+        holder_B_Ant < this.SingletonObj.AntsHolder_B.children.length;
+        holder_B_Ant++
+      ) {
+        this.AntInPlayer2 = this.SingletonObj.AntsHolder_B.children[
+          holder_B_Ant
+        ]
           .getComponent(UITransform)
           .getBoundingBoxToWorld();
         if (this.AntInPlayer1.intersects(this.AntInPlayer2)) {
           //pause tween
           TweenSystem.instance.ActionManager.pauseTarget(
-            this.SingletonObj.AntsHolder_A.children[i]
+            this.SingletonObj.AntsHolder_A.children[holder_A_Ant]
           );
           TweenSystem.instance.ActionManager.pauseTarget(
-            this.SingletonObj.AntsHolder_B.children[j]
+            this.SingletonObj.AntsHolder_B.children[holder_B_Ant]
           );
           return [
-            this.SingletonObj.AntsHolder_A.children[i],
-            this.SingletonObj.AntsHolder_B.children[j],
+            this.SingletonObj.AntsHolder_A.children[holder_A_Ant],
+            this.SingletonObj.AntsHolder_B.children[holder_B_Ant],
           ];
         }
       }
@@ -53,46 +70,47 @@ export class Collision extends Component {
 
     return null;
   }
-  hiveCollision() {
-    for (var i = 0; i < this.SingletonObj.AntsHolder_A.children.length; i++) {
-      // this.ant1Reference = this.SingletonObj.AntsHolder_A.children[i];
-      this.AntInPlayer1 = this.SingletonObj.AntsHolder_A.children[i]
+  checkingHiveCollision() {
+    var returned_items1 = this.hiveCollisionImplementation(
+      this.SingletonObj.AntsHolder_A,
+      this.SingletonObj.HiveHolder_B
+    );
+    var returned_items2 = this.hiveCollisionImplementation(
+      this.SingletonObj.AntsHolder_B,
+      this.SingletonObj.HiveHolder_A
+    );
+    if (returned_items1 == null) {
+      return returned_items2;
+    }
+    return returned_items1;
+  }
+  hiveCollisionImplementation(whichAntHolder, whichHiveHolder) {
+    for (
+      var antReference = 0;
+      antReference < whichAntHolder.children.length;
+      antReference++
+    ) {
+      this.AntInPlayer1 = whichAntHolder.children[antReference]
         .getComponent(UITransform)
         .getBoundingBoxToWorld();
-      for (var j = 0; j < this.SingletonObj.HiveHolder_B.children.length; j++) {
-        this.hiveofPlayerB = this.SingletonObj.HiveHolder_B.children[j]
+      for (
+        var hiveReference = 0;
+        hiveReference < whichHiveHolder.children.length;
+        hiveReference++
+      ) {
+        this.hiveofPlayerB = whichHiveHolder.children[hiveReference]
           .getComponent(UITransform)
           .getBoundingBoxToWorld();
 
         if (this.AntInPlayer1.intersects(this.hiveofPlayerB)) {
-          //pause tween
-
           return [
-            this.SingletonObj.AntsHolder_A.children[i],
-            this.SingletonObj.HiveHolder_B.children[j],
+            whichAntHolder.children[antReference],
+            whichHiveHolder.children[hiveReference],
           ];
         }
       }
     }
-    for (var i = 0; i < this.SingletonObj.AntsHolder_B.children.length; i++) {
-      // this.ant1Reference = this.SingletonObj.AntsHolder_A.children[i];
-      this.AntInPlayer2 = this.SingletonObj.AntsHolder_B.children[i]
-        .getComponent(UITransform)
-        .getBoundingBoxToWorld();
-      for (var j = 0; j < this.SingletonObj.HiveHolder_A.children.length; j++) {
-        this.hiveofPlayerA = this.SingletonObj.HiveHolder_A.children[j]
-          .getComponent(UITransform)
-          .getBoundingBoxToWorld();
-        if (this.AntInPlayer2.intersects(this.hiveofPlayerA)) {
-          //pause tween
 
-          return [
-            this.SingletonObj.AntsHolder_B.children[i],
-            this.SingletonObj.HiveHolder_A.children[j],
-          ];
-        }
-      }
-    }
     return null;
   }
 
@@ -125,81 +143,58 @@ export class Collision extends Component {
     }
   }
   AntHealth(returnedNodes) {
-    let returnNode_0 = returnedNodes[0].getComponent(FighterAntScript).getHealth();
-    let returnNode_1 = returnedNodes[1].getComponent(FighterAntScript).getHealth();
-    returnNode_0 -=
+    let healthOfAnt1 = returnedNodes[0]
+      .getComponent(FighterAntScript)
+      .getHealth();
+    let healthOfAnt2 = returnedNodes[1]
+      .getComponent(FighterAntScript)
+      .getHealth();
+    healthOfAnt1 -=
       returnedNodes[1].getComponent(FighterAntScript).Damage +
       returnedNodes[0].getComponent(FighterAntScript).Shield;
-    returnNode_1 -=
+    healthOfAnt2 -=
       returnedNodes[0].getComponent(FighterAntScript).Damage +
       returnedNodes[1].getComponent(FighterAntScript).Shield;
 
-    returnedNodes[0].getComponent(FighterAntScript).Health = returnNode_0;
-    returnedNodes[1].getComponent(FighterAntScript).Health = returnNode_1;
+    returnedNodes[0].getComponent(FighterAntScript).Health = healthOfAnt1;
+    returnedNodes[1].getComponent(FighterAntScript).Health = healthOfAnt2;
 
-    if (returnNode_0 <= 0) {
+    if (healthOfAnt1 <= 0) {
       setTimeout(() => {
         returnedNodes[0].destroy();
-        // returnedNodes[1].getComponent(Animation).stop();
+
         if (returnedNodes[1] != null) {
           TweenSystem.instance.ActionManager.resumeTarget(returnedNodes[1]);
         }
       }, 1000);
-    } else if (returnNode_1 <= 0) {
+    } else if (healthOfAnt2 <= 0) {
       setTimeout(() => {
         returnedNodes[1].destroy();
-        // returnedNodes[0].getComponent(Animation).stop();
+
         if (returnedNodes[0] != null) {
           TweenSystem.instance.ActionManager.resumeTarget(returnedNodes[0]);
         }
       }, 1000);
     }
   }
-  health(returnedNodes) {
-    // console.log("IN HEALTH FUNCTION");
 
-    var returnNode_0 = returnedNodes[0].getComponent(FighterAntScript).getHealth();
-    console.log();
-    var returnNode_1 = returnedNodes[1].getComponent(FighterAntScript).getHealth();
-    // console.log(" Starting health", returnNode_0, returnNode_1);
-    returnNode_0 -=
-      returnedNodes[1].getComponent(FighterAntScript).Damage +
-      returnedNodes[0].getComponent(FighterAntScript).Shield;
-    returnNode_1 -=
-      returnedNodes[0].getComponent(FighterAntScript).Damage +
-      returnedNodes[1].getComponent(FighterAntScript).Shield;
-
-    returnedNodes[0].getComponent(FighterAntScript).Health = returnNode_0;
-    returnedNodes[1].getComponent(FighterAntScript).Health = returnNode_1;
-
-    if (returnNode_0 <= 0) {
-      returnedNodes[0].destroy();
-      if (returnedNodes[1] != null) {
-        TweenSystem.instance.ActionManager.resumeTarget(returnedNodes[1]);
-      }
-    }
-
-    if (returnNode_1 <= 0) {
-      returnedNodes[1].destroy();
-      if (returnedNodes[0] != null) {
-        TweenSystem.instance.ActionManager.resumeTarget(returnedNodes[0]);
-      }
-    }
-  }
   onLoad() {
     this.SingletonObj = singleton.getInstance();
   }
   start() {}
 
   update(deltaTime: number) {
-    if (this.SingletonObj.AntsHolder_A != null && this.SingletonObj.AntsHolder_B != null) {
+    if (
+      this.SingletonObj.AntsHolder_A != null &&
+      this.SingletonObj.AntsHolder_B != null
+    ) {
       let collidedAnt = this.antCollision();
       if (collidedAnt != null) {
         this.AntHealth(collidedAnt);
       }
     }
 
-    let anthiveCollision = this.hiveCollision();
+    let anthiveCollision = this.checkingHiveCollision();
 
     if (anthiveCollision != null) {
       this.hive_ant_health(anthiveCollision);

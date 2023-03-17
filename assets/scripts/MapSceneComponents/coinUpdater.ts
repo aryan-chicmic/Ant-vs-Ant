@@ -25,16 +25,16 @@ export class coinUpdater extends Component {
   start() {
     if (this.coins1 < this.maximumCoins) {
       this.schedule(() => {
-        this.coinUpdateFunc1(this.coins1);
+        this.coinUpdateFunc(this.coins1);
       }, 0.1);
     }
     if (this.coins2 < this.maximumCoins) {
       this.schedule(() => {
-        this.coinUpdateFunc1(this.coins2);
+        this.coinUpdateFunc(this.coins2);
       }, 0.1);
     }
   }
-  coinUpdateFunc1(whichCoins: number) {
+  coinUpdateFunc(whichCoins: number) {
     if (whichCoins == this.coins1) {
       this.coinlabel1 = this.node
         .getChildByName("CoinUpdater1")
@@ -61,7 +61,6 @@ export class coinUpdater extends Component {
           .getComponent(Label).string = `${this.coins2}`;
       }
     }
-    // console.log(this.coinlabel1);
   }
 
   coinDeduction(AntPlayer: PLAYER, CoinAlloted: number) {
@@ -82,23 +81,16 @@ export class coinUpdater extends Component {
   }
 
   checkCoin(CoinAlloted: number, AntPlayer: PLAYER): boolean {
-    console.log("COINALLOTED", CoinAlloted);
-    console.log("PARSEINT", parseInt(this.coinlabel1, 10));
-
     if (AntPlayer == PLAYER.PLAYER1) {
       if (CoinAlloted >= parseInt(this.coinlabel1, 10)) {
-        console.log("Not enough coins");
         return false;
       } else {
-        console.log("Deducting");
         return true;
       }
     } else if (AntPlayer == PLAYER.PLAYER2) {
       if (CoinAlloted >= parseInt(this.coinlabel2, 10)) {
-        console.log("Not enough coins");
         return false;
       } else {
-        console.log("Deducting");
         return true;
       }
     }

@@ -11,7 +11,6 @@ export class PathSelectorButton extends Component {
    */
   pathSelected(node: any) {
     let path = this.node.getChildByName("Name").getComponent(Label).string;
-    // console.log("Selected path", path);
     const clickEventHandler = new EventHandler();
     // This node is the node to which your event handler code component belongs
     clickEventHandler.target = node;

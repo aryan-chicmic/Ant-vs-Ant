@@ -2,7 +2,6 @@ import {
   _decorator,
   Component,
   Node,
-  ProgressBarComponent,
   director,
   Label,
   SpriteFrame,
@@ -11,6 +10,7 @@ import {
   Vec2,
   tween,
   Vec3,
+  ProgressBar,
 } from "cc";
 import { singleton } from "./singleton";
 const { ccclass, property } = _decorator;
@@ -35,8 +35,7 @@ export class ProgressUpdater extends Component {
     this.SingletonObject = singleton.getInstance();
     this.rays.active = false;
     this.particle.active = false;
-    this.progress =
-      this.progressBar.getComponent(ProgressBarComponent).progress;
+    this.progress = this.progressBar.getComponent(ProgressBar).progress;
     let promise1 = this.loadAudioResource("sounds");
     let promise2 = this.loadSpriteResource("sprites");
     let promise3 = this.loadTiledMapResources("TiledMapData");
@@ -91,14 +90,13 @@ export class ProgressUpdater extends Component {
 
     this.progress += 0.01;
     this.PercentageNumber.string = percentagenum;
-    this.progressBar.getComponent(ProgressBarComponent).progress =
-      this.progress;
+    this.progressBar.getComponent(ProgressBar).progress = this.progress;
     if (this.progress >= 1) {
       this.rays.active = true;
       this.particle.active = true;
       setTimeout(() => {
         director.loadScene("MAIN");
-      }, 50);
+      }, 500);
     }
   }
   update(deltaTime: number) {}

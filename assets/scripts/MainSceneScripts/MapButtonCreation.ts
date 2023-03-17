@@ -4,9 +4,6 @@
 import { _decorator, Component, Node, instantiate, Prefab } from "cc";
 import AudioControllerObject from "../ClassScripts/AudioController";
 import { singleton } from "../ClassScripts/singleton";
-// import AudioControllerObject from "../AudioController";
-
-// import { singleton } from "../singleton";
 import { MapButtonSetter } from "./MapButtonSetter";
 const { ccclass, property } = _decorator;
 
@@ -29,11 +26,9 @@ export class MapButtonCreation extends Component {
   @property({ type: Prefab })
   HomepageOne = null;
 
-  //global
+  //Variable
   button: Node = null;
   countofMaps: number = 3;
-
-  //Variable
   SingletonObject: singleton = null;
   onLoad() {}
 
@@ -55,7 +50,7 @@ export class MapButtonCreation extends Component {
   /**
    * @description on clicking button for Player2 -> making of map choosing buttons
    */
-  MapButtonCreator() {
+  mapButtonCreator() {
     console.log("Player 2 Button Clicked");
     this.player1_node.active = false;
     this.player2_node.active = false;
@@ -63,21 +58,19 @@ export class MapButtonCreation extends Component {
     this.quit_node.active = false;
     this.loader.active = true;
     this.buttonClickedSoundEffect("buttonClickSound");
-    // this.soundEffect(this.help_node);
-    // this.soundEffect(this.quit_node);
-
-    // setTimeout(() => {
     this.loader.active = false;
 
-    for (var i = 1; i <= this.countofMaps; i++) {
+    for (
+      var mapbuttoncount = 1;
+      mapbuttoncount <= this.countofMaps;
+      mapbuttoncount++
+    ) {
       this.button = instantiate(this.mapButtonPrefab);
 
       this.button
         .getComponent(MapButtonSetter)
-        .setButtonPosition(this.mapButtonCollector, i);
-      // this.button.on(Input.EventType.TOUCH_START, this.loadMap, this);
+        .setButtonPosition(this.mapButtonCollector, mapbuttoncount);
     }
-    // }, 500);
   }
 
   onClickHelpButton() {
