@@ -118,7 +118,12 @@ export class antTypeButton extends Component {
       buttonclick
         .getChildByName("Name")
         .getComponent(Label).string = `PathObj${objectcount}`;
-      this.SingletonObj.PathDeciderNode.addChild(buttonclick);
+      if (player == PLAYER.PLAYER1) {
+        this.SingletonObj.PathDeciderNodeA.addChild(buttonclick);
+      } else if (player == PLAYER.PLAYER2) {
+        this.SingletonObj.PathDeciderNodeB.addChild(buttonclick);
+      }
+
       buttonclick.getComponent(PathSelectorButton).pathSelected(this.node);
     }
   }
@@ -141,7 +146,12 @@ export class antTypeButton extends Component {
    * @description Ant Generated After Path of Ant Decided According to Player Side
    */
   antGenerationAfterPathDecided() {
-    this.SingletonObj.PathDeciderNode.destroy();
+    if (this.AntPlayer == PLAYER.PLAYER1) {
+      this.SingletonObj.PathDeciderNodeA.destroy();
+    } else if (this.AntPlayer == PLAYER.PLAYER2) {
+      this.SingletonObj.PathDeciderNodeB.destroy();
+    }
+
     let antName;
     let TimeToCoverChangeInY;
     let spriteName;
@@ -212,13 +222,30 @@ export class antTypeButton extends Component {
   antGenerateButtonClicked(AntDetails) {
     this.AntAlldetails = AntDetails;
 
-    if (this.SingletonObj.PathDeciderNode != null) {
-      this.SingletonObj.PathDeciderNode.destroy();
+    if (
+      this.AntPlayer == PLAYER.PLAYER1 &&
+      this.SingletonObj.PathDeciderNodeA != null
+    ) {
+      this.SingletonObj.PathDeciderNodeA.destroy();
+      var newNode = this.SingletonObj.PathDeciderNodeA;
+      newNode = new Node("PathDeciderNodeA");
+      this.SingletonObj.PathDeciderNodeA = newNode;
+      this.SingletonObj.MapComponents.addChild(
+        this.SingletonObj.PathDeciderNodeA
+      );
+    } else if (
+      this.AntPlayer == PLAYER.PLAYER2 &&
+      this.SingletonObj.PathDeciderNodeB != null
+    ) {
+      this.SingletonObj.PathDeciderNodeB.destroy();
+      var newNode1 = this.SingletonObj.PathDeciderNodeB;
+      newNode1 = new Node("PathDeciderNodeB");
+      this.SingletonObj.PathDeciderNodeB = newNode1;
+      this.SingletonObj.MapComponents.addChild(
+        this.SingletonObj.PathDeciderNodeB
+      );
     }
-    var newNode = this.SingletonObj.PathDeciderNode;
-    newNode = new Node("PathDeciderNode");
-    this.SingletonObj.PathDeciderNode = newNode;
-    this.SingletonObj.MapComponents.addChild(this.SingletonObj.PathDeciderNode);
+
     setTimeout(() => {
       this.playerPathButton();
     }, 100);

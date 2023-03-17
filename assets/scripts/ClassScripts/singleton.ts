@@ -26,7 +26,8 @@ export class singleton extends Component {
   private canvasNode: Node = null;
   private antsHolder_A: Node = null;
   private antsHolder_B: Node = null;
-  private pathDeciderNode: Node = null;
+  private pathDeciderNodeA: Node = null;
+  private pathDeciderNodeB: Node = null;
   private antsHolder: Node = null;
   private mapComponents: Node = null;
   private antPath: string;
@@ -83,11 +84,17 @@ export class singleton extends Component {
   set AntsHolder(value: Node) {
     this.antsHolder = value;
   }
-  get PathDeciderNode(): Node {
-    return this.pathDeciderNode;
+  get PathDeciderNodeA(): Node {
+    return this.pathDeciderNodeA;
   }
-  set PathDeciderNode(value: Node) {
-    this.pathDeciderNode = value;
+  set PathDeciderNodeA(value: Node) {
+    this.pathDeciderNodeA = value;
+  }
+  get PathDeciderNodeB(): Node {
+    return this.pathDeciderNodeB;
+  }
+  set PathDeciderNodeB(value: Node) {
+    this.pathDeciderNodeB = value;
   }
   get CanvasNode(): Node {
     return this.canvasNode;

@@ -32,8 +32,6 @@ export class Collision extends Component {
   SingletonObj: singleton = null;
 
   antCollision(): any {
-    let Collision: Boolean = false;
-
     for (
       var holder_A_Ant = 0;
       holder_A_Ant < this.SingletonObj.AntsHolder_A.children.length;
@@ -149,6 +147,8 @@ export class Collision extends Component {
     let healthOfAnt2 = returnedNodes[1]
       .getComponent(FighterAntScript)
       .getHealth();
+    console.log("IntialAnt1", healthOfAnt1, "Ant2", healthOfAnt2);
+
     healthOfAnt1 -=
       returnedNodes[1].getComponent(FighterAntScript).Damage +
       returnedNodes[0].getComponent(FighterAntScript).Shield;
@@ -158,23 +158,21 @@ export class Collision extends Component {
 
     returnedNodes[0].getComponent(FighterAntScript).Health = healthOfAnt1;
     returnedNodes[1].getComponent(FighterAntScript).Health = healthOfAnt2;
+    console.log("Ant1", healthOfAnt1, "Ant2", healthOfAnt2);
 
     if (healthOfAnt1 <= 0) {
-      setTimeout(() => {
-        returnedNodes[0].destroy();
+      returnedNodes[0].destroy();
 
-        if (returnedNodes[1] != null) {
-          TweenSystem.instance.ActionManager.resumeTarget(returnedNodes[1]);
-        }
-      }, 1000);
-    } else if (healthOfAnt2 <= 0) {
-      setTimeout(() => {
-        returnedNodes[1].destroy();
+      if (returnedNodes[1] != null) {
+        TweenSystem.instance.ActionManager.resumeTarget(returnedNodes[1]);
+      }
+    }
+    if (healthOfAnt2 <= 0) {
+      returnedNodes[1].destroy();
 
-        if (returnedNodes[0] != null) {
-          TweenSystem.instance.ActionManager.resumeTarget(returnedNodes[0]);
-        }
-      }, 1000);
+      if (returnedNodes[0] != null) {
+        TweenSystem.instance.ActionManager.resumeTarget(returnedNodes[0]);
+      }
     }
   }
 

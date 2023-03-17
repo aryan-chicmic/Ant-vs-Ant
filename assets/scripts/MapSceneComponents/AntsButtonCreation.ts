@@ -45,8 +45,9 @@ export class AntsButtonCreation extends Component {
   @property({ type: JsonAsset })
   mapchooser: JsonAsset = null;
   @property({ type: Node })
-  PathDeciderNode: Node = null;
-
+  PathDeciderNodeA: Node = null;
+  @property({ type: Node })
+  PathDeciderNodeB: Node = null;
   @property({ type: Node })
   mapComponents: Node = null;
   @property({ type: Node })
@@ -76,7 +77,8 @@ export class AntsButtonCreation extends Component {
   }
   onLoad() {
     this.singletonObject = singleton.getInstance();
-    this.singletonObject.PathDeciderNode = this.PathDeciderNode;
+    this.singletonObject.PathDeciderNodeA = this.PathDeciderNodeA;
+    this.singletonObject.PathDeciderNodeB = this.PathDeciderNodeB;
     this.singletonObject.AntsHolder_A = this.antsHolder_A;
     this.singletonObject.AntsHolder_B = this.antsHolder_B;
     this.singletonObject.CanvasNode = this.canvas;
