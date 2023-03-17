@@ -2237,7 +2237,7 @@
       "__id__": 60
     },
     "asset": {
-      "__uuid__": "517c8945-b84f-43ae-924c-823917462469",
+      "__uuid__": "94903d6d-1730-4a07-bde0-ae0e5eda538a",
       "__expectedType__": "cc.Prefab"
     },
     "fileId": "39ANCYe4tLs7UCbrc/5fce",
@@ -2249,7 +2249,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "08lPbdS2xEDYXnUc08F+j3",
+    "fileId": "a6CsYNoalGUJ9Jz+gfoGV2",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -2277,7 +2277,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "audio"
+    "value": "Audio"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -2295,8 +2295,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": -540,
-      "y": -964.904,
+      "x": 0,
+      "y": 0,
       "z": 0
     }
   },

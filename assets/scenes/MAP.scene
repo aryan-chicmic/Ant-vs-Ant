@@ -4327,7 +4327,7 @@
       "__id__": 123
     },
     "asset": {
-      "__uuid__": "517c8945-b84f-43ae-924c-823917462469",
+      "__uuid__": "94903d6d-1730-4a07-bde0-ae0e5eda538a",
       "__expectedType__": "cc.Prefab"
     },
     "fileId": "39ANCYe4tLs7UCbrc/5fce",
@@ -4339,7 +4339,7 @@
   },
   {
     "__type__": "cc.PrefabInstance",
-    "fileId": "c7tAX0cdJM/oAdOaaoAEVW",
+    "fileId": "0aPIQWD+RAsYVZxVhasLPM",
     "prefabRootNode": null,
     "mountedChildren": [],
     "mountedComponents": [],
@@ -4367,7 +4367,7 @@
     "propertyPath": [
       "_name"
     ],
-    "value": "audio"
+    "value": "Audio"
   },
   {
     "__type__": "cc.TargetInfo",
@@ -4385,8 +4385,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": -720,
-      "y": -1280,
+      "x": 0,
+      "y": 0,
       "z": 0
     }
   },
@@ -4545,7 +4545,7 @@
       "__id__": 57
     },
     "hive": {
-      "__uuid__": "af8631d6-eea3-4565-ad0c-0fb1d469e3a4",
+      "__uuid__": "b39cff36-05ac-4a0a-9d0d-97db54bcbcae",
       "__expectedType__": "cc.Prefab"
     },
     "coin2": {

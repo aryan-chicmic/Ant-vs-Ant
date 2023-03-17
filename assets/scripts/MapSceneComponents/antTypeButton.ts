@@ -95,7 +95,7 @@ export class antTypeButton extends Component {
 
     let Map: TiledMap = singleton.Map;
     let n = Map.getComponent(TiledMap).getObjectGroups().length;
-    for (var i = 1; i < n - 2; i++) {
+    for (var i = 1; i <= n - 2; i++) {
       let pathObj = Map.getComponent(TiledMap).getObjectGroup(`PathObj${i}`);
       if (this.AntPlayer == PLAYER.PLAYER1) {
         console.log(pathObj);

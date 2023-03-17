@@ -63,7 +63,7 @@ export class AntsButtonCreation extends Component {
   singletonObject: singleton;
 
   //globals
-  TotalAntButtons: Number = 0;
+  TotalAntButtons: Number = 6;
 
   backgroundMusicEffect(ClipName: string) {
     let audio = this.singletonObject.getAudioFile(ClipName);
