@@ -393,6 +393,10 @@
       "__uuid__": "61620ee4-8f69-475f-a750-359eb53a6d71",
       "__expectedType__": "cc.Prefab"
     },
+    "CoinSufficientPopUp": {
+      "__uuid__": "f48f2706-c0d2-4d2a-97d6-69d32cc34de2",
+      "__expectedType__": "cc.Prefab"
+    },
     "_id": ""
   },
   {

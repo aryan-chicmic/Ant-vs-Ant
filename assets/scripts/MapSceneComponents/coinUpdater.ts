@@ -9,90 +9,55 @@ const { ccclass, property } = _decorator;
 
 @ccclass("coinUpdater")
 export class coinUpdater extends Component {
-  @property({ type: Prefab })
-  coinPrefab1: Prefab = null;
-  @property({ type: Prefab })
-  coinPrefab2: Prefab = null;
+  // @property({ type: Prefab })
+  // coinPrefab1: Prefab = null;
+  // @property({ type: Prefab })
+  // coinPrefab2: Prefab = null;
+  @property({ type: Label })
+  coinLabel: Label = null;
   coins1: number = 0;
   coins2: number = 0;
   maximumCoins = 300;
   coinlabel1: string = "";
   coinlabel2: string = "";
+  coin1Obj = null;
+  coin2Obj = null;
   singletonObj: singleton = null;
   onLoad() {
     this.singletonObj = singleton.getInstance();
+    // this.singletonObj.Coins1 = parseInt(this.coinlabel1);
+    // this.singletonObj.Coins2 = parseInt(this.coinlabel2);
   }
+
   start() {
     if (this.coins1 < this.maximumCoins) {
       this.schedule(() => {
         this.coinUpdateFunc(this.coins1);
       }, 0.1);
     }
-    if (this.coins2 < this.maximumCoins) {
-      this.schedule(() => {
-        this.coinUpdateFunc(this.coins2);
-      }, 0.1);
-    }
   }
   coinUpdateFunc(whichCoins: number) {
     if (whichCoins == this.coins1) {
-      this.coinlabel1 = this.node
-        .getChildByName("CoinUpdater1")
-        .getChildByName("Label")
-        .getComponent(Label).string;
+      this.coinlabel1 = this.coinLabel.getComponent(Label).string;
       if (this.coinlabel1 != null && this.coins1 < this.maximumCoins) {
-        this.coins1++;
-        this.node
-          .getChildByName("CoinUpdater1")
-          .getChildByName("Label")
-          .getComponent(Label).string = `${this.coins1}`;
-      }
-    }
-    if (whichCoins == this.coins2) {
-      this.coinlabel2 = this.node
-        .getChildByName("CoinUpdater2")
-        .getChildByName("Label")
-        .getComponent(Label).string;
-      if (this.coinlabel2 != null && this.coins2 < this.maximumCoins) {
-        this.coins2++;
-        this.node
-          .getChildByName("CoinUpdater2")
-          .getChildByName("Label")
-          .getComponent(Label).string = `${this.coins2}`;
+        this.coins1 += 10;
+        this.coinlabel1 = `${this.coins1}`;
+        this.coinLabel.getComponent(Label).string = `${this.coins1}`;
       }
     }
   }
 
-  coinDeduction(AntPlayer: PLAYER, CoinAlloted: number) {
-    if (AntPlayer == PLAYER.PLAYER1) {
-      this.coins1 -= CoinAlloted;
-      this.node
-        .getChildByName("CoinUpdater1")
-        .getChildByName("Label")
-        .getComponent(Label).string = `${this.coins1}`;
-    }
-    if (AntPlayer == PLAYER.PLAYER2) {
-      this.coins2 -= CoinAlloted;
-      this.node
-        .getChildByName("CoinUpdater2")
-        .getChildByName("Label")
-        .getComponent(Label).string = `${this.coins2}`;
-    }
+  coinDeduction(CoinAlloted: number) {
+    this.coins1 -= CoinAlloted;
+    this.coinlabel1 = `${this.coins1}`;
+    this.coinLabel.getComponent(Label).string = `${this.coins1}`;
   }
 
-  checkCoin(CoinAlloted: number, AntPlayer: PLAYER): boolean {
-    if (AntPlayer == PLAYER.PLAYER1) {
-      if (CoinAlloted >= parseInt(this.coinlabel1, 10)) {
-        return false;
-      } else {
-        return true;
-      }
-    } else if (AntPlayer == PLAYER.PLAYER2) {
-      if (CoinAlloted >= parseInt(this.coinlabel2, 10)) {
-        return false;
-      } else {
-        return true;
-      }
+  checkCoin(CoinAlloted: number): boolean {
+    if (CoinAlloted >= parseInt(this.coinlabel1)) {
+      return false;
+    } else {
+      return true;
     }
   }
 

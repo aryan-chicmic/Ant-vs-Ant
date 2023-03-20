@@ -30,8 +30,7 @@ export class AntsButtonCreation extends Component {
   coinHolder: Node = null;
   @property({ type: Prefab })
   hive: Prefab = null;
-  @property({ type: Prefab })
-  coin2: Prefab = null;
+
   @property({ type: Node })
   antNodeBottom: Node = null;
   @property({ type: Node })
@@ -88,6 +87,7 @@ export class AntsButtonCreation extends Component {
     this.singletonObject.CoinHolder = this.coinHolder;
     this.audiosource.getComponent(AudioSourceManager).initAudioSource();
     this.backgroundMusicEffect("gameplaySound");
+    // this.singletonObject.Coins1 = this.coin1;
   }
 
   start() {
@@ -105,8 +105,9 @@ export class AntsButtonCreation extends Component {
       let mapLoader_name = dataLoader[index].name;
 
       if (mapLoader_name == mapButtonnameReceived) {
-        this.mapNode.getComponent(TiledMap).tmxAsset =
-          this.singletonObject.getMapAsset(dataLoader[index].name);
+        this.mapNode.getComponent(TiledMap).tmxAsset = this.singletonObject.getMapAsset(
+          dataLoader[index].name
+        );
         singleton.Map = this.mapNode.getComponent(TiledMap);
         this.totalHives();
         this.buttonAdder();
@@ -119,23 +120,22 @@ export class AntsButtonCreation extends Component {
    */
   coinLabelInstantiater() {
     var coin1 = instantiate(this.coin1);
+    this.singletonObject.Coins1 = coin1;
     this.coinHolder.addChild(coin1);
-    var coin2 = instantiate(this.coin2);
+
+    var coin2 = instantiate(this.coin1);
+    coin2.setPosition(0, 0);
+    this.singletonObject.Coins2 = coin2;
     this.coinHolder.addChild(coin2);
   }
   /**
    * @description Checking total number of hives to be added
    */
   totalHives() {
-    var n = this.mapNode
-      .getComponent(TiledMap)
-      .getObjectGroup("HivesLayer")
-      .getObjects().length;
+    var n = this.mapNode.getComponent(TiledMap).getObjectGroup("HivesLayer").getObjects().length;
     console.log(n);
     for (var hivecount = 1; hivecount <= n / 2; hivecount++) {
-      let pathObj = this.mapNode
-        .getComponent(TiledMap)
-        .getObjectGroup("HivesLayer");
+      let pathObj = this.mapNode.getComponent(TiledMap).getObjectGroup("HivesLayer");
       var pathforhive_Obj = pathObj.getObject(`hive${hivecount}A`);
       var pathforhive_Obj1 = pathObj.getObject(`hive${hivecount}B`);
       this.hivePositionSetter(pathObj, pathforhive_Obj, "A");
@@ -153,10 +153,8 @@ export class AntsButtonCreation extends Component {
       .getComponent(UITransform)
       .convertToWorldSpaceAR(
         new Vec3(
-          pathforhive_Obj.x -
-            pathObj.node.getComponent(UITransform).width * 0.5,
-          pathforhive_Obj.y -
-            pathObj.node.getComponent(UITransform).height * 0.5,
+          pathforhive_Obj.x - pathObj.node.getComponent(UITransform).width * 0.5,
+          pathforhive_Obj.y - pathObj.node.getComponent(UITransform).height * 0.5,
           0
         )
       );
@@ -190,11 +188,7 @@ export class AntsButtonCreation extends Component {
    * @param whichPlayer
    */
   antButtonInstantiater(angle: number, Parent: Node, whichPlayer: PLAYER) {
-    for (
-      var antbuttoncount = 0;
-      antbuttoncount < this.TotalAntButtons;
-      antbuttoncount++
-    ) {
+    for (var antbuttoncount = 0; antbuttoncount < this.TotalAntButtons; antbuttoncount++) {
       var newButton = instantiate(this.antButtonPrefab);
       newButton.angle = angle;
       Parent.addChild(newButton);
