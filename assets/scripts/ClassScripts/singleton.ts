@@ -13,6 +13,8 @@ import {
   Sprite,
   SpriteFrame,
   TiledMapAsset,
+  Label,
+  ProgressBar,
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -38,15 +40,29 @@ export class singleton extends Component {
   private SpriteFrameArray: SpriteFrame[] = [];
   private TiledMapAssetArray: TiledMapAsset[] = [];
   static Map: TiledMap;
-
   mapButton: string = "";
   maximumCoins = 300;
+  private percenatge: number = 0;
+  private progresBar: Node = null;
+  private PercentageNumber: Label = null;
   private singleton() {}
   static getInstance(): singleton {
     if (!singleton.instance) {
       singleton.instance = new singleton();
     }
     return singleton.instance;
+  }
+  get percentageNumber(): Label {
+    return this.PercentageNumber;
+  }
+  set percentageNumber(percenatgelabel: Label) {
+    this.PercentageNumber = percenatgelabel;
+  }
+  get progressbar(): Node {
+    return this.progresBar;
+  }
+  set progressbar(bar: Node) {
+    this.progresBar = bar;
   }
   get HiveHolder_A(): Node {
     return this.hiveHolder_A;
@@ -134,22 +150,33 @@ export class singleton extends Component {
   get AntPath(): string {
     return this.antPath;
   }
-  public loadAudioFiles(path: string) {
-    return new Promise((resolve, reject) => {
-      if (this.AudioClipArray.length > 0) {
-        resolve(this.AudioClipArray);
-      } else {
-        resources.loadDir(path, (err: Error | null, Audios: AudioClip[]) => {
-          if (err) {
-            reject(err);
-            error("load audio files :" + err);
-          } else {
-            this.AudioClipArray = Audios;
-          }
-          resolve(this.AudioClipArray);
-        });
+
+  public loadAudioFiles(path: string, onCompleteAudioLoad: Function) {
+    resources.loadDir(
+      path,
+      AudioClip,
+      (finishedAudio, totalAudio) => {
+        //on progress
+
+        this.percenatge = Math.trunc((finishedAudio / totalAudio) * 100);
+        this.PercentageNumber.string = this.percenatge.toString();
+        this.progressbar.getComponent(ProgressBar).progress = this.percenatge;
+        console.log(
+          "finish",
+          finishedAudio,
+          "total",
+          totalAudio,
+          "percantage ------>",
+          this.percenatge,
+          "%"
+        );
+      },
+      (error, AudioClip) => {
+        //on complete
+        this.AudioClipArray = AudioClip;
+        onCompleteAudioLoad();
       }
-    });
+    );
   }
   public getAudioFile(AudioClipName: string): AudioClip {
     if (this.AudioClipArray) {
@@ -162,24 +189,33 @@ export class singleton extends Component {
     }
   }
 
-  public loadSpriteFrame(path: string) {
-    return new Promise((resolve, reject) => {
-      if (this.SpriteFrameArray.length > 0) {
-        resolve(this.SpriteFrameArray);
-      } else {
-        resources.loadDir(
-          path,
-          (err: Error | null, spriteframe: SpriteFrame[]) => {
-            if (err) {
-              reject(err);
-            } else {
-              this.SpriteFrameArray = spriteframe;
-            }
-            resolve(this.SpriteFrameArray);
-          }
+  public loadSpriteFrame(path: string, onCompleteSpriteLoad: Function) {
+    this.PercentageNumber.string = "0";
+    resources.loadDir(
+      path,
+      SpriteFrame,
+      (finishedsprite, totalsprite) => {
+        //on progress
+
+        this.percenatge = Math.trunc((finishedsprite / totalsprite) * 100);
+        this.PercentageNumber.string = this.percenatge.toString();
+        this.progressbar.getComponent(ProgressBar).progress = this.percenatge;
+        console.log(
+          "finish",
+          finishedsprite,
+          "total",
+          totalsprite,
+          "percantage ------>",
+          this.percenatge,
+          "%"
         );
+      },
+      (error, SpriteFrames) => {
+        //on complete
+        this.SpriteFrameArray = SpriteFrames;
+        onCompleteSpriteLoad();
       }
-    });
+    );
   }
   public getSpriteFrame(SpriteFrameName: string): SpriteFrame {
     if (this.AudioClipArray) {
@@ -191,24 +227,34 @@ export class singleton extends Component {
       return spriteframe || null;
     }
   }
-  public loadTiledMapData(path: string) {
-    return new Promise((resolve, reject) => {
-      if (this.TiledMapAssetArray.length > 0) {
-        resolve(this.TiledMapAssetArray);
-      } else {
-        resources.loadDir(
-          path,
-          (err: Error | null, MapAsset: TiledMapAsset[]) => {
-            if (err) {
-              reject(err);
-            } else {
-              this.TiledMapAssetArray = MapAsset;
-            }
-            resolve(this.TiledMapAssetArray);
-          }
+
+  public loadTiledMapData(path: string, onCompleteTileMapLoad: Function) {
+    this.PercentageNumber.string = "0";
+    resources.loadDir(
+      path,
+      TiledMapAsset,
+      (finishedMap, totalMap) => {
+        //on progress
+
+        this.percenatge = Math.trunc((finishedMap / totalMap) * 100);
+        this.PercentageNumber.string = this.percenatge.toString();
+        this.progressbar.getComponent(ProgressBar).progress = this.percenatge;
+        console.log(
+          "finish",
+          finishedMap,
+          "total",
+          totalMap,
+          "percantage ------>",
+          this.percenatge,
+          "%"
         );
+      },
+      (error, Maps) => {
+        //on complete
+        this.TiledMapAssetArray = Maps;
+        onCompleteTileMapLoad();
       }
-    });
+    );
   }
   public getMapAsset(MapName: string): TiledMapAsset {
     if (this.TiledMapAssetArray) {

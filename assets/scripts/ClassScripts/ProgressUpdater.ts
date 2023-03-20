@@ -25,73 +25,68 @@ export class ProgressUpdater extends Component {
   rays: Node = null;
   @property({ type: Node })
   particle: Node = null;
-
+  @property({ type: Node })
+  LoadingType = null;
   //Variable
   progress: number = 0;
-
+  Load: Boolean = false;
   SingletonObject: singleton = null;
   onLoad() {}
+  onCompleteAudioLoad = () => {
+    console.log("Call back After Audio");
+    this.LoadingType.getComponent(Label).string = "Sprite Loading";
+    this.loadSpriteResource("sprites");
+  };
+  onCompleteSpriteLoad = () => {
+    console.log("Call back After Sprite Load");
+    this.LoadingType.getComponent(Label).string = "Maps Loading";
+    this.loadTiledMapResources("TiledMapData");
+  };
+  onCompleteTileMapLoad = () => {
+    console.log("All resources Loaded");
+    this.Load = true;
+    this.progressBarChecker();
+  };
   start() {
     this.SingletonObject = singleton.getInstance();
     this.rays.active = false;
     this.particle.active = false;
-    this.progress = this.progressBar.getComponent(ProgressBar).progress;
-    let promise1 = this.loadAudioResource("sounds");
-    let promise2 = this.loadSpriteResource("sprites");
-    let promise3 = this.loadTiledMapResources("TiledMapData");
-
-    //Testing
-    Promise.all([promise1, promise2, promise3]).then(() => {
-      console.log(
-        "resolve",
-        this.loadAudioResource("sounds"),
-        this.loadSpriteResource("sprites"),
-        this.loadTiledMapResources("TiledMapData")
-      );
-    });
-    this.schedule(() => {
-      if (this.progress <= 1) {
-        this.progressBarChecker();
-      }
-    }, 0.05);
+    this.SingletonObject.progressbar = this.progressBar;
+    this.SingletonObject.percentageNumber = this.PercentageNumber;
+    this.LoadingType.getComponent(Label).string = "Audio Loading";
+    setTimeout(() => {
+      this.loadAudioResource("sounds");
+    }, 1000);
   }
   /**
    * @description Load Tile Resource
    * @param String:path of  TileMap Resource folder
-   * @return promise
+   *
    */
   loadTiledMapResources(Path: string) {
-    return this.SingletonObject.loadTiledMapData(Path);
+    this.SingletonObject.loadTiledMapData(Path, this.onCompleteTileMapLoad);
   }
   /**
    * @description Load Tile Resource
    * @param String:path of  Sprite Resource folder
-   * @return promise
+   *
    */
   loadSpriteResource(Path: string) {
-    return this.SingletonObject.loadSpriteFrame(Path);
+    this.SingletonObject.loadSpriteFrame(Path, this.onCompleteSpriteLoad);
   }
   /**
    * @description Load Music Resource
    * @param String:path of  Audio Resource folder
-   * @return promise
+   *
    */
   loadAudioResource(Path: string) {
-    return this.SingletonObject.loadAudioFiles(Path);
+    this.SingletonObject.loadAudioFiles(Path, this.onCompleteAudioLoad);
   }
   /**
    * @description Loading Percantage
    */
   progressBarChecker() {
-    let percentagenum = this.PercentageNumber.string;
-    // console.log(this.progress);
-
-    percentagenum = `${Math.ceil(this.progress * 100)}%`;
-
-    this.progress += 0.01;
-    this.PercentageNumber.string = percentagenum;
-    this.progressBar.getComponent(ProgressBar).progress = this.progress;
-    if (this.progress >= 1) {
+    if (this.Load == true) {
       this.rays.active = true;
       this.particle.active = true;
       setTimeout(() => {
