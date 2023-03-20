@@ -40,7 +40,7 @@ export class coinUpdater extends Component {
     if (whichCoins == this.coins1) {
       this.coinlabel1 = this.coinLabel.getComponent(Label).string;
       if (this.coinlabel1 != null && this.coins1 < this.maximumCoins) {
-        this.coins1 += 10;
+        this.coins1 += 5;
         this.coinlabel1 = `${this.coins1}`;
         this.coinLabel.getComponent(Label).string = `${this.coins1}`;
       }
