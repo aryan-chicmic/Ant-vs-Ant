@@ -33,13 +33,15 @@ export class singleton extends Component {
   private antsHolder: Node = null;
   private mapComponents: Node = null;
   private antPath: string;
-  private coins1: Number = 0;
-  private coins2: Number = 0;
+  private coins1: Node = null;
+  private coins2: Node = null;
   private coinHolder: Node = null;
   private AudioClipArray: AudioClip[] = [];
   private SpriteFrameArray: SpriteFrame[] = [];
   private TiledMapAssetArray: TiledMapAsset[] = [];
   static Map: TiledMap;
+  private hiveCountA: Number = 0;
+  private hiveCountB: Number = 0;
   mapButton: string = "";
   maximumCoins = 300;
   private percenatge: number = 0;
@@ -82,16 +84,16 @@ export class singleton extends Component {
   set CoinHolder(value: Node) {
     this.coinHolder = value;
   }
-  get Coins1(): Number {
+  get Coins1(): Node {
     return this.coins1;
   }
-  set Coins1(value: Number) {
+  set Coins1(value: Node) {
     this.coins1 = value;
   }
-  get Coins2(): Number {
+  get Coins2(): Node {
     return this.coins2;
   }
-  set Coins2(value: Number) {
+  set Coins2(value: Node) {
     this.coins2 = value;
   }
   get AntsHolder(): Node {
@@ -150,7 +152,18 @@ export class singleton extends Component {
   get AntPath(): string {
     return this.antPath;
   }
-
+  set HiveCountA(count: Number) {
+    this.hiveCountA = count;
+  }
+  get HiveCountA(): Number {
+    return this.hiveCountA;
+  }
+  set HiveCountB(count: Number) {
+    this.hiveCountB = count;
+  }
+  get HiveCountB(): Number {
+    return this.hiveCountB;
+  }
   public loadAudioFiles(path: string, onCompleteAudioLoad: Function) {
     resources.loadDir(
       path,
@@ -174,6 +187,7 @@ export class singleton extends Component {
       (error, AudioClip) => {
         //on complete
         this.AudioClipArray = AudioClip;
+
         onCompleteAudioLoad();
       }
     );

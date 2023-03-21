@@ -27,6 +27,7 @@ class AudioController {
     this._musicAudioSource.stop();
     this._musicAudioSource.clip = clip;
     this._musicAudioSource.play();
+    this._musicAudioSource.loop = true;
   }
 
   playSoundEffetcs(clip: AudioClip) {
