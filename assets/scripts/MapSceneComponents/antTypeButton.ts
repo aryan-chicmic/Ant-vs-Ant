@@ -288,9 +288,7 @@ export class antTypeButton extends Component {
       );
     }
 
-    setTimeout(() => {
-      this.playerPathButton();
-    }, 100);
+    this.playerPathButton();
   }
   /**
    *@description Return the Ant Position , to Set position According to Player Side
